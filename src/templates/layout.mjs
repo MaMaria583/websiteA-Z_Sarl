@@ -105,6 +105,7 @@ function footer(ctx) {
           <li><a href="${ctx.href('partners')}">${t.nav.partners}</a></li>
           <li><a href="${ctx.href('join')}">${t.nav.join}</a></li>
           <li><a href="${ctx.href('contact')}">${t.nav.contact}</a></li>
+          <li><a href="${ctx.asset(`docs/plaquette-a-z-sarl-${ctx.lang}.pdf`)}" download>${t.brochure}</a></li>
         </ul>
       </div>
       <div>

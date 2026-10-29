@@ -146,6 +146,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
       <p class="eyebrow">${c.teamEyebrow}</p>
       <h2 class="h2" id="team-title">${c.teamTitle}</h2>
       <p class="lead" style="margin-top:20px">${c.teamText}</p>
+      <a class="btn btn--ghost" style="margin-top:28px" href="${ctx.asset(`docs/plaquette-a-z-sarl-${ctx.lang}.pdf`)}" download>${icon('download')} ${ctx.t.brochure}</a>
     </div>
     <div class="person" data-reveal style="--d:.1s">
       <span class="person__avatar" aria-hidden="true">${d.initials}</span>

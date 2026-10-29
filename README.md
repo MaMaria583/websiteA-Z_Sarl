@@ -52,6 +52,10 @@ Exemples courants :
 - **Ajouter un réseau social** : compléter la liste `social` dans `src/data/site.mjs`.
 - **Compléter les mentions légales** : RCCM, NIF, capital, directeur de la publication et hébergeur dans `src/data/site.mjs` (`legal`).
 
+## Plaquette PDF
+
+`node plaquette.mjs` régénère la plaquette A4 de 2 pages (français et anglais) à partir des mêmes données que le site, dans `src/assets/docs/`. Elle est téléchargeable depuis le pied de page et la page « Le Bureau ». Nécessite Google Chrome ou Microsoft Edge. Relancer ensuite `node build.mjs`.
+
 ## Version de test sur Vercel
 
 Le dépôt Git est relié à Vercel : chaque `git push` sur la branche `main` reconstruit et republie le site automatiquement (réglages dans `vercel.json` : commande `node build.mjs`, dossier publié `dist/`).
