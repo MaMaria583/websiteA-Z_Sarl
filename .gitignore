@@ -19,3 +19,6 @@ desktop.ini
 
 # Fichiers temporaires de la plaquette
 .plaquette-tmp/
+
+.vercel
+.env*
