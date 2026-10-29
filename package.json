@@ -1,0 +1,13 @@
+{
+  "name": "site-az-sarl",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site web bilingue d'A-Z Sarl, bureau d'études et de conseil à Bamako",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node serve.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

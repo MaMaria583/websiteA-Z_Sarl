@@ -1,0 +1,18 @@
+# Site généré par `node build.mjs` (Vercel le reconstruit à chaque déploiement)
+dist/
+
+# Outils et configuration locale
+node_modules/
+.vercel/
+.claude/
+
+# Documents d'origine du client et fichiers sans rapport avec le site (restent en local)
+*.docx
+*.zip
+sources-client/
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*

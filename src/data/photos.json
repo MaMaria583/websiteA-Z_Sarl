@@ -1,0 +1,97 @@
+{
+  "terrain-enfants": {
+    "width": 672,
+    "height": 504,
+    "widths": [
+      480,
+      672
+    ],
+    "color": "#f8f8f8"
+  },
+  "terrain-entretien-meres": {
+    "width": 1152,
+    "height": 864,
+    "widths": [
+      480,
+      800,
+      1152
+    ],
+    "color": "#b89888"
+  },
+  "terrain-focus-group": {
+    "width": 960,
+    "height": 1280,
+    "widths": [
+      480,
+      800,
+      960
+    ],
+    "color": "#f8f8f8"
+  },
+  "terrain-enquete-commerce": {
+    "width": 960,
+    "height": 1280,
+    "widths": [
+      480,
+      800,
+      960
+    ],
+    "color": "#b8b8b8"
+  },
+  "formation-attestation-1": {
+    "width": 751,
+    "height": 501,
+    "widths": [
+      480,
+      751
+    ],
+    "color": "#d8d8d8"
+  },
+  "formation-attestation-2": {
+    "width": 992,
+    "height": 661,
+    "widths": [
+      480,
+      800,
+      992
+    ],
+    "color": "#d8d8c8"
+  },
+  "formation-attestation-3": {
+    "width": 1019,
+    "height": 680,
+    "widths": [
+      480,
+      800,
+      1019
+    ],
+    "color": "#d8c8c8"
+  },
+  "formation-salle": {
+    "width": 800,
+    "height": 600,
+    "widths": [
+      480,
+      800
+    ],
+    "color": "#181818"
+  },
+  "formation-gpec-canam": {
+    "width": 800,
+    "height": 404,
+    "widths": [
+      480,
+      800
+    ],
+    "color": "#c8d8d8"
+  },
+  "formation-attestation-4": {
+    "width": 798,
+    "height": 605,
+    "widths": [
+      480,
+      798
+    ],
+    "color": "#d8d8d8"
+  }
+}
