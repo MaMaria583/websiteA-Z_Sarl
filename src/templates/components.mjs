@@ -30,7 +30,7 @@ export function partnerLogo(ctx, p, { loading = 'lazy' } = {}) {
   return `<img class="logo--${p.id}" src="${ctx.asset(`img/partners/${p.logo.file}`)}" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(alt)}" loading="${loading}" decoding="async">`;
 }
 const categoryShort = {
-  international: { fr: 'Coopération', en: 'Cooperation' },
+  international: { fr: 'International', en: 'International' },
   public: { fr: 'Institution', en: 'Institution' },
   civil: { fr: 'Société civile', en: 'Civil society' },
   rural: { fr: 'Monde rural', en: 'Rural' },
@@ -239,6 +239,28 @@ export function contactBand(ctx, { title } = {}) {
     </div>
   </div>
 </section>`;
+}
+
+/** Adresse d'une réalisation (ancre de la page Réalisations) */
+export const projectHref = (ctx, p) => `${ctx.href('projects')}#${p.id}`;
+
+/** Carte d'une réalisation (pages pôles) */
+export function projectCard(ctx, p, { sizes = '(min-width: 1100px) 400px, (min-width: 700px) 50vw, 100vw', delay = 0 } = {}) {
+  return `
+<a class="proj-card" href="${projectHref(ctx, p)}" data-reveal style="--d:${delay}s">
+  <div class="proj-card__media">${picture(ctx, p.photos[0].id, { alt: '', sizes })}${p.year ? `<span class="proj-card__year">${p.year}</span>` : ''}</div>
+  <div class="proj-card__body">
+    <span class="proj-card__tag">${ctx.L(p.tag)}</span>
+    <h3 class="proj-card__title">${ctx.L(p.title)}</h3>
+    <span class="link-arrow">${ctx.lang === 'en' ? 'See the project' : 'Voir la réalisation'} ${icon('arrow')}</span>
+  </div>
+</a>`;
+}
+
+/** Liens vers les réseaux sociaux du bureau */
+export function socialLinks(ctx, cls = '') {
+  if (!ctx.site.social.length) return '';
+  return `<ul class="social ${cls}">${ctx.site.social.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(`${s.name} ${ctx.site.name} ${ctx.t.newTab}`)}" title="${s.name}">${icon(s.icon)}</a></li>`).join('')}</ul>`;
 }
 
 /** Démarche en 4 étapes, version claire/compacte (pages pôles) */

@@ -6,7 +6,7 @@ export default function thanks(ctx) {
   const body = `
 <section class="center-page pattern">
   <div class="container">
-    <img class="big-mark" src="${ctx.asset('img/brand/az-mark.svg')}" width="137" height="88" alt="">
+    <img class="big-mark" src="${ctx.asset('img/brand/az-mark.svg')}" width="195" height="101" alt="">
     <p class="eyebrow" style="justify-content:center">${fr ? 'Message envoyé' : 'Message sent'}</p>
     <h1 class="h1">${fr ? 'Merci, <span class="accent">bien reçu.</span>' : 'Thank you, <span class="accent">message received.</span>'}</h1>
     <p class="lead">${fr ? 'Votre message a bien été transmis à l’équipe d’A-Z Sarl. Nous revenons vers vous dans les meilleurs délais.' : 'Your message has been sent to the A-Z Sarl team. We will get back to you as soon as possible.'}</p>

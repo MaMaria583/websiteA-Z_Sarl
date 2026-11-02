@@ -21,7 +21,8 @@ export const galleries = [
       { photo: 'formation-attestation-4', alt: { fr: 'Remise d’une attestation de formation', en: 'Presentation of a training certificate' } },
       { photo: 'formation-attestation-2', credit: 'MansaPic', alt: { fr: 'Remise d’une attestation de participation', en: 'Presentation of a certificate of participation' } },
       { photo: 'formation-attestation-3', credit: 'MansaPic', alt: { fr: 'Une participante reçoit son attestation de participation', en: 'A participant receives a certificate of participation' } },
-      { photo: 'formation-attestation-1', credit: 'MansaPic', alt: { fr: 'Remise d’une attestation à un participant', en: 'Presentation of a certificate to a participant' } },
+      // Remplace « Remise d'une attestation à un participant » à la demande du client (02/11/2026)
+      { photo: 'worldrenew-1', alt: { fr: 'Formation en partenariat avec World Renew : participants devant une présentation projetée', en: 'Training in partnership with World Renew: participants in front of a projected presentation' } },
     ],
   },
 ];

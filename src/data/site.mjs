@@ -1,15 +1,17 @@
-// Informations générales sur A-Z Sarl — source : « PRESENTATION DU BUREAU » (fichier du client).
+// Informations générales sur A-Z Sarl — sources : « PRESENTATION DU BUREAU » et formulaire
+// « Informations à fournir » validé par le client le 2 novembre 2026.
 // Modifier ce fichier puis relancer `node build.mjs`.
 
 export const site = {
   name: 'A-Z Sarl',
-  brandLine: { fr: "Bureau d'études & de conseil", en: 'Consulting & research' },
+  // Signature du logo officiel (« A-Z Innovation & Impact »)
+  brandLine: { fr: 'Innovation & Impact', en: 'Innovation & Impact' },
   tagline: {
     fr: "De la donnée à l'action, l'innovation au service du développement.",
     en: 'From data to action: innovation in the service of development.',
   },
 
-  // Adresse publique du site, SANS barre finale (ex. 'https://www.az-sarl.com').
+  // Adresse publique du site, SANS barre finale (ex. 'https://www.azsarl.com').
   // Tant qu'elle est vide, les balises canoniques, hreflang, og:url et le sitemap ne sont pas générés.
   siteUrl: '',
 
@@ -21,14 +23,14 @@ export const site = {
     street: 'Hamdallaye ACI 2000',
     city: 'Bamako',
     country: 'Mali',
-    geo: { lat: 12.63781, lon: -8.02488 }, // centre du quartier ACI 2000 — remplacer par le point GPS exact du bureau
+    geo: { lat: 12.620174, lon: -8.042252 }, // point GPS du bureau fourni par le client
   },
   phones: [
     { display: '+223 79 27 73 60', tel: '+22379277360' },
     { display: '+223 77 88 93 35', tel: '+22377889335' },
   ],
-  whatsapp: '22379277360', // numéro au format international, sans « + » ni espaces
-  email: 'prestations.az@gmail.com',
+  whatsapp: '22379277360', // numéro au format international, sans « + » ni espaces (confirmé par le client)
+  email: 'prestations.az@gmail.com', // reçoit aussi les formulaires du site (confirmé par le client)
   director: {
     name: 'Mohamed Lamine KABA',
     initials: 'MLK',
@@ -40,17 +42,19 @@ export const site = {
   // un e-mail d'activation à valider dans la boîte prestations.az@gmail.com.
   formEndpoint: 'https://formsubmit.co/prestations.az@gmail.com',
 
-  // Réseaux sociaux (laisser vide tant que les pages n'existent pas)
+  // Réseaux sociaux (icône : linkedin | facebook)
   social: [
-    // { name: 'LinkedIn', url: 'https://www.linkedin.com/company/...' },
+    { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/company/111329808/' },
+    { name: 'Facebook', icon: 'facebook', url: 'https://www.facebook.com/profile.php?id=100093816653668' },
   ],
 
-  // Mentions légales — à compléter par le client avant la mise en ligne
+  // Mentions légales : le client a indiqué que RCCM, NIF, capital et directeur de la publication
+  // ne sont pas nécessaires. Un champ laissé vide n'est pas affiché.
   legal: {
     rccm: '',
     nif: '',
     capital: '',
     publisher: '',
-    host: '',
+    host: 'Vercel Inc. — vercel.com',
   },
 };

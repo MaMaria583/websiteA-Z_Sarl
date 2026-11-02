@@ -1,6 +1,6 @@
 // Page « Contact »
 import { icon } from '../icons.mjs';
-import { pageHero, esc } from '../components.mjs';
+import { pageHero, esc, socialLinks } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -13,6 +13,7 @@ const copy = {
     phones: 'Téléphones',
     mail: 'E-mail',
     director: 'Direction technique',
+    social: 'Suivez-nous',
     wa: 'Écrire sur WhatsApp',
     formTitle: 'Envoyez-nous un message',
     f: {
@@ -38,6 +39,7 @@ const copy = {
     phones: 'Phone',
     mail: 'Email',
     director: 'Technical management',
+    social: 'Follow us',
     wa: 'Message us on WhatsApp',
     formTitle: 'Send us a message',
     f: {
@@ -77,6 +79,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
       <div class="info-card"><span class="info-card__icon">${icon('phone')}</span><div><h2>${c.phones}</h2>${site.phones.map((p) => `<a href="tel:${p.tel}" style="display:block">${p.display}</a>`).join('')}</div></div>
       <div class="info-card"><span class="info-card__icon">${icon('mail')}</span><div><h2>${c.mail}</h2><a href="mailto:${site.email}">${site.email}</a></div></div>
       <div class="info-card"><span class="info-card__icon">${icon('user')}</span><div><h2>${c.director}</h2><p>${site.director.name}<br><span class="muted">${ctx.L(site.director.role)}</span></p><a href="mailto:${site.director.email}">${site.director.email}</a></div></div>
+      ${site.social.length ? `<div class="info-card"><span class="info-card__icon">${icon('globe')}</span><div><h2>${c.social}</h2>${socialLinks(ctx)}</div></div>` : ''}
       <a class="btn btn--whatsapp" href="${wa}" target="_blank" rel="noopener noreferrer" style="justify-self:start">${icon('whatsapp')} ${c.wa}</a>
       <p class="muted" style="font-size:.92rem">${c.expertNote} <a class="link-arrow" href="${ctx.href('join')}">${c.expertLink} ${icon('arrow')}</a></p>
     </div>

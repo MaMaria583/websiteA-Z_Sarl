@@ -75,14 +75,25 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 4. **Activer les formulaires** : envoyer un premier message test depuis la page Contact, puis cliquer sur le lien d'activation FormSubmit reçu dans `prestations.az@gmail.com`. Sans cette étape, aucun message n'est transmis.
 5. Déclarer le site dans Google Search Console et créer la fiche Google Business Profile « A-Z Sarl » à Bamako.
 
-## Points à valider avant la mise en ligne
+## Retours du client (2 novembre 2026)
 
-- Nom affiché « A-Z Sarl » (le flyer récent utilise « A-Z IMPACT ») : à confirmer par le client.
-- Logo : vectorisé à partir du flyer (`src/assets/img/brand/`) ; à remplacer par le fichier source officiel s'il existe.
-- Accord écrit des partenaires pour l'usage de leur logo (GIZ en priorité).
-- Photos HD sans filigrane et autorisation du photographe (MansaPic).
-- Point GPS exact du bureau (`site.address.geo`) et numéro WhatsApp officiel (`site.whatsapp`).
-- Textes ajoutés par l'agence (démarche, engagements) et traduction anglaise à relire.
+Intégrés :
+
+- Nom « A-Z Sarl » avec la signature officielle « Innovation & Impact » ; logo redessiné en vectoriel d'après « Logo rectangle A Z.png ».
+- Mentions légales : RCCM, NIF, capital et directeur de la publication jugés non nécessaires (non affichés).
+- Point GPS du bureau, pages LinkedIn et Facebook, WhatsApp et e-mail des formulaires confirmés.
+- Nouveaux partenaires : Save the Children, FRES – Yeelen Kura (LuxDev figurait déjà).
+- Réalisations (`src/data/projects.mjs`) : camp de vacances Digital & IA 2026, évaluation du modèle FRES (2021), formations LuxDev et World Renew ; photo « Remise d'une attestation à un participant » remplacée par une photo World Renew.
+
+Encore en attente :
+
+- Accord écrit des partenaires pour l'usage de leur logo (aucune case « accord obtenu » cochée).
+- Logos de CAD-Mali, SEXAGON, AFPB, ABIC-D et SCOOPS-K.T.P.A.N (annoncés mais non reçus).
+- Témoignages, photo et biographie du Directeur Technique (annoncés mais non reçus).
+- Site de CAD-Mali toujours hors service (lien désactivé).
+- Nom de domaine : azsarl.com est libre ; azimpact.com est déjà pris. Adresse e-mail professionnelle souhaitée.
+
+Les dossiers bruts du client (`Site web/`, `Fres/`) restent en local : les photos optimisées pour le site sont dans `src/assets/img/photos/`.
 
 ## Technique
 

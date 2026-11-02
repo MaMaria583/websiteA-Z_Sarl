@@ -38,15 +38,6 @@
     ],
     "color": "#b8b8b8"
   },
-  "formation-attestation-1": {
-    "width": 751,
-    "height": 501,
-    "widths": [
-      480,
-      751
-    ],
-    "color": "#d8d8d8"
-  },
   "formation-attestation-2": {
     "width": 992,
     "height": 661,
@@ -93,5 +84,263 @@
       798
     ],
     "color": "#d8d8d8"
+  },
+  "camp-ouverture": {
+    "width": 1080,
+    "height": 720,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  "camp-groupe-banniere": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-groupe": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-trio-ordinateur": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-atelier": {
+    "width": 1600,
+    "height": 2400,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-binome": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-concentration": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-tablette": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-salle": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-equipes": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "camp-pratique": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-officiels": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-partenaires": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-presentation-1": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-presentation-2": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-intervention": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-expose": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "fres-participants": {
+    "width": 1600,
+    "height": 1067,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "luxdev-1": {
+    "width": 1280,
+    "height": 576,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "luxdev-2": {
+    "width": 1280,
+    "height": 576,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "luxdev-3": {
+    "width": 1280,
+    "height": 576,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "luxdev-4": {
+    "width": 1280,
+    "height": 576,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "luxdev-5": {
+    "width": 1280,
+    "height": 576,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "worldrenew-1": {
+    "width": 1280,
+    "height": 960,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "worldrenew-2": {
+    "width": 1280,
+    "height": 960,
+    "widths": [
+      480,
+      800,
+      1200,
+      1280
+    ]
+  },
+  "worldrenew-3": {
+    "width": 960,
+    "height": 1280,
+    "widths": [
+      480,
+      800,
+      960
+    ]
   }
 }

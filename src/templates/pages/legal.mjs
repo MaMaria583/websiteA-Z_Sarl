@@ -4,19 +4,19 @@ import { pageHero } from '../components.mjs';
 export default function legal(ctx) {
   const fr = ctx.lang === 'fr';
   const { site } = ctx;
-  const v = (val) => val || `<span class="todo">${fr ? 'à compléter' : 'to be completed'}</span>`;
+  // Ligne affichée seulement si l'information est renseignée dans src/data/site.mjs
+  const opt = (label, val) => (val ? `<br>${label} : ${val}` : '');
+  const optEn = (label, val) => (val ? `<br>${label}: ${val}` : '');
   const title = fr ? 'Mentions légales & confidentialité' : 'Legal notice & privacy';
 
   const content = fr ? `
 <h2>Éditeur du site</h2>
 <p><strong>${site.name}</strong>, société à responsabilité limitée (SARL).<br>
 Siège social : ${site.address.street}, ${site.address.city}, ${site.address.country}.<br>
-Téléphone : ${site.phones.map((p) => p.display).join(' / ')} · E-mail : <a href="mailto:${site.email}">${site.email}</a><br>
-RCCM : ${v(site.legal.rccm)} · NIF : ${v(site.legal.nif)} · Capital social : ${v(site.legal.capital)}</p>
-<p>Directeur de la publication : ${v(site.legal.publisher)}</p>
+Téléphone : ${site.phones.map((p) => p.display).join(' / ')} · E-mail : <a href="mailto:${site.email}">${site.email}</a>${opt('RCCM', site.legal.rccm)}${opt('NIF', site.legal.nif)}${opt('Capital social', site.legal.capital)}${opt('Directeur de la publication', site.legal.publisher)}</p>
 
-<h2>Hébergement</h2>
-<p>${v(site.legal.host)}</p>
+${site.legal.host ? `<h2>Hébergement</h2>
+<p>${site.legal.host}</p>` : ''}
 
 <h2>Propriété intellectuelle</h2>
 <p>L’ensemble des contenus de ce site (textes, logo, illustrations, photographies) est la propriété d’${site.name}, sauf mention contraire. Toute reproduction sans autorisation écrite est interdite.</p>
@@ -44,12 +44,10 @@ RCCM : ${v(site.legal.rccm)} · NIF : ${v(site.legal.nif)} · Capital social : $
 <h2>Publisher</h2>
 <p><strong>${site.name}</strong>, limited liability company (SARL) under Malian law.<br>
 Head office: ${site.address.street}, ${site.address.city}, ${site.address.country}.<br>
-Phone: ${site.phones.map((p) => p.display).join(' / ')} · Email: <a href="mailto:${site.email}">${site.email}</a><br>
-Trade register (RCCM): ${v(site.legal.rccm)} · Tax ID (NIF): ${v(site.legal.nif)} · Share capital: ${v(site.legal.capital)}</p>
-<p>Publication director: ${v(site.legal.publisher)}</p>
+Phone: ${site.phones.map((p) => p.display).join(' / ')} · Email: <a href="mailto:${site.email}">${site.email}</a>${optEn('Trade register (RCCM)', site.legal.rccm)}${optEn('Tax ID (NIF)', site.legal.nif)}${optEn('Share capital', site.legal.capital)}${optEn('Publication director', site.legal.publisher)}</p>
 
-<h2>Hosting</h2>
-<p>${v(site.legal.host)}</p>
+${site.legal.host ? `<h2>Hosting</h2>
+<p>${site.legal.host}</p>` : ''}
 
 <h2>Intellectual property</h2>
 <p>All content on this website (text, logo, illustrations, photographs) is the property of ${site.name} unless otherwise stated. Reproduction without written permission is prohibited.</p>

@@ -22,3 +22,11 @@ desktop.ini
 
 .vercel
 .env*
+
+# Documents destinés au client (hors site)
+livrables/
+
+# Dossiers et documents bruts transmis par le client (photos HD, formulaires) : restent en local
+Site web/
+Fres/
+A-Z-Sarl-informations-a-fournir_ok.pdf

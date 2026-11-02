@@ -1,6 +1,6 @@
 // Page d'accueil
 import { icon } from '../icons.mjs';
-import { picture, sectionHead, serviceCard, sectorFamilies, maliMap, mapLegend, marquee, expertsCta, contactBand } from '../components.mjs';
+import { picture, sectionHead, serviceCard, sectorFamilies, maliMap, mapLegend, marquee, expertsCta, contactBand, projectCard } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -50,11 +50,10 @@ const copy = {
     fieldEyebrow: 'Sur le terrain',
     fieldTitle: 'Des données collectées <span class="accent">au plus près des populations.</span>',
     fieldText: 'Entretiens individuels, discussions de groupe, enquêtes auprès des commerçants : nos équipes vont chercher l’information là où elle se trouve, pour des évaluations de projet fiables.',
-    caseTag: 'Formation · 2026',
-    caseTitle: 'Formation en GPEC organisée avec la CANAM',
-    caseDates: '30 mars – 3 avril 2026',
-    casePlace: 'Bamako',
-    caseLink: 'Voir nos réalisations',
+    caseLink: 'Voir toutes nos réalisations',
+    projectsEyebrow: 'Réalisations',
+    projectsTitle: 'Des missions qui <span class="accent">parlent pour nous.</span>',
+    projectsLead: 'Évaluation, formation, numérique : quelques réalisations récentes, menées avec nos partenaires.',
     mosaic: [
       ['terrain-entretien-meres', 'Entretien avec des mères et leurs bébés'],
       ['terrain-focus-group', 'Discussion de groupe avec des producteurs'],
@@ -109,11 +108,10 @@ const copy = {
     fieldEyebrow: 'In the field',
     fieldTitle: 'Data collected <span class="accent">close to communities.</span>',
     fieldText: 'Individual interviews, focus groups, surveys with traders: our teams go where the information is, to deliver reliable project evaluations.',
-    caseTag: 'Training · 2026',
-    caseTitle: 'GPEC training organised with CANAM',
-    caseDates: '30 March – 3 April 2026',
-    casePlace: 'Bamako',
-    caseLink: 'See our projects',
+    caseLink: 'See all our projects',
+    projectsEyebrow: 'Projects',
+    projectsTitle: 'Work that <span class="accent">speaks for itself.</span>',
+    projectsLead: 'Evaluation, training, digital: a selection of recent projects delivered with our partners.',
     mosaic: [
       ['terrain-entretien-meres', 'Interview with mothers and their babies'],
       ['terrain-focus-group', 'Group discussion with farmers'],
@@ -256,19 +254,19 @@ ${marquee(ctx)}
       <p class="eyebrow">${c.fieldEyebrow}</p>
       <h2 class="h2" id="field-title">${c.fieldTitle}</h2>
       <p class="lead" style="margin-top:20px">${c.fieldText}</p>
-      <a class="case-card" href="${ctx.href('projects')}">
-        <div class="case-card__media">${picture(ctx, 'formation-gpec-canam', { alt: '', sizes: '(min-width: 1000px) 520px, 100vw' })}</div>
-        <div class="case-card__body">
-          <span class="case-card__tag">${icon('award')} ${c.caseTag}</span>
-          <h3 class="case-card__title">${c.caseTitle}</h3>
-          <p class="case-card__meta"><span>${icon('calendar')} ${c.caseDates}</span><span>${icon('pin')} ${c.casePlace}</span></p>
-          <span class="link-arrow">${c.caseLink} ${icon('arrow')}</span>
-        </div>
-      </a>
+      <a class="link-arrow" style="margin-top:26px" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a>
     </div>
     <div class="mosaic" data-reveal style="--d:.1s">
       ${c.mosaic.map(([p, cap], i) => `<figure class="mosaic__item">${picture(ctx, p, { alt: cap, sizes: i === 0 ? '(min-width: 1000px) 460px, 66vw' : '(min-width: 1000px) 300px, 50vw', style: p === 'terrain-enquete-commerce' ? 'object-position:50% 78%' : (p === 'terrain-focus-group' ? 'object-position:30% 50%' : '') })}<figcaption>${cap}</figcaption></figure>`).join('')}
     </div>
+  </div>
+</section>
+
+<section class="section section--white" aria-labelledby="projects-title">
+  <div class="container">
+    ${sectionHead(ctx, { eyebrow: c.projectsEyebrow, title: c.projectsTitle, lead: c.projectsLead, split: true, id: 'projects-title' })}
+    <div class="proj-grid">${['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id, i) => projectCard(ctx, ctx.projects.find((p) => p.id === id), { delay: i * 0.08 })).join('')}</div>
+    <p style="margin-top:36px"><a class="link-arrow" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a></p>
   </div>
 </section>
 

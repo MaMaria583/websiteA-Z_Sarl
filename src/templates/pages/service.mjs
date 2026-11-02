@@ -1,6 +1,6 @@
 // Gabarit commun aux 5 pages « pôle d'expertise »
 import { icon } from '../icons.mjs';
-import { pageHero, picture, miniSteps, partnerLogo, contactBand } from '../components.mjs';
+import { pageHero, picture, miniSteps, projectCard, contactBand } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -15,10 +15,9 @@ const copy = {
     sectorsEyebrow: 'Domaines d’application',
     sectorsTitle: 'Là où ce pôle intervient',
     allSectors: 'Voir les 13 domaines',
-    caseEyebrow: 'Réalisation',
-    caseTitle: 'Formation en GPEC organisée avec la CANAM',
-    caseText: 'Du 30 mars au 3 avril 2026 à Bamako, A-Z Sarl a organisé, en partenariat avec la Caisse Nationale d’Assurance Maladie, une formation en gestion prévisionnelle des emplois et des compétences. Les participants ont reçu une attestation de formation.',
-    caseLink: 'Voir la réalisation',
+    caseEyebrow: 'Réalisations',
+    caseTitle: 'Ce pôle <span class="accent">en action.</span>',
+    caseAll: 'Toutes nos réalisations',
     digitalLabels: ['Collecte mobile', 'Cloud sécurisé', 'Tableau de bord', 'Décision'],
     digitalCaption: 'De la collecte mobile à la décision : un flux de données continu et sécurisé.',
   },
@@ -34,10 +33,9 @@ const copy = {
     sectorsEyebrow: 'Fields of application',
     sectorsTitle: 'Where this practice works',
     allSectors: 'See all 13 sectors',
-    caseEyebrow: 'Project',
-    caseTitle: 'GPEC training organised with CANAM',
-    caseText: 'From 30 March to 3 April 2026 in Bamako, A-Z Sarl organised, in partnership with Mali’s National Health Insurance Fund (CANAM), a training course on strategic workforce and skills planning (GPEC). Participants received a training certificate.',
-    caseLink: 'See the project',
+    caseEyebrow: 'Projects',
+    caseTitle: 'This practice <span class="accent">in action.</span>',
+    caseAll: 'All our projects',
     digitalLabels: ['Mobile collection', 'Secure cloud', 'Dashboard', 'Decision'],
     digitalCaption: 'From mobile collection to decision-making: a continuous, secure data flow.',
   },
@@ -105,24 +103,21 @@ export default function service(ctx, page) {
   const prev = ctx.services[(i + ctx.services.length - 1) % ctx.services.length];
   const next = ctx.services[(i + 1) % ctx.services.length];
   const title = ctx.L(s.title);
-  const canam = ctx.partners.find((p) => p.id === 'canam');
   const sectorItems = s.sectors.map((id) => ctx.sectors.find((x) => x.id === id)).filter(Boolean);
 
   const media = s.photo
     ? `<figure class="figure-plain" data-reveal>${picture(ctx, s.photo, { alt: ctx.L(s.photoAlt), sizes: '(min-width: 980px) 600px, 100vw' })}<figcaption>${ctx.L(s.photoAlt)}</figcaption></figure>`
     : `<figure class="figure-plain" data-reveal>${digitalIllustration(c)}<figcaption>${c.digitalCaption}</figcaption></figure>`;
 
-  const caseBlock = s.id === 'formation' ? `
+  const related = (s.projects || []).map((id) => ctx.projects.find((p) => p.id === id)).filter(Boolean);
+  const caseBlock = related.length ? `
 <section class="section section--white" aria-labelledby="case-title">
-  <div class="container case">
-    <div class="case__media" data-reveal>${picture(ctx, 'formation-gpec-canam', { alt: ctx.lang === 'en' ? 'Group photo of the GPEC training participants with the training banner' : 'Photo de groupe des participants à la formation en GPEC, avec la banderole de la formation', sizes: '(min-width: 980px) 700px, 100vw' })}</div>
-    <div data-reveal style="--d:.1s">
-      <p class="eyebrow">${c.caseEyebrow}</p>
-      <h2 class="h2" id="case-title">${c.caseTitle}</h2>
-      <p style="margin-top:18px">${c.caseText}</p>
-      <div style="margin-top:22px;display:flex;align-items:center;gap:18px">${partnerLogo(ctx, canam)}</div>
-      <a class="link-arrow" style="margin-top:22px" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a>
+  <div class="container">
+    <div class="section-head section-head--split" data-reveal>
+      <div><p class="eyebrow">${c.caseEyebrow}</p><h2 class="h2" id="case-title">${c.caseTitle}</h2></div>
+      <p><a class="link-arrow" href="${ctx.href('projects')}">${c.caseAll} ${icon('arrow')}</a></p>
     </div>
+    <div class="proj-grid${related.length === 1 ? ' proj-grid--one' : ''}${related.length === 2 || related.length === 4 ? ' proj-grid--two' : ''}">${related.map((p, k) => projectCard(ctx, p, { delay: k * 0.06 })).join('')}</div>
   </div>
 </section>` : '';
 

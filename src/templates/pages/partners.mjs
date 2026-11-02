@@ -5,10 +5,10 @@ import { pageHero, partnerLogo, partnerUrl, maliMap, mapLegend, contactBand, esc
 const copy = {
   fr: {
     title: 'Partenaires',
-    description: 'Les partenaires d’A-Z Sarl : GIZ, LuxDev, World Renew, CANAM, CAD-Mali, SEXAGON et des organisations de la société civile et du monde rural au Mali.',
+    description: 'Les partenaires d’A-Z Sarl : GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, CAD-Mali, SEXAGON et des organisations du Mali.',
     eyebrow: 'Partenaires',
     h1: 'Ils nous font <span class="accent">confiance.</span>',
-    lead: 'Coopérations internationales, institution publique, société civile et organisations paysannes : nous travaillons aux côtés d’acteurs engagés pour le développement du Mali.',
+    lead: 'Partenaires internationaux, institution publique, société civile et organisations paysannes : nous travaillons aux côtés d’acteurs engagés pour le développement du Mali.',
     all: 'Tous',
     status: '{n} partenaires affichés',
     mapEyebrow: 'Implantations',
@@ -19,10 +19,10 @@ const copy = {
   },
   en: {
     title: 'Partners',
-    description: 'A-Z Sarl’s partners: GIZ, LuxDev, World Renew, CANAM, CAD-Mali, SEXAGON and civil society and rural organisations in Mali.',
+    description: 'A-Z Sarl’s partners: GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, CAD-Mali, SEXAGON and organisations in Mali.',
     eyebrow: 'Partners',
     h1: 'They <span class="accent">trust us.</span>',
-    lead: 'International cooperation agencies, a public institution, civil society and farmers’ organisations: we work alongside committed actors for Mali’s development.',
+    lead: 'International partners, a public institution, civil society and farmers’ organisations: we work alongside committed actors for Mali’s development.',
     all: 'All',
     status: '{n} partners shown',
     mapEyebrow: 'Locations',

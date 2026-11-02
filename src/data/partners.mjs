@@ -1,9 +1,10 @@
-// Partenaires — source : fichier « Partenaires » du client. Recherche et vérification des sites : 29/10/2026.
+// Partenaires — source : fichier « Partenaires » du client, complété le 02/11/2026 (Save the Children,
+// FRES – Yeelen Kura). Recherche et vérification des sites : 29/10/2026 et 02/11/2026.
 // Logo cliquable : renseigner `url`. Sans `url`, la fiche s'affiche sans lien.
 // Logos : fichiers officiels récupérés sur les sites des partenaires (accord d'usage à obtenir avant mise en ligne).
 
 export const categories = [
-  { id: 'international', title: { fr: 'Coopération internationale', en: 'International cooperation' } },
+  { id: 'international', title: { fr: 'Partenaires internationaux', en: 'International partners' } },
   { id: 'public', title: { fr: 'Institution publique', en: 'Public institution' } },
   { id: 'civil', title: { fr: 'Société civile', en: 'Civil society' } },
   { id: 'rural', title: { fr: 'Organisations paysannes & coopératives', en: 'Farmers’ organisations & cooperatives' } },
@@ -50,6 +51,34 @@ export const partners = [
     desc: {
       fr: 'ONG internationale de secours et de développement, présente en Afrique de l’Ouest depuis 1985 : sécurité alimentaire, alphabétisation, groupes d’épargne, santé communautaire.',
       en: 'International relief and development NGO, working in West Africa since 1985: food security, literacy, savings groups, community health.',
+    },
+  },
+  {
+    id: 'save-the-children',
+    acronym: 'Save the Children',
+    name: { fr: 'Save the Children International', en: 'Save the Children International' },
+    category: 'international',
+    where: { fr: 'ONG internationale · bureau à Bamako', en: 'International NGO · office in Bamako' },
+    place: 'bamako',
+    logo: { file: 'save-the-children.svg', width: 228, height: 48 },
+    url: { fr: 'https://www.savethechildren.net/mali', en: 'https://www.savethechildren.net/mali' },
+    desc: {
+      fr: 'ONG internationale de défense des droits de l’enfant, présente au Mali depuis 1987 : éducation, santé et nutrition, protection de l’enfance, réponse humanitaire.',
+      en: 'International children’s rights NGO, working in Mali since 1987: education, health and nutrition, child protection, humanitarian response.',
+    },
+  },
+  {
+    id: 'fres',
+    acronym: 'FRES – Yeelen Kura',
+    name: { fr: 'Foundation Rural Energy Services · SSD Yeelen Kura-FRES Mali', en: 'Foundation Rural Energy Services · SSD Yeelen Kura-FRES Mali' },
+    category: 'international',
+    where: { fr: 'Pays-Bas · Mali (régions de Sikasso et Ségou)', en: 'Netherlands · Mali (Sikasso and Ségou regions)' },
+    place: null,
+    logo: { file: 'fres.svg', width: 204, height: 330 },
+    url: { fr: 'https://fres.nl/', en: 'https://fres.nl/' },
+    desc: {
+      fr: 'Fondation néerlandaise pionnière de l’électrification rurale solaire. Au Mali, la société SSD Yeelen Kura, créée avec FRES, fournit depuis 2001 de l’électricité solaire (mini-réseaux, kits domestiques).',
+      en: 'Dutch foundation pioneering solar rural electrification. In Mali, SSD Yeelen Kura, set up with FRES, has supplied solar electricity (mini-grids, home systems) since 2001.',
     },
   },
   {
@@ -145,7 +174,7 @@ export const partners = [
 
 // Repères de la carte du Mali (coordonnées : OpenStreetMap)
 export const places = [
-  { id: 'bamako', name: 'Bamako', who: { fr: 'Siège d’A-Z Sarl (Hamdallaye ACI 2000) · CANAM · CAD-Mali · bureaux de la GIZ et de LuxDev', en: 'A-Z Sarl head office (Hamdallaye ACI 2000) · CANAM · CAD-Mali · GIZ and LuxDev offices' }, hq: true },
+  { id: 'bamako', name: 'Bamako', who: { fr: 'Siège d’A-Z Sarl (Hamdallaye ACI 2000) · CANAM · CAD-Mali · bureaux de la GIZ, de LuxDev et de Save the Children', en: 'A-Z Sarl head office (Hamdallaye ACI 2000) · CANAM · CAD-Mali · GIZ, LuxDev and Save the Children offices' }, hq: true },
   { id: 'baroueli', name: 'Barouéli', who: { fr: 'AFPB · région de Ségou', en: 'AFPB · Ségou region' } },
   { id: 'dioila', name: 'Dioïla', who: { fr: 'ABIC-D', en: 'ABIC-D' } },
   { id: 'koutiala', name: 'Koutiala', who: { fr: 'SCOOPS-K.T.P.A.N, à N’Togonasso', en: 'SCOOPS-K.T.P.A.N, in N’Togonasso' } },

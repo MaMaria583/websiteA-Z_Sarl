@@ -11,6 +11,7 @@ import { site } from './src/data/site.mjs';
 import { services } from './src/data/services.mjs';
 import { sectors, families } from './src/data/sectors.mjs';
 import { partners } from './src/data/partners.mjs';
+import { projects } from './src/data/projects.mjs';
 import { icon } from './src/templates/icons.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +22,7 @@ const url = (p) => pathToFileURL(path.join(ASSETS, p)).href;
 
 const T = {
   fr: {
-    line: 'Bureau d’études & de conseil · Bamako, Mali',
+    line: 'Innovation & Impact · Bamako, Mali',
     areas: 'Suivi-évaluation · Études socio-économiques · Transformation digitale · Formation · Conseil en politiques publiques',
     h1: 'De la donnée <em>à l’action.</em>',
     who: 'Qui sommes-nous',
@@ -31,7 +32,8 @@ const T = {
     domains: '13 domaines d’intervention',
     method: 'Notre démarche',
     steps: [['Comprendre', 'Cadrage, termes de référence, indicateurs'], ['Collecter', 'Enquêtes terrain et collecte digitale'], ['Analyser', 'Statistiques, analyse qualitative, tableaux de bord'], ['Agir', 'Recommandations, formation, capitalisation']],
-    ref: 'Référence',
+    ref: 'Réalisations récentes',
+    refMeta: { 'camp-digital-ia-2026': 'Organisé par A-Z Sarl · Bamako, juillet 2026', 'evaluation-modele-fres-2021': 'SSD Yeelen Kura-FRES Mali · Koumantou, Béléko', 'gpec-canam-2026': 'Avec la CANAM · Bamako, 30 mars – 3 avril 2026' },
     refTitle: 'Formation en GPEC avec la CANAM',
     refText: 'Gestion prévisionnelle des emplois et des compétences — du 30 mars au 3 avril 2026, Bamako. Attestations de formation délivrées aux participants.',
     partners: 'Ils nous font confiance',
@@ -40,7 +42,7 @@ const T = {
     web: 'Site web',
   },
   en: {
-    line: 'Consulting & research · Bamako, Mali',
+    line: 'Innovation & Impact · Bamako, Mali',
     areas: 'Monitoring & evaluation · Socio-economic studies · Digital transformation · Training · Public policy advisory',
     h1: 'From data <em>to action.</em>',
     who: 'Who we are',
@@ -50,7 +52,8 @@ const T = {
     domains: '13 sectors',
     method: 'Our approach',
     steps: [['Understand', 'Scoping, terms of reference, indicators'], ['Collect', 'Field surveys and digital data collection'], ['Analyse', 'Statistics, qualitative analysis, dashboards'], ['Act', 'Recommendations, training, learning']],
-    ref: 'Reference',
+    ref: 'Recent projects',
+    refMeta: { 'camp-digital-ia-2026': 'Organised by A-Z Sarl · Bamako, July 2026', 'evaluation-modele-fres-2021': 'SSD Yeelen Kura-FRES Mali · Koumantou, Béléko', 'gpec-canam-2026': 'With CANAM · Bamako, 30 March – 3 April 2026' },
     refTitle: 'GPEC training with CANAM',
     refText: 'Strategic workforce and skills planning — 30 March to 3 April 2026, Bamako. Training certificates awarded to participants.',
     partners: 'They trust us',
@@ -125,8 +128,16 @@ h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm
 .ref{background:#fff;border:.3mm solid #e6dfd3;border-radius:3.5mm;overflow:hidden}
 .ref img{width:100%;height:30mm;object-fit:cover}.ref div{padding:3.5mm 4mm}.ref small{color:#d9962b;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:7pt}
 .ref b{display:block;color:#0F2E47;font-size:10.5pt;margin:1mm 0}
-.logos{display:flex;flex-wrap:wrap;align-items:center;gap:4mm 6mm}
-.lg{height:11mm;width:auto}.lg-world-renew{height:6.5mm}.lg-luxdev{height:10mm}.lg-canam{height:12mm}
+.logos{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4mm 5mm;background:#fff;border:.3mm solid #e6dfd3;border-radius:3.5mm;padding:4mm 5mm}
+.refs{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.refs article{background:#fff;border:.3mm solid #e6dfd3;border-radius:3.5mm;overflow:hidden}
+.refs img{width:100%;height:24mm;object-fit:cover;display:block}
+.refs div{padding:2.6mm 3.2mm 3mm}
+.refs small{display:block;color:#0B7C87;font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:6.4pt}
+.refs b{display:block;color:#0F2E47;font-size:8.8pt;line-height:1.25;margin:1mm 0}
+.refs p{font-size:7.4pt;line-height:1.35;color:#5f6d78}
+.fam li{padding:.6mm 0 !important}.fam li b{display:inline !important}.fam li span{display:none}
+.lg{height:10mm;width:auto}.lg-world-renew{height:5mm}.lg-luxdev{height:9mm}.lg-canam{height:11mm}.lg-save-the-children{height:5.2mm}.lg-fres{height:12mm}
 .plate{font-weight:800;color:#0F2E47;font-size:9pt;border:.3mm solid #d6cdbe;border-radius:2mm;padding:1.2mm 2.4mm}
 .contact{margin-top:7mm;background:#0F2E47;color:rgba(255,255,255,.82);border-radius:4mm;padding:6mm 7mm;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm;font-size:8.8pt}
 .contact h3{color:#45C3CD;font-size:7.4pt;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5mm}
@@ -153,13 +164,13 @@ h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm
 <section class="page">
   <div class="body" style="padding-top:14mm">
     <h2>${t.domains}</h2>
-    <div class="fam">${families.map((f) => `<div><h3>${L(f.title)}</h3><ul>${sectors.filter((s) => s.family === f.id).map((s) => `<li><b>${L(s.title)}</b>${L(s.detail)}</li>`).join('')}</ul></div>`).join('')}</div>
+    <div class="fam">${families.map((f) => `<div><h3>${L(f.title)}</h3><ul>${sectors.filter((s) => s.family === f.id).map((s) => `<li><b>${L(s.title)}</b><span>${L(s.detail)}</span></li>`).join('')}</ul></div>`).join('')}</div>
     <h2 style="margin-top:7mm">${t.method}</h2>
     <div class="steps">${t.steps.map(([a, b], i) => `<div><i>0${i + 1}</i><b>${a}</b><p>${b}</p></div>`).join('')}</div>
-    <div class="row2">
-      <div><h2>${t.ref}</h2><div class="ref"><img src="${photo('formation-gpec-canam', 800)}"><div><small>2026</small><b>${t.refTitle}</b><p>${t.refText}</p></div></div></div>
-      <div><h2>${t.partners}</h2><div class="logos">${partners.map((p) => partnerMark(p, lang)).join('')}</div></div>
-    </div>
+    <h2 style="margin-top:6mm">${t.ref}</h2>
+    <div class="refs">${['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id) => { const p = projects.find((x) => x.id === id); return `<article><img src="${photo(p.photos[0].id, 800)}"><div><small>${p.year} · ${L(p.tag)}</small><b>${L(p.title)}</b><p>${t.refMeta[id]}</p></div></article>`; }).join('')}</div>
+    <h2 style="margin-top:6mm">${t.partners}</h2>
+    <div class="logos">${partners.map((p) => partnerMark(p, lang)).join('')}</div>
     <div class="contact">
       <div><h3>${t.contact}</h3><b>${site.address.street}</b><br>${site.address.city}, ${site.address.country}</div>
       <div><h3>Tél. · E-mail</h3>${site.phones.map((p) => `<b>${p.display}</b>`).join('<br>')}<br>${site.email}</div>

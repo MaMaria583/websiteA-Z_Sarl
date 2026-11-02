@@ -1,6 +1,6 @@
 // Gabarit commun : <head>, en-tête, menu mobile, pied de page.
 import { icon } from './icons.mjs';
-import { esc } from './components.mjs';
+import { esc, socialLinks } from './components.mjs';
 
 function langSwitch(ctx) {
   const a = (l) => (l === ctx.lang
@@ -11,7 +11,7 @@ function langSwitch(ctx) {
 
 function brand(ctx, { white = false } = {}) {
   return `<a class="brand" href="${ctx.href('home')}" aria-label="${ctx.t.homeAria}">
-      <img src="${ctx.asset(`img/brand/${white ? 'az-mark-white' : 'az-mark'}.svg`)}" width="137" height="88" alt="">
+      <img src="${ctx.asset(`img/brand/${white ? 'az-mark-white' : 'az-mark'}.svg`)}" width="195" height="101" alt="">
       <span class="brand__text"><span class="brand__name">${ctx.site.name}</span><span class="brand__line">${ctx.L(ctx.site.brandLine)}</span></span>
     </a>`;
 }
@@ -79,7 +79,7 @@ function header(ctx) {
       ${ctx.site.phones.map((p) => `<a href="tel:${p.tel}">${p.display}</a>`).join('')}
       <a href="mailto:${ctx.site.email}">${ctx.site.email}</a>
     </div>
-    ${langSwitch(ctx)}
+    <div class="mobile-nav__row">${langSwitch(ctx)}${socialLinks(ctx, 'social--dark')}</div>
   </div>
 </div>`;
 }
@@ -89,13 +89,14 @@ function footer(ctx) {
   const { site } = ctx;
   return `
 <footer class="site-footer">
-  <img class="footer__watermark" src="${ctx.asset('img/brand/az-mark-white.svg')}" alt="" width="137" height="88" loading="lazy">
+  <img class="footer__watermark" src="${ctx.asset('img/brand/az-mark-white.svg')}" alt="" width="195" height="101" loading="lazy">
   <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
         ${brand(ctx, { white: true })}
         <p class="footer__tagline">${ctx.L(site.tagline)}</p>
         <p style="margin-top:18px;max-width:42ch">${t.footerAbout}</p>
+        ${socialLinks(ctx, 'social--footer')}
       </div>
       <div>
         <h2 class="footer__title">${t.footerNav}</h2>
@@ -120,7 +121,6 @@ function footer(ctx) {
           <li>${icon('pin')}<span>${site.address.street}<br>${site.address.city}, ${site.address.country}</span></li>
           <li>${icon('phone')}<span>${site.phones.map((p) => `<a href="tel:${p.tel}">${p.display}</a>`).join('<br>')}</span></li>
           <li>${icon('mail')}<span><a href="mailto:${site.email}">${site.email}</a></span></li>
-          ${site.social.map((s) => `<li>${icon('globe')}<span><a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.name}</a></span></li>`).join('')}
         </ul>
       </div>
     </div>

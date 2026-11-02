@@ -12,7 +12,7 @@ const copy = {
     whoEyebrow: 'Qui sommes-nous',
     whoTitle: 'Une équipe pluridisciplinaire <span class="accent">au service des projets de développement.</span>',
     whoText: [
-      'Basé à Hamdallaye ACI 2000, à Bamako, A-Z Sarl accompagne les institutions publiques, les partenaires techniques et financiers, les ONG, les associations et les entreprises.',
+      'Basé à Hamdallaye ACI 2000, à Bamako, A-Z Sarl, qui signe ses projets « A-Z Innovation & Impact », accompagne les institutions publiques, les partenaires techniques et financiers, les ONG, les associations et les entreprises.',
       'Les consultants du bureau réunissent les compétences et l’expertise nécessaires dans treize domaines, du suivi-évaluation des projets et programmes à l’appui-conseil aux groupements paysans.',
       'Notre conviction : une décision utile repose sur une donnée fiable. C’est pourquoi nous combinons rigueur méthodologique, présence sur le terrain et outils numériques.',
     ],
@@ -52,7 +52,7 @@ const copy = {
     whoEyebrow: 'Who we are',
     whoTitle: 'A multidisciplinary team <span class="accent">serving development projects.</span>',
     whoText: [
-      'Based in Hamdallaye ACI 2000, Bamako, A-Z Sarl supports public institutions, development partners, NGOs, associations and companies.',
+      'Based in Hamdallaye ACI 2000, Bamako, A-Z Sarl, which signs its work “A-Z Innovation & Impact”, supports public institutions, development partners, NGOs, associations and companies.',
       'The firm’s consultants bring the skills and expertise required in thirteen sectors, from monitoring and evaluation of projects and programmes to advisory support for farmer groups.',
       'Our conviction: a useful decision rests on reliable data. That is why we combine methodological rigour, field presence and digital tools.',
     ],

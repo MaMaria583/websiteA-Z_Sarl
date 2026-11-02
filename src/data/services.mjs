@@ -1,5 +1,6 @@
 // Les 5 pôles d'expertise — source : flyer « Nos domaines d'expertise » (A-Z IMPACT).
-// `sectors` renvoie aux identifiants de src/data/sectors.mjs ; `photo` aux images de src/data/photos.json.
+// `sectors` renvoie aux identifiants de src/data/sectors.mjs ; `projects` à src/data/projects.mjs ;
+// `photo` aux images de src/data/photos.json.
 
 export const services = [
   {
@@ -41,6 +42,7 @@ export const services = [
       { title: { fr: 'Restituer', en: 'Report back' }, text: { fr: 'Rapports, tableaux de bord et ateliers de restitution.', en: 'Reports, dashboards and feedback workshops.' } },
     ],
     sectors: ['suivi-evaluation', 'sante', 'education', 'securite-alimentaire', 'gouvernance'],
+    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-entretien-meres',
     photoAlt: { fr: 'Entretien avec des mères lors d’une mission de collecte de données', en: 'Interview with mothers during a data collection mission' },
     seo: {
@@ -87,6 +89,7 @@ export const services = [
       { title: { fr: 'Recommander', en: 'Recommend' }, text: { fr: 'Conclusions opérationnelles et options stratégiques.', en: 'Operational conclusions and strategic options.' } },
     ],
     sectors: ['etudes-diagnostiques', 'socio-economiques', 'amenagements', 'environnement', 'securite-alimentaire', 'groupements'],
+    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-enquete-commerce',
     photoAlt: { fr: 'Enquête auprès d’un commerçant dans une boutique', en: 'Survey with a shopkeeper in a shop' },
     seo: {
@@ -132,6 +135,7 @@ export const services = [
       { title: { fr: 'Accompagner', en: 'Support' }, text: { fr: 'Formation, assistance et amélioration continue.', en: 'Training, assistance and continuous improvement.' } },
     ],
     sectors: ['suivi-evaluation', 'gouvernance', 'sante', 'education'],
+    projects: ['camp-digital-ia-2026'], // réalisations liées (src/data/projects.mjs)
     photo: null,
     seo: {
       fr: 'Transformation digitale au Mali : collecte mobile, plateformes digitales, tableaux de bord, cloud, IA et chatbots par A-Z Sarl, Bamako.',
@@ -177,6 +181,7 @@ export const services = [
       { title: { fr: 'Évaluer', en: 'Evaluate' }, text: { fr: 'Acquis, satisfaction et plan de suivi.', en: 'Learning outcomes, satisfaction and follow-up plan.' } },
     ],
     sectors: ['ingenierie-formation', 'education', 'groupements', 'gouvernance'],
+    projects: ['camp-digital-ia-2026', 'gpec-canam-2026', 'formation-luxdev', 'formation-world-renew'], // réalisations liées (src/data/projects.mjs)
     photo: 'formation-gpec-canam',
     photoAlt: { fr: 'Participants à la formation en GPEC organisée avec la CANAM à Bamako', en: 'Participants in the GPEC training organised with CANAM in Bamako' },
     seo: {
@@ -223,6 +228,7 @@ export const services = [
       { title: { fr: 'Évaluer', en: 'Evaluate' }, text: { fr: 'Suivi de la mise en œuvre et mesure des effets.', en: 'Implementation monitoring and measurement of effects.' } },
     ],
     sectors: ['planification', 'decentralisation', 'gouvernance', 'education'],
+    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-focus-group',
     photoAlt: { fr: 'Discussion de groupe avec des producteurs lors d’une consultation communautaire', en: 'Group discussion with farmers during a community consultation' },
     seo: {
