@@ -87,13 +87,13 @@ body{font-family:Manrope,sans-serif;color:#3a4955;font-size:9.6pt;line-height:1.
 h2{font-size:13pt;color:#0F2E47;font-weight:800;letter-spacing:-.02em;margin-bottom:4mm;display:flex;align-items:center;gap:3mm}
 h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm}
 .hero{background:#0B2538;color:#fff;padding:12mm 16mm 10mm;position:relative;height:104mm}
-.hero .glow{position:absolute;right:-40mm;top:-50mm;width:150mm;height:150mm;border-radius:50%;background:radial-gradient(circle,rgba(34,179,191,.32),transparent 62%)}
+.hero .glow{position:absolute;right:-40mm;top:-50mm;width:150mm;height:150mm;border-radius:50%;background:rgba(34,179,191,.12)}
 .brand{display:flex;align-items:center;gap:4mm;position:relative}.brand img{width:26mm}
 .brand b{font-size:19pt;letter-spacing:-.03em}.brand small{display:block;font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62)}
 .hero h1{position:relative;margin-top:11mm;font-size:34pt;line-height:1;letter-spacing:-.045em;font-weight:800;width:100mm}
 .hero h1 em{display:block;font-family:'Instrument Serif',serif;font-weight:400;color:#45C3CD;font-size:38pt;letter-spacing:-.01em}
 .hero .tag{position:relative;margin-top:6mm;width:100mm;color:rgba(255,255,255,.8);font-size:10pt}
-.hero .ph{position:absolute;right:16mm;top:14mm;width:66mm;height:78mm;border-radius:7mm;overflow:hidden;box-shadow:0 8mm 20mm -6mm rgba(0,0,0,.55)}
+.hero .ph{position:absolute;right:16mm;top:14mm;width:66mm;height:78mm;border-radius:7mm;overflow:hidden;border:.6mm solid rgba(255,255,255,.16)}
 .hero .ph img{width:100%;height:100%;object-fit:cover;object-position:35% 50%}
 .hero svg.sw{position:absolute;right:6mm;top:8mm;width:110mm;height:100mm;overflow:visible}
 .body{padding:10mm 16mm 0}
