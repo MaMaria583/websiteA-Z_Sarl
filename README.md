@@ -27,7 +27,8 @@ Raccourcis équivalents : `npm run build` et `npm start`.
 | `src/data/site.mjs` | Coordonnées, adresse du site, réglages des formulaires, mentions légales |
 | `src/data/services.mjs` | Les 5 pôles d'expertise (textes FR / EN, offre, livrables, démarche) |
 | `src/data/sectors.mjs` | Les 13 domaines d'intervention et leurs 4 familles |
-| `src/data/partners.mjs` | Les 9 partenaires (logos, liens, descriptions) et les repères de la carte |
+| `src/data/partners.mjs` | Les 11 partenaires (logos, liens, descriptions) et les repères de la carte |
+| `src/data/projects.mjs` | Les réalisations (intitulés, textes, chiffres clés, photos) et les missions du fil chronologique |
 | `src/data/gallery.mjs` | Galeries photos et légendes |
 | `src/data/photos.json` | Dimensions des photos optimisées (généré, ne pas modifier à la main) |
 | `src/data/mali-map.json` | Tracé de la carte du Mali (Natural Earth, domaine public) |
@@ -47,7 +48,8 @@ Raccourcis équivalents : `npm run build` et `npm start`.
 
 Exemples courants :
 
-- **Rendre le logo de CAD-Mali cliquable** : dans `src/data/partners.mjs`, remplacer `url: null` par `url: { fr: 'http://www.cadmali.org', en: 'http://www.cadmali.org' }` (site hors service le 29/10/2026, à revérifier).
+- **Rendre le logo de CAD-Mali cliquable** : dans `src/data/partners.mjs`, remplacer `url: null` par `url: { fr: 'http://www.cadmali.org', en: 'http://www.cadmali.org' }` (site hors service les 29/10 et 02/11/2026, à revérifier).
+- **Ajouter une réalisation** : compléter `src/data/projects.mjs` (`title` complet, `short` pour les cartes, `photos` ou, à défaut, `zones` pour l'illustrer par une carte), puis l'ajouter aux pôles concernés (`projects` dans `src/data/services.mjs`) et à la page Réalisations (`src/templates/pages/projects.mjs`).
 - **Ajouter le logo d'un partenaire** : déposer le fichier dans `src/assets/img/partners/` puis renseigner `logo: { file: 'nom.svg', width: …, height: … }` (pour un PNG : `raster: true`, fournir `nom.png` et `nom.webp`).
 - **Ajouter un réseau social** : compléter la liste `social` dans `src/data/site.mjs`.
 - **Compléter les mentions légales** : RCCM, NIF, capital, directeur de la publication et hébergeur dans `src/data/site.mjs` (`legal`).
@@ -66,8 +68,8 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 
 ## Mise en ligne
 
-1. Acheter le nom de domaine.
-2. Renseigner son adresse dans `src/data/site.mjs` → `siteUrl: 'https://www.exemple.com'` (sans barre finale), puis `node build.mjs`. Le sitemap, les balises canoniques, hreflang et les aperçus de partage se génèrent alors automatiquement.
+1. Acheter le nom de domaine **azsarl.com** (validé par le client le 2 novembre 2026, encore disponible ce jour-là) et le relier au projet Vercel (Settings → Domains).
+2. Renseigner son adresse dans `src/data/site.mjs` → `siteUrl: 'https://www.azsarl.com'` (sans barre finale) et `testMode: false`, puis `node build.mjs`. Le sitemap, les balises canoniques, hreflang et les aperçus de partage se génèrent alors automatiquement.
 3. Publier le dossier `dist/` :
    - **Cloudflare Pages** (recommandé, gratuit) : « Upload assets », glisser le contenu de `dist/` ;
    - **Netlify** : glisser le dossier `dist/` sur https://app.netlify.com/drop ;
@@ -77,7 +79,7 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 
 ## Retours du client (2 novembre 2026)
 
-Intégrés :
+Premier retour, intégré :
 
 - Nom « A-Z Sarl » avec la signature officielle « Innovation & Impact » ; logo redessiné en vectoriel d'après « Logo rectangle A Z.png ».
 - Mentions légales : RCCM, NIF, capital et directeur de la publication jugés non nécessaires (non affichés).
@@ -85,15 +87,24 @@ Intégrés :
 - Nouveaux partenaires : Save the Children, FRES – Yeelen Kura (LuxDev figurait déjà).
 - Réalisations (`src/data/projects.mjs`) : camp de vacances Digital & IA 2026, évaluation du modèle FRES (2021), formations LuxDev et World Renew ; photo « Remise d'une attestation à un participant » remplacée par une photo World Renew.
 
+Retour final (dossier « les point de correction retour final »), intégré :
+
+- Intitulés exacts : formation LuxDev (2025, Bamako) ; formation World Renew sur la collecte mobile des données (2026, Bamako) ; nouvelle réalisation « Étude de base » du projet CRWRF et World Renew Mali, phase 7 (2026 ; Koulikoro, Sikasso, Ségou), illustrée par une carte des zones ; mission FRES présentée en deux volets (analyse et évaluation du modèle économique, organisation de l'atelier national en ligne et en présentiel).
+- Camp Digital & IA : 20 participants, du 16 juillet au 15 septembre 2026 (16 séances, d'après la page LinkedIn).
+- Save the Children : missions en 2022, 2023 et 2024, dans le fil chronologique de la page Réalisations et la fiche partenaire.
+- Logos reçus de CAD-Mali, SEXAGON, AFPB et ABIC-D ; logos FRES et Yeelen Kura affichés ensemble ; SCOOPS-K.T.P.A.N n'a pas de logo.
+- Coordonnées : celles du site sont conservées (le 83 89 99 50 et groupeazmedia@gmail.com, barrés par le client, ne sont pas repris).
+- Page LinkedIn publique : https://www.linkedin.com/company/az-impact/ ; son offre « A-Z Contact Center & Data Intelligence » est présentée sur la page Suivi-évaluation.
+- Nom de domaine azsarl.com validé.
+
 Encore en attente :
 
 - Accord écrit des partenaires pour l'usage de leur logo (aucune case « accord obtenu » cochée).
-- Logos de CAD-Mali, SEXAGON, AFPB, ABIC-D et SCOOPS-K.T.P.A.N (annoncés mais non reçus).
-- Témoignages, photo et biographie du Directeur Technique (annoncés mais non reçus).
+- Témoignages et mot du Directeur Technique (le client les enverra plus tard).
+- Achat du domaine azsarl.com, adresse e-mail professionnelle sur ce domaine, puis mise en ligne définitive.
 - Site de CAD-Mali toujours hors service (lien désactivé).
-- Nom de domaine : azsarl.com est libre ; azimpact.com est déjà pris. Adresse e-mail professionnelle souhaitée.
 
-Les dossiers bruts du client (`Site web/`, `Fres/`) restent en local : les photos optimisées pour le site sont dans `src/assets/img/photos/`.
+Les dossiers bruts du client (`Site web/`, `Fres/`, `les point de correction retour final/`) restent en local : les photos et logos optimisés pour le site sont dans `src/assets/img/`.
 
 ## Technique
 

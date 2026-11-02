@@ -1,21 +1,24 @@
-// Page « Réalisations » : études de cas, galeries photos et visionneuse
+// Page « Réalisations » : fil chronologique, études de cas, galeries photos et visionneuse
 import { icon } from '../icons.mjs';
-import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, esc } from '../components.mjs';
+import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, esc } from '../components.mjs';
 
 const copy = {
   fr: {
     title: 'Réalisations',
-    description: 'Réalisations d’A-Z Sarl : camp Digital & IA 2026, évaluation du modèle FRES, formation en GPEC avec la CANAM, formations LuxDev et World Renew.',
+    description: 'Réalisations d’A-Z Sarl : camp Digital & IA 2026, étude de base World Renew, évaluation du modèle économique de FRES, formations CANAM, LuxDev et World Renew.',
     eyebrow: 'Réalisations',
     h1: 'Sur le terrain, en salle <span class="accent">et aux côtés de nos partenaires.</span>',
     lead: 'Études et évaluations, formations, projets numériques : une sélection de missions menées par A-Z Sarl, en images.',
     toc: 'Aller à',
+    chronoEyebrow: 'Repères',
+    chronoTitle: 'Nos missions, <span class="accent">année après année.</span>',
     featured: 'À la une',
     partner: 'Partenaire',
     photos: 'photos',
     photo: 'photo',
     enlarge: 'Agrandir la photo',
     modules: 'Au programme',
+    missions: 'Les deux volets de la mission',
     duoEyebrow: 'Formations',
     duoTitle: 'Former les équipes <span class="accent">de nos partenaires.</span>',
     galleryNote: 'Cliquez sur une photo pour l’agrandir.',
@@ -24,17 +27,20 @@ const copy = {
   },
   en: {
     title: 'Projects',
-    description: 'A-Z Sarl projects: Digital & AI Camp 2026, FRES model evaluation, GPEC training with CANAM, LuxDev and World Renew training, field data collection.',
+    description: 'A-Z Sarl projects: Digital & AI Camp 2026, World Renew baseline study, FRES business model evaluation, CANAM, LuxDev and World Renew training.',
     eyebrow: 'Projects',
     h1: 'In the field, in the training room <span class="accent">and alongside our partners.</span>',
     lead: 'Studies and evaluations, training, digital projects: a selection of assignments delivered by A-Z Sarl, in pictures.',
     toc: 'Jump to',
+    chronoEyebrow: 'Milestones',
+    chronoTitle: 'Our assignments, <span class="accent">year after year.</span>',
     featured: 'Featured',
     partner: 'Partner',
     photos: 'photos',
     photo: 'photo',
     enlarge: 'Enlarge photo',
     modules: 'Programme',
+    missions: 'The two components of the assignment',
     duoEyebrow: 'Training',
     duoTitle: 'Training <span class="accent">our partners’ teams.</span>',
     galleryNote: 'Click a photo to enlarge it.',
@@ -52,6 +58,9 @@ function thumbs(ctx, p, c, { skipFirst = true, max = 12 } = {}) {
 }
 
 function cover(ctx, p, c, sizes) {
+  if (!p.photos.length) {
+    return `<div class="project__cover project__cover--map">${zoneMap(ctx, p)}${p.year ? `<span class="project__year">${p.year}</span>` : ''}</div>`;
+  }
   const ph = p.photos[0];
   return `<a class="project__cover" href="${largest(ctx, ph.id)}" data-lightbox="${p.id}" data-caption="${esc(ctx.L(ph.alt))}" aria-label="${esc(`${c.enlarge} : ${ctx.L(ph.alt)}`)}">
       ${picture(ctx, ph.id, { alt: ctx.L(ph.alt), sizes })}
@@ -60,9 +69,42 @@ function cover(ctx, p, c, sizes) {
     </a>`;
 }
 
-function facts(ctx, p) {
+function facts(ctx, p, cls = '') {
   if (!p.facts) return '';
-  return `<dl class="facts">${p.facts.map((f) => `<div><dt>${ctx.L(f.k)}</dt><dd>${ctx.L(f.v)}</dd></div>`).join('')}</dl>`;
+  return `<dl class="facts${cls ? ` ${cls}` : ''}">${p.facts.map((f) => `<div><dt>${ctx.L(f.k)}</dt><dd>${ctx.L(f.v)}</dd></div>`).join('')}</dl>`;
+}
+
+function modules(ctx, p, c) {
+  if (!p.modules) return '';
+  return `<p class="project__label">${p.modulesLabel ? ctx.L(p.modulesLabel) : c.modules}</p><ul class="chip-list">${ctx.L(p.modules).map((m) => `<li class="chip chip--teal">${m}</li>`).join('')}</ul>`;
+}
+
+// Volets d'une même mission, dans les termes du client
+function missions(ctx, p, c) {
+  if (!p.missions) return '';
+  return `<p class="project__label">${c.missions}</p><ol class="missions">${ctx.L(p.missions).map((m, k) => `<li><span class="missions__num">0${k + 1}</span><span>${m}</span></li>`).join('')}</ol>`;
+}
+
+// Fil chronologique : réalisations détaillées et missions sans fiche, regroupées par année
+function chrono(ctx, c) {
+  const entries = [
+    ...ctx.projects.map((p) => ({ sort: Number(p.year), year: p.year, html: `<a href="#${p.id}"><small>${ctx.L(p.tag)}</small>${esc(projectShort(ctx, p))}</a>` })),
+    ...ctx.otherMissions.map((m) => ({ sort: m.sort, year: m.year, html: `<span><small>${esc(ctx.partners.find((x) => x.id === m.partner).acronym)}</small>${ctx.L(m.text)}</span>` })),
+  ].sort((a, b) => a.sort - b.sort);
+  const groups = [];
+  for (const e of entries) {
+    const g = groups.find((x) => x.year === e.year);
+    if (g) g.items.push(e.html); else groups.push({ year: e.year, items: [e.html] });
+  }
+  return `
+<section class="section section--white section--tight chrono" aria-labelledby="chrono-title">
+  <div class="container">
+    ${sectionHead(ctx, { eyebrow: c.chronoEyebrow, title: c.chronoTitle, id: 'chrono-title' })}
+    <ol class="chrono__list" style="--steps:${groups.length}">${groups.map((g, i) => `
+      <li class="chrono__step" data-reveal style="--d:${i * 0.08}s"><span class="chrono__year">${g.year}</span><ul class="chrono__items">${g.items.map((h) => `<li>${h}</li>`).join('')}</ul></li>`).join('')}
+    </ol>
+  </div>
+</section>`;
 }
 
 function partnerBadge(ctx, p, c) {
@@ -85,10 +127,11 @@ function caseStudy(ctx, p, c, i) {
       <div class="project__media" data-reveal>${cover(ctx, p, c, '(min-width: 980px) 640px, 100vw')}</div>
       <div class="project__body" data-reveal style="--d:.1s">
         <p class="eyebrow">${featured ? `${c.featured} · ` : ''}${ctx.L(p.tag)}</p>
-        <h2 class="h2 project__title" id="${p.id}-title">${ctx.L(p.title)}</h2>
+        <h2 class="h2 project__title${ctx.L(p.title).length > 90 ? ' project__title--long' : ''}" id="${p.id}-title">${ctx.L(p.title)}</h2>
         ${p.quote ? `<p class="project__quote">« ${ctx.L(p.quote)} »</p>` : ''}
+        ${missions(ctx, p, c)}
         ${p.text.map((t) => `<p class="project__text">${ctx.L(t)}</p>`).join('')}
-        ${p.modules ? `<p class="project__label">${c.modules}</p><ul class="chip-list">${ctx.L(p.modules).map((m) => `<li class="chip chip--teal">${m}</li>`).join('')}</ul>` : ''}
+        ${modules(ctx, p, c)}
         ${facts(ctx, p)}
         <div class="project__actions">
           ${partnerBadge(ctx, p, c)}
@@ -109,6 +152,8 @@ function duoCard(ctx, p, c) {
     <p class="eyebrow">${ctx.L(p.tag)}</p>
     <h3 class="h3" id="${p.id}-title">${ctx.L(p.title)}</h3>
     ${p.text.map((t) => `<p>${ctx.L(t)}</p>`).join('')}
+    ${modules(ctx, p, c)}
+    ${facts(ctx, p, 'facts--compact')}
     ${thumbs(ctx, p, c)}
     <div class="project__actions">${partnerBadge(ctx, p, c)}</div>
   </div>
@@ -117,11 +162,11 @@ function duoCard(ctx, p, c) {
 
 export default function projects(ctx) {
   const c = copy[ctx.lang];
-  const big = ['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id) => ctx.projects.find((p) => p.id === id));
+  const big = ['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'etude-base-world-renew-2026', 'gpec-canam-2026'].map((id) => ctx.projects.find((p) => p.id === id));
   const duo = ['formation-luxdev', 'formation-world-renew'].map((id) => ctx.projects.find((p) => p.id === id));
   const galleries = ctx.galleries;
 
-  const toc = [...big, ...duo].map((p) => `<li><a class="chip" href="#${p.id}">${ctx.L(p.title)}</a></li>`)
+  const toc = [...big, ...duo].map((p) => `<li><a class="chip" href="#${p.id}">${esc(projectShort(ctx, p))}</a></li>`)
     .concat(galleries.map((g) => `<li><a class="chip" href="#g-${g.id}">${ctx.L(g.title)}</a></li>`)).join('');
 
   const gallery = (g, i) => `
@@ -150,6 +195,8 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
 <nav class="toc" aria-label="${c.toc}">
   <div class="container"><span class="toc__label">${c.toc}</span><ul class="chip-list">${toc}</ul></div>
 </nav>
+
+${chrono(ctx, c)}
 
 ${big.map((p, i) => caseStudy(ctx, p, c, i)).join('')}
 

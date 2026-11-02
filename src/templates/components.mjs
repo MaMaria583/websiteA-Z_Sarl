@@ -22,7 +22,7 @@ export function partnerLogo(ctx, p, { loading = 'lazy' } = {}) {
   if (!p.logo) {
     return `<span class="logo-plate"><b>${esc(p.acronym)}</b><small>${esc(ctx.L(categoryShort[p.category]))}</small></span>`;
   }
-  const alt = ctx.lang === 'en' ? `${p.acronym} logo` : `Logo ${p.acronym}`;
+  const alt = p.logo.alt ? ctx.L(p.logo.alt) : (ctx.lang === 'en' ? `${p.acronym} logo` : `Logo ${p.acronym}`);
   if (p.logo.raster) {
     const base = ctx.asset(`img/partners/${p.logo.file}`);
     return `<picture><source type="image/webp" srcset="${base}.webp"><img class="logo--${p.id}" src="${base}.png" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(alt)}" loading="${loading}" decoding="async"></picture>`;
@@ -105,11 +105,61 @@ export function sectorFamilies(ctx) {
   }).join('')}</div>`;
 }
 
+/** Fond commun des cartes : tracé du Mali défini une seule fois (ombre, pays, fleuve découpé) */
+function mapGround(ctx, uid) {
+  const { map } = ctx;
+  return `<defs><path id="mali-${uid}" d="${map.country}"/><clipPath id="clip-${uid}"><use href="#mali-${uid}"/></clipPath></defs>
+    <use class="land-shadow" href="#mali-${uid}" transform="translate(7 9)"/>
+    <use class="land" href="#mali-${uid}"/>
+    <g clip-path="url(#clip-${uid})"><path class="river" d="${map.river}"/></g>`;
+}
+
+/** Médaillon : le Mali entier, avec la zone agrandie `box` (coin supérieur gauche, ou droit si `right`) */
+function mapInset(ctx, uid, { right = false, box = ctx.map.region } = {}) {
+  const { map } = ctx;
+  const [rx, ry, rw, rh] = box;
+  const [fx, fy, fw, fh] = map.full.viewBox;
+  const s = 118 / fw;
+  const ix = right ? rx + rw - fw * s - 22 : rx + 22, iy = ry + 40;
+  return `<g aria-hidden="true">
+    <rect class="inset-frame" x="${(ix - 8).toFixed(1)}" y="${(iy - 26).toFixed(1)}" width="${(fw * s + 16).toFixed(1)}" height="${(fh * s + 34).toFixed(1)}" rx="10"/>
+    <text class="inset-label" x="${(ix).toFixed(1)}" y="${(iy - 10).toFixed(1)}">MALI</text>
+    <g transform="translate(${(ix - fx * s).toFixed(2)} ${(iy - fy * s).toFixed(2)}) scale(${s.toFixed(5)})"><use class="inset-land" href="#mali-${uid}"/><rect class="inset-box" x="${rx}" y="${ry}" width="${rw}" height="${rh}"/></g></g>`;
+}
+
+const placeNames = { bamako: 'Bamako', koulikoro: 'Koulikoro', segou: 'Ségou', sikasso: 'Sikasso' };
+
+/** Carte des zones d'une réalisation sans photo (décorative dans les cartes cliquables) */
+export function zoneMap(ctx, p, { decorative = false, uid = p.id } = {}) {
+  const { map } = ctx;
+  // Cadrage centré sur les zones et Bamako (repère), au format 4:3 des visuels
+  const pts = [...p.zones, 'bamako'].map((z) => map.points[z]);
+  const mid = (k) => (Math.min(...pts.map((q) => q[k])) + Math.max(...pts.map((q) => q[k]))) / 2;
+  const box = [+(mid(0) - 300).toFixed(1), +(mid(1) - 225).toFixed(1), 600, 450];
+  const names = p.zones.map((z) => placeNames[z]);
+  const list = `${names.slice(0, -1).join(', ')} ${ctx.lang === 'en' ? 'and' : 'et'} ${names.at(-1)}`;
+  const labelPos = { koulikoro: { dx: 0, dy: -26, anchor: 'middle' }, segou: { dx: 24, dy: 7, anchor: 'start' }, sikasso: { dx: 24, dy: 7, anchor: 'start' } };
+  const zones = p.zones.map((z, i) => {
+    const [x, y] = map.points[z];
+    const lp = labelPos[z] || { dx: 0, dy: -26, anchor: 'middle' };
+    return `<g class="pin" data-place="${z}"><circle class="zone-area" cx="${x}" cy="${y}" r="44"/><circle class="halo" cx="${x}" cy="${y}" r="13" style="animation-delay:${i * 0.4}s"/><circle class="core" cx="${x}" cy="${y}" r="10"/><text class="pin-label" x="${x + lp.dx}" y="${y + lp.dy}" text-anchor="${lp.anchor}">${placeNames[z]}</text></g>`;
+  }).join('');
+  const [bx, by] = map.points.bamako;
+  const a11y = decorative
+    ? 'aria-hidden="true" focusable="false">'
+    : `role="img" aria-labelledby="zm-${uid}-t"><title id="zm-${uid}-t">${ctx.lang === 'en' ? `Map of the study areas: ${list}` : `Carte des zones de l’étude : ${list}`}</title>`;
+  return `<svg class="map-svg zone-map" viewBox="${box.join(' ')}" ${a11y}
+    ${mapGround(ctx, `zm-${uid}`)}
+    <circle class="ref-dot" cx="${bx}" cy="${by}" r="5"/><text class="ref-label" x="${bx - 12}" y="${by + 5}" text-anchor="end">Bamako</text>
+    ${zones}
+    ${mapInset(ctx, `zm-${uid}`, { right: true, box })}
+  </svg>`;
+}
+
 /** Carte du Mali : siège et localités des partenaires */
 export function maliMap(ctx, { headingId = 'carte-titre' } = {}) {
   const { map, places } = ctx;
   const pt = (id) => map.points[id];
-  const [rx, ry, rw, rh] = map.region;
   const hq = pt('bamako');
   const arcs = places.filter((p) => !p.hq).map((p) => {
     const [x, y] = pt(p.id);
@@ -137,28 +187,18 @@ export function maliMap(ctx, { headingId = 'carte-titre' } = {}) {
     const [x, y] = pt(id);
     return `<circle class="ref-dot" cx="${x}" cy="${y}" r="4"/><text class="ref-label" x="${x + 9}" y="${y + 5}">${name}</text>`;
   }).join('');
-  // Médaillon : le Mali entier, avec la zone agrandie
-  const [fx, fy, fw, fh] = map.full.viewBox;
-  const s = 118 / fw;
-  const ix = rx + 22, iy = ry + 40; // coin supérieur gauche : aucun repère dans cette zone
-  const inset = `<g aria-hidden="true">
-    <rect class="inset-frame" x="${(ix - 8).toFixed(1)}" y="${(iy - 26).toFixed(1)}" width="${(fw * s + 16).toFixed(1)}" height="${(fh * s + 34).toFixed(1)}" rx="10"/>
-    <text class="inset-label" x="${(ix).toFixed(1)}" y="${(iy - 10).toFixed(1)}">MALI</text>
-    <g transform="translate(${(ix - fx * s).toFixed(2)} ${(iy - fy * s).toFixed(2)}) scale(${s.toFixed(5)})"><path class="inset-land" d="${map.country}"/><rect class="inset-box" x="${rx}" y="${ry}" width="${rw}" height="${rh}"/></g></g>`;
+  const [rx, ry, rw, rh] = map.region;
   const title = ctx.lang === 'en' ? 'Map of south-western Mali showing the A-Z Sarl head office in Bamako and the locations of its partners' : 'Carte du sud-ouest du Mali : siège d’A-Z Sarl à Bamako et localités de ses partenaires';
   return `
 <figure class="map-figure">
   <svg class="map-svg" viewBox="${rx} ${ry} ${rw} ${rh}" role="img" aria-labelledby="${headingId}-svg">
     <title id="${headingId}-svg">${title}</title>
-    <defs><clipPath id="clip-${headingId}"><path d="${map.country}"/></clipPath></defs>
-    <path class="land-shadow" d="${map.country}" transform="translate(7 9)"/>
-    <path class="land" d="${map.country}"/>
-    <g clip-path="url(#clip-${headingId})"><path class="river" d="${map.river}"/></g>
+    ${mapGround(ctx, headingId)}
     <text class="river-label" x="0" y="0" transform="translate(${(pt('segou')[0] + 92).toFixed(1)} ${(pt('segou')[1] - 22).toFixed(1)}) rotate(-28)">${ctx.lang === 'en' ? 'Niger river' : 'fleuve Niger'}</text>
     ${refs}
     ${arcs}
     ${pins}
-    ${inset}
+    ${mapInset(ctx, headingId)}
   </svg>
   <figcaption class="map-credit">${ctx.lang === 'en' ? 'Map data: Natural Earth (public domain), OpenStreetMap.' : 'Fond de carte : Natural Earth (domaine public), OpenStreetMap.'}</figcaption>
 </figure>`;
@@ -244,14 +284,18 @@ export function contactBand(ctx, { title } = {}) {
 /** Adresse d'une réalisation (ancre de la page Réalisations) */
 export const projectHref = (ctx, p) => `${ctx.href('projects')}#${p.id}`;
 
-/** Carte d'une réalisation (pages pôles) */
+/** Intitulé court d'une réalisation (cartes, sommaire, plaquette) */
+export const projectShort = (ctx, p) => ctx.L(p.short || p.title);
+
+/** Carte d'une réalisation (accueil, pages pôles) */
 export function projectCard(ctx, p, { sizes = '(min-width: 1100px) 400px, (min-width: 700px) 50vw, 100vw', delay = 0 } = {}) {
+  const visual = p.photos.length ? picture(ctx, p.photos[0].id, { alt: '', sizes }) : zoneMap(ctx, p, { decorative: true, uid: `${p.id}-card` });
   return `
 <a class="proj-card" href="${projectHref(ctx, p)}" data-reveal style="--d:${delay}s">
-  <div class="proj-card__media">${picture(ctx, p.photos[0].id, { alt: '', sizes })}${p.year ? `<span class="proj-card__year">${p.year}</span>` : ''}</div>
+  <div class="proj-card__media${p.photos.length ? '' : ' proj-card__media--map'}">${visual}${p.year ? `<span class="proj-card__year">${p.year}</span>` : ''}</div>
   <div class="proj-card__body">
     <span class="proj-card__tag">${ctx.L(p.tag)}</span>
-    <h3 class="proj-card__title">${ctx.L(p.title)}</h3>
+    <h3 class="proj-card__title">${projectShort(ctx, p)}</h3>
     <span class="link-arrow">${ctx.lang === 'en' ? 'See the project' : 'Voir la réalisation'} ${icon('arrow')}</span>
   </div>
 </a>`;

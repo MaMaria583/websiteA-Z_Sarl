@@ -18,6 +18,9 @@ const copy = {
     caseEyebrow: 'Réalisations',
     caseTitle: 'Ce pôle <span class="accent">en action.</span>',
     caseAll: 'Toutes nos réalisations',
+    spotSteps: 'Le principe',
+    spotConviction: 'Notre conviction',
+    spotCta: 'Concevoir votre dispositif',
     digitalLabels: ['Collecte mobile', 'Cloud sécurisé', 'Tableau de bord', 'Décision'],
     digitalCaption: 'De la collecte mobile à la décision : un flux de données continu et sécurisé.',
   },
@@ -36,6 +39,9 @@ const copy = {
     caseEyebrow: 'Projects',
     caseTitle: 'This practice <span class="accent">in action.</span>',
     caseAll: 'All our projects',
+    spotSteps: 'How it works',
+    spotConviction: 'Our conviction',
+    spotCta: 'Design your mechanism',
     digitalLabels: ['Mobile collection', 'Secure cloud', 'Dashboard', 'Decision'],
     digitalCaption: 'From mobile collection to decision-making: a continuous, secure data flow.',
   },
@@ -109,6 +115,27 @@ export default function service(ctx, page) {
     ? `<figure class="figure-plain" data-reveal>${picture(ctx, s.photo, { alt: ctx.L(s.photoAlt), sizes: '(min-width: 980px) 600px, 100vw' })}<figcaption>${ctx.L(s.photoAlt)}</figcaption></figure>`
     : `<figure class="figure-plain" data-reveal>${digitalIllustration(c)}<figcaption>${c.digitalCaption}</figcaption></figure>`;
 
+  // Offre dédiée mise en avant (ex. A-Z Contact Center pour le pôle SERA)
+  const sp = s.spotlight;
+  const spotlight = sp ? `
+<section class="section spotlight" id="${sp.id}" aria-labelledby="${sp.id}-title">
+  <div class="container spotlight__grid">
+    <div data-reveal>
+      <p class="eyebrow">${ctx.L(sp.eyebrow)}</p>
+      <h2 class="h2" id="${sp.id}-title">${ctx.L(sp.title)}</h2>
+      <p class="lead" style="margin-top:20px">${ctx.L(sp.text)}</p>
+      <ul class="spotlight__benefits">${ctx.L(sp.benefits).map((b) => `<li>${icon('check')}<span>${b}</span></li>`).join('')}</ul>
+      <figure class="spotlight__quote"><figcaption>${c.spotConviction}</figcaption><blockquote><p>« ${ctx.L(sp.quote)} »</p></blockquote></figure>
+      <a class="btn" href="${ctx.href('contact')}">${c.spotCta} ${icon('arrow', 'icon--arrow')}</a>
+    </div>
+    <div class="spotlight__card on-dark" data-reveal style="--d:.1s">
+      <p class="spotlight__brand"><span class="spotlight__icon">${icon('phone')}</span><span>${sp.name}<small>${sp.sub}</small></span></p>
+      <p class="spotlight__label">${c.spotSteps}</p>
+      <ol class="spotlight__steps">${ctx.L(sp.steps).map((st, k) => `<li><span class="spotlight__num">0${k + 1}</span><span>${st}</span></li>`).join('')}</ol>
+    </div>
+  </div>
+</section>` : '';
+
   const related = (s.projects || []).map((id) => ctx.projects.find((p) => p.id === id)).filter(Boolean);
   const caseBlock = related.length ? `
 <section class="section section--white" aria-labelledby="case-title">
@@ -153,6 +180,7 @@ ${pageHero(ctx, {
     </div>
   </div>
 </section>
+${spotlight}
 
 <section class="section section--navy pattern" aria-labelledby="steps-title">
   <div class="container">

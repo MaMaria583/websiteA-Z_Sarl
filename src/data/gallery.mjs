@@ -22,7 +22,7 @@ export const galleries = [
       { photo: 'formation-attestation-2', credit: 'MansaPic', alt: { fr: 'Remise d’une attestation de participation', en: 'Presentation of a certificate of participation' } },
       { photo: 'formation-attestation-3', credit: 'MansaPic', alt: { fr: 'Une participante reçoit son attestation de participation', en: 'A participant receives a certificate of participation' } },
       // Remplace « Remise d'une attestation à un participant » à la demande du client (02/11/2026)
-      { photo: 'worldrenew-1', alt: { fr: 'Formation en conception de questionnaires et collecte de données, avec World Renew', en: 'Questionnaire design and data collection training, with World Renew' } },
+      { photo: 'worldrenew-1', alt: { fr: 'Formation à la collecte mobile des données, avec World Renew', en: 'Mobile data collection training, with World Renew' } },
     ],
   },
 ];

@@ -25,7 +25,7 @@ export const services = [
       { fr: 'Études de référence, évaluations à mi-parcours et finales de projets et programmes', en: 'Baseline studies, mid-term and final evaluations of projects and programmes' },
       { fr: 'Collecte de données digitale sur smartphones et tablettes', en: 'Digital data collection on smartphones and tablets' },
       { fr: 'Tableaux de bord et analyse de la performance', en: 'Dashboards and performance analysis' },
-      { fr: 'Mécanismes de redevabilité et de retour d’information des communautés', en: 'Accountability and community feedback mechanisms' },
+      { fr: 'Mécanismes de redevabilité et de gestion des plaintes et feedbacks (MGP), dont un canal téléphonique indépendant', en: 'Accountability and complaints and feedback mechanisms (CFM), including an independent phone line' },
       { fr: 'Capitalisation, leçons apprises et apprentissage organisationnel', en: 'Knowledge capitalisation, lessons learned and organisational learning' },
     ],
     deliverables: [
@@ -41,8 +41,35 @@ export const services = [
       { title: { fr: 'Analyser', en: 'Analyse' }, text: { fr: 'Traitement statistique et qualitatif, triangulation des sources.', en: 'Statistical and qualitative analysis, triangulation of sources.' } },
       { title: { fr: 'Restituer', en: 'Report back' }, text: { fr: 'Rapports, tableaux de bord et ateliers de restitution.', en: 'Reports, dashboards and feedback workshops.' } },
     ],
+    // Offre présentée sur la page LinkedIn d'A-Z Impact (linkedin.com/company/az-impact, consultée le 02/11/2026)
+    spotlight: {
+      id: 'contact-center',
+      name: 'A-Z Contact Center',
+      sub: '& Data Intelligence',
+      eyebrow: { fr: 'Redevabilité · Offre dédiée', en: 'Accountability · Dedicated offer' },
+      title: {
+        fr: 'Un numéro indépendant pour que les bénéficiaires <span class="accent">fassent entendre leur voix.</span>',
+        en: 'An independent phone line so that beneficiaries <span class="accent">can make their voices heard.</span>',
+      },
+      text: {
+        fr: 'A-Z Contact Center & Data Intelligence offre aux projets un canal téléphonique dédié : les bénéficiaires y signalent une plainte, posent une question, font une suggestion ou donnent leur feedback, à distance. Intégré au mécanisme de gestion des plaintes et feedbacks (MGP), ce canal ne remplace pas les comités locaux de plaintes : il les complète, et transforme chaque appel en données structurées pour améliorer les interventions.',
+        en: 'A-Z Contact Center & Data Intelligence gives projects a dedicated phone channel: beneficiaries can report a complaint, ask a question, make a suggestion or give feedback remotely. Built into the project’s complaints and feedback mechanism (CFM), it does not replace local complaints committees but complements them, turning every call into structured data to improve interventions.',
+      },
+      benefits: {
+        fr: ['Facilement accessible', 'Simple à utiliser', 'Potentiellement gratuit pour le bénéficiaire', 'Confidentialité garantie', 'Traçabilité assurée', 'Suivi de chaque cas'],
+        en: ['Easy to reach', 'Simple to use', 'Potentially free for the beneficiary', 'Guaranteed confidentiality', 'Full traceability', 'Case follow-up'],
+      },
+      steps: {
+        fr: ['Le bénéficiaire appelle le Contact Center', 'Enregistrement de l’appel', 'Classification', 'Suivi du traitement', 'Analyse des données', 'Décision et amélioration du projet'],
+        en: ['The beneficiary calls the Contact Center', 'The call is logged', 'Classification', 'Case handling follow-up', 'Data analysis', 'Decision and project improvement'],
+      },
+      quote: {
+        fr: 'Un mécanisme de plainte n’est réellement efficace que si les bénéficiaires osent l’utiliser, peuvent facilement y accéder et ont confiance dans le traitement de leur plainte.',
+        en: 'A complaints mechanism only truly works if beneficiaries dare to use it, can easily reach it and trust how their complaint will be handled.',
+      },
+    },
     sectors: ['suivi-evaluation', 'sante', 'education', 'securite-alimentaire', 'gouvernance'],
-    projects: ['evaluation-modele-fres-2021', 'formation-world-renew'], // réalisations liées (src/data/projects.mjs)
+    projects: ['etude-base-world-renew-2026', 'evaluation-modele-fres-2021', 'formation-world-renew', 'formation-luxdev'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-entretien-meres',
     photoAlt: { fr: 'Entretien avec des mères lors d’une mission de collecte de données', en: 'Interview with mothers during a data collection mission' },
     seo: {
@@ -89,7 +116,7 @@ export const services = [
       { title: { fr: 'Recommander', en: 'Recommend' }, text: { fr: 'Conclusions opérationnelles et options stratégiques.', en: 'Operational conclusions and strategic options.' } },
     ],
     sectors: ['etudes-diagnostiques', 'socio-economiques', 'amenagements', 'environnement', 'securite-alimentaire', 'groupements'],
-    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
+    projects: ['etude-base-world-renew-2026', 'evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-enquete-commerce',
     photoAlt: { fr: 'Enquête auprès d’un commerçant dans une boutique', en: 'Survey with a shopkeeper in a shop' },
     seo: {
@@ -135,7 +162,7 @@ export const services = [
       { title: { fr: 'Accompagner', en: 'Support' }, text: { fr: 'Formation, assistance et amélioration continue.', en: 'Training, assistance and continuous improvement.' } },
     ],
     sectors: ['suivi-evaluation', 'gouvernance', 'sante', 'education'],
-    projects: ['camp-digital-ia-2026'], // réalisations liées (src/data/projects.mjs)
+    projects: ['camp-digital-ia-2026', 'formation-world-renew'], // réalisations liées (src/data/projects.mjs)
     photo: null,
     seo: {
       fr: 'Transformation digitale au Mali : collecte mobile, plateformes digitales, tableaux de bord, cloud, IA et chatbots par A-Z Sarl, Bamako.',

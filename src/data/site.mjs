@@ -44,7 +44,7 @@ export const site = {
 
   // Réseaux sociaux (icône : linkedin | facebook)
   social: [
-    { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/company/111329808/' },
+    { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/company/az-impact/' }, // adresse publique transmise le 02/11/2026
     { name: 'Facebook', icon: 'facebook', url: 'https://www.facebook.com/profile.php?id=100093816653668' },
   ],
 

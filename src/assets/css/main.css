@@ -1572,9 +1572,15 @@ a.project__partner:hover { border-color: var(--teal-500); box-shadow: var(--shad
 
 /* ---------- Logos des partenaires ajoutés ---------- */
 .logo-item img.logo--save-the-children { height: 30px; }
-.logo-item img.logo--fres { height: 58px; }
+.logo-item img.logo--fres { height: 46px; }
+.logo-item img.logo--cad-mali, .logo-item img.logo--sexagon { height: 52px; }
+.logo-item img.logo--afpb { height: 40px; }
+.logo-item img.logo--abic-d { height: 50px; }
 .partner-card__logo img.logo--save-the-children { max-height: 44px; }
-.partner-card__logo img.logo--fres { max-height: 104px; }
+.partner-card__logo img.logo--fres { max-height: 84px; }
+.partner-card__logo img.logo--afpb { max-height: 76px; }
+.project__partner-logo:has(img.logo--fres) { width: 88px; }
+.project__partner-logo img.logo--fres { max-width: 76px; }
 
 /* Les images responsives remplissent les cadres à proportions fixes */
 :where(.project__cover, .thumbs__item, .proj-card__media, .gallery__item, .case__media, .mosaic__item, .hero-photo, .service-card__media, .case-card__media) > picture { width: 100%; height: 100%; }
@@ -1582,3 +1588,68 @@ a.project__partner:hover { border-color: var(--teal-500); box-shadow: var(--shad
 @media (max-width: 699px) { .thumbs, .duo-card .thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .duo-card .thumbs { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); }
 @media (min-width: 760px) { .proj-grid--two { grid-template-columns: repeat(2, 1fr) !important; } }
+
+/* ---------- Réalisations : fil chronologique ---------- */
+.chrono .section-head { margin-bottom: 36px; }
+.chrono__list { display: grid; gap: 28px; list-style: none; }
+.chrono__step { position: relative; padding-left: 36px; }
+.chrono__step::before { content: ""; position: absolute; left: 7px; top: 22px; bottom: -28px; width: 2px; background: var(--teal-100); }
+.chrono__step:last-child::before { display: none; }
+.chrono__step::after { content: ""; position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 3px solid var(--teal-500); box-sizing: border-box; }
+.chrono__year { display: block; font-family: var(--font-serif); font-style: italic; font-size: 1.9rem; line-height: 1; color: var(--teal-700); }
+.chrono__items { display: grid; gap: 10px; margin-top: 14px; list-style: none; }
+.chrono__items a, .chrono__items span { display: block; padding: 12px 14px; border-radius: 14px; background: var(--sand-50); border: 1px solid var(--line); color: var(--navy-800); font-size: 0.95rem; font-weight: 750; line-height: 1.35; text-decoration: none; }
+.chrono__items a { transition: border-color 0.2s, background-color 0.2s; }
+.chrono__items a:hover { border-color: var(--teal-500); background: var(--teal-50); }
+.chrono__items small { display: block; margin-bottom: 4px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-700); }
+@media (min-width: 900px) {
+  .chrono__list { grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr)); gap: 20px; }
+  .chrono__step { padding-left: 0; }
+  .chrono__step::before { left: 0; right: -20px; top: 47px; bottom: auto; width: auto; height: 2px; }
+  .chrono__step:last-child::before { display: block; right: 0; background: linear-gradient(90deg, var(--teal-100), transparent); }
+  .chrono__step::after { top: 40px; }
+  .chrono__items { margin-top: 42px; }
+}
+
+/* ---------- Réalisations : volets, intitulés longs, faits compacts ---------- */
+.missions { display: grid; gap: 10px; list-style: none; }
+.missions li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline; padding: 14px 16px; border-radius: 14px; background: rgb(34 179 191 / 0.06); border: 1px solid var(--teal-100); color: var(--navy-800); font-weight: 700; line-height: 1.4; }
+.missions__num { font-family: var(--font-serif); font-style: italic; font-size: 1.45rem; line-height: 1; color: var(--teal-600); }
+.project__title--long { font-size: clamp(1.45rem, 1.2rem + 0.9vw, 2rem); }
+.facts--compact { margin-top: 20px; }
+.facts--compact div { grid-template-columns: 96px 1fr; gap: 12px; padding: 10px 0; }
+.facts--compact dt { font-size: 0.74rem; }
+.facts--compact dd { font-size: 0.95rem; }
+
+/* ---------- Carte des zones (réalisations sans photo) ---------- */
+.project__cover--map, .proj-card__media--map { background: var(--sand-100); }
+.project__cover--map .map-svg, .proj-card__media--map .map-svg { display: block; width: 100%; height: 100%; border-radius: 0; }
+.map-svg .zone-area { fill: rgb(34 179 191 / 0.14); stroke: var(--teal-500); stroke-width: 2; stroke-dasharray: 3 6; }
+.zone-map .pin-label { font-size: 21px; }
+.zone-map .ref-label { font-size: 16px; }
+
+/* ---------- Offre mise en avant d'un pôle (A-Z Contact Center) ---------- */
+.spotlight__grid { display: grid; gap: 40px; align-items: center; }
+@media (min-width: 980px) { .spotlight__grid { grid-template-columns: 1.15fr 0.85fr; gap: 64px; } }
+.spotlight__benefits { display: grid; gap: 10px 20px; margin-top: 26px; list-style: none; }
+@media (min-width: 600px) { .spotlight__benefits { grid-template-columns: repeat(2, 1fr); } }
+.spotlight__benefits li { display: flex; align-items: center; gap: 10px; color: var(--navy-800); font-weight: 700; }
+.spotlight__benefits .icon { flex: none; width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: var(--teal-50); color: var(--teal-700); }
+.spotlight__quote { margin: 30px 0 28px; padding: 4px 0 4px 20px; border-left: 3px solid var(--teal-500); }
+.spotlight__quote figcaption { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.spotlight__quote blockquote { margin: 8px 0 0; }
+.spotlight__quote p { color: var(--navy-800); font-family: var(--font-serif); font-style: italic; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem); line-height: 1.35; }
+.spotlight__card { position: relative; overflow: hidden; padding: clamp(28px, 3vw, 40px); border-radius: var(--r-xl); background: var(--navy-900); color: rgb(255 255 255 / 0.8); box-shadow: var(--shadow-2); }
+.spotlight__card::after { content: ""; position: absolute; right: -90px; top: -90px; width: 260px; height: 260px; border-radius: 50%; background: rgb(34 179 191 / 0.12); pointer-events: none; }
+.spotlight__brand { position: relative; display: flex; align-items: center; gap: 14px; color: #fff; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.15; }
+.spotlight__brand small { display: block; color: var(--teal-400); font-size: 0.95rem; font-weight: 700; }
+.spotlight__icon { display: grid; place-items: center; flex: none; width: 52px; height: 52px; border-radius: 16px; background: var(--teal-500); color: var(--navy-950); }
+.spotlight__icon .icon { width: 26px; height: 26px; }
+.spotlight__label { position: relative; margin: 28px 0 14px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-400); }
+.spotlight__steps { position: relative; display: grid; gap: 10px; list-style: none; }
+.spotlight__steps::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: rgb(69 195 205 / 0.3); }
+.spotlight__steps li { position: relative; display: flex; align-items: center; gap: 14px; color: #fff; font-weight: 700; }
+.spotlight__num { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--navy-800); border: 2px solid var(--teal-500); color: var(--teal-400); font-family: var(--font-serif); font-style: italic; font-size: 1rem; }
+.spotlight__steps li:last-child .spotlight__num { background: var(--teal-500); color: var(--navy-950); }
+/* Logos matriciels (<picture>) : même encombrement que les SVG dans les fiches partenaires */
+.partner-card__logo > picture { display: grid; place-items: center; width: 100%; height: 100%; }

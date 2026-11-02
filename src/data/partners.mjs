@@ -1,7 +1,9 @@
 // Partenaires — source : fichier « Partenaires » du client, complété le 02/11/2026 (Save the Children,
 // FRES – Yeelen Kura). Recherche et vérification des sites : 29/10/2026 et 02/11/2026.
 // Logo cliquable : renseigner `url`. Sans `url`, la fiche s'affiche sans lien.
-// Logos : fichiers officiels récupérés sur les sites des partenaires (accord d'usage à obtenir avant mise en ligne).
+// Logos (accord d'usage à obtenir avant mise en ligne) : fichiers officiels des sites des partenaires ;
+// CAD-Mali, SEXAGON, AFPB et ABIC-D transmis par le client (02/11/2026, fond blanc rendu transparent) ;
+// Yeelen Kura (fiche membre sur renewelec.org) associé au logo FRES, comme sur les supports de l'atelier national.
 
 export const categories = [
   { id: 'international', title: { fr: 'Partenaires internationaux', en: 'International partners' } },
@@ -35,8 +37,8 @@ export const partners = [
     logo: { file: 'luxdev.svg', width: 134, height: 71 },
     url: { fr: 'https://luxdev.lu/fr/mali', en: 'https://luxdev.lu/en/mali' },
     desc: {
-      fr: 'Agence de la coopération luxembourgeoise, active au Mali depuis 1998 : formation professionnelle et insertion, développement rural, gouvernance.',
-      en: 'Luxembourg’s development cooperation agency, active in Mali since 1998: vocational training and employment, rural development, governance.',
+      fr: 'Agence de la coopération luxembourgeoise, active au Mali depuis 1998 : formation professionnelle et insertion, développement rural, gouvernance. Partenaire de notre formation du personnel des centres de formation professionnelle (2025).',
+      en: 'Luxembourg’s development cooperation agency, active in Mali since 1998: vocational training and employment, rural development, governance. Partner of our 2025 training for vocational training centre staff.',
     },
   },
   {
@@ -49,8 +51,8 @@ export const partners = [
     logo: { file: 'world-renew', raster: true, width: 640, height: 114 },
     url: { fr: 'https://worldrenew.org/', en: 'https://worldrenew.org/' },
     desc: {
-      fr: 'ONG internationale de secours et de développement, présente en Afrique de l’Ouest depuis 1985 : sécurité alimentaire, alphabétisation, groupes d’épargne, santé communautaire.',
-      en: 'International relief and development NGO, working in West Africa since 1985: food security, literacy, savings groups, community health.',
+      fr: 'ONG internationale de secours et de développement, présente en Afrique de l’Ouest depuis 1985 : sécurité alimentaire, alphabétisation, groupes d’épargne, santé communautaire. En 2026, partenaire de notre étude de base et de notre formation à la collecte mobile des données.',
+      en: 'International relief and development NGO, working in West Africa since 1985: food security, literacy, savings groups, community health. In 2026, partner of our baseline study and our mobile data collection training.',
     },
   },
   {
@@ -63,8 +65,8 @@ export const partners = [
     logo: { file: 'save-the-children.svg', width: 228, height: 48 },
     url: { fr: 'https://www.savethechildren.net/mali', en: 'https://www.savethechildren.net/mali' },
     desc: {
-      fr: 'ONG internationale de défense des droits de l’enfant, présente au Mali depuis 1987 : éducation, santé et nutrition, protection de l’enfance, réponse humanitaire.',
-      en: 'International children’s rights NGO, working in Mali since 1987: education, health and nutrition, child protection, humanitarian response.',
+      fr: 'ONG internationale de défense des droits de l’enfant, présente au Mali depuis 1987 : éducation, santé et nutrition, protection de l’enfance, réponse humanitaire. Missions menées avec A-Z Sarl en 2022, 2023 et 2024.',
+      en: 'International children’s rights NGO, working in Mali since 1987: education, health and nutrition, child protection, humanitarian response. Assignments with A-Z Sarl in 2022, 2023 and 2024.',
     },
   },
   {
@@ -74,11 +76,13 @@ export const partners = [
     category: 'international',
     where: { fr: 'Pays-Bas · Mali (régions de Sikasso et Ségou)', en: 'Netherlands · Mali (Sikasso and Ségou regions)' },
     place: null,
-    logo: { file: 'fres.svg', width: 204, height: 330 },
+    // Les deux logos vont ensemble (demande du client) : composition de fres.svg et du logo Yeelen Kura
+    // (https://renewelec.org/wp-content/uploads/2024/06/logo_yeelen_kura.png), à hauteur égale
+    logo: { file: 'fres-yeelen-kura', raster: true, width: 440, height: 240, alt: { fr: 'Logos Yeelen Kura et FRES', en: 'Yeelen Kura and FRES logos' } },
     url: { fr: 'https://fres.nl/', en: 'https://fres.nl/' },
     desc: {
-      fr: 'Fondation néerlandaise pionnière de l’électrification rurale solaire. Au Mali, la société SSD Yeelen Kura, créée avec FRES, fournit depuis 2001 de l’électricité solaire (mini-réseaux, kits domestiques).',
-      en: 'Dutch foundation pioneering solar rural electrification. In Mali, SSD Yeelen Kura, set up with FRES, has supplied solar electricity (mini-grids, home systems) since 2001.',
+      fr: 'Fondation néerlandaise pionnière de l’électrification rurale solaire. Au Mali, la société SSD Yeelen Kura, créée avec FRES, fournit depuis 2001 de l’électricité solaire (mini-réseaux, kits domestiques). Commanditaire de notre évaluation et de l’atelier national sur l’énergie propre (2021).',
+      en: 'Dutch foundation pioneering solar rural electrification. In Mali, SSD Yeelen Kura, set up with FRES, has supplied solar electricity (mini-grids, home systems) since 2001. Client of our 2021 evaluation and national clean energy workshop.',
     },
   },
   {
@@ -102,8 +106,8 @@ export const partners = [
     category: 'civil',
     where: { fr: 'Mali · Bamako', en: 'Mali · Bamako' },
     place: 'bamako',
-    logo: null,
-    // Site officiel : http://www.cadmali.org — hors service (erreur 503) le 29/10/2026.
+    logo: { file: 'cad-mali', raster: true, width: 224, height: 225 },
+    // Site officiel : http://www.cadmali.org — hors service (erreur 503) les 29/10 et 02/11/2026.
     // Remettre { fr: 'http://www.cadmali.org', en: 'http://www.cadmali.org' } dès qu'il répond.
     url: null,
     desc: {
@@ -118,7 +122,7 @@ export const partners = [
     category: 'rural',
     where: { fr: 'Mali · Niono, zone Office du Niger', en: 'Mali · Niono, Office du Niger area' },
     place: 'niono',
-    logo: null,
+    logo: { file: 'sexagon', raster: true, width: 376, height: 330 },
     url: null, // Aucun site officiel. Attention : sexagon.org n'a aucun rapport avec ce syndicat.
     desc: {
       fr: 'Principal syndicat paysan de la zone irriguée de l’Office du Niger, créé en 1997.',
@@ -132,7 +136,7 @@ export const partners = [
     category: 'civil',
     where: { fr: 'Mali · Barouéli, région de Ségou', en: 'Mali · Barouéli, Ségou region' },
     place: 'baroueli',
-    logo: null,
+    logo: { file: 'afpb', raster: true, width: 189, height: 111 },
     url: null,
     desc: {
       fr: 'Association de femmes du cercle de Barouéli, dans la région de Ségou.',
@@ -146,7 +150,7 @@ export const partners = [
     category: 'civil',
     where: { fr: 'Mali · Dioïla', en: 'Mali · Dioïla' },
     place: 'dioila',
-    logo: null,
+    logo: { file: 'abic-d', raster: true, width: 207, height: 123 },
     url: null,
     desc: {
       fr: 'Association de développement basée à Dioïla.',
@@ -163,7 +167,7 @@ export const partners = [
     category: 'rural',
     where: { fr: 'Mali · N’Togonasso, cercle de Koutiala', en: 'Mali · N’Togonasso, Koutiala district' },
     place: 'koutiala',
-    logo: null,
+    logo: null, // Pas de logo (confirmé par le client le 02/11/2026) : plaque typographique
     url: null,
     desc: {
       fr: 'Coopérative de femmes transformatrices de produits agroalimentaires : soumbala, couscous, farines nutritives, soja.',

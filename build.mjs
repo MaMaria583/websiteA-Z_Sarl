@@ -10,7 +10,7 @@ import { services } from './src/data/services.mjs';
 import { sectors, families } from './src/data/sectors.mjs';
 import { partners, categories, places } from './src/data/partners.mjs';
 import { galleries } from './src/data/gallery.mjs';
-import { projects } from './src/data/projects.mjs';
+import { projects, otherMissions } from './src/data/projects.mjs';
 import { languages, routes, ui } from './src/i18n.mjs';
 import { layout } from './src/templates/layout.mjs';
 
@@ -66,7 +66,7 @@ function makeCtx(page, lang, { absolute = false } = {}) {
       const file = fileOf(id, toLang);
       return `${site.siteUrl}/${toLang === 'en' ? 'en/' : ''}${file === 'index.html' ? '' : file}`;
     },
-    site, services, sectors, families, partners, categories, places, galleries, projects, photos, map, version,
+    site, services, sectors, families, partners, categories, places, galleries, projects, otherMissions, photos, map, version,
   };
   ctx.alternate = ctx.href(page.id, lang === 'fr' ? 'en' : 'fr');
   return ctx;
