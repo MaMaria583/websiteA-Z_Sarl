@@ -42,7 +42,7 @@ export const services = [
       { title: { fr: 'Restituer', en: 'Report back' }, text: { fr: 'Rapports, tableaux de bord et ateliers de restitution.', en: 'Reports, dashboards and feedback workshops.' } },
     ],
     sectors: ['suivi-evaluation', 'sante', 'education', 'securite-alimentaire', 'gouvernance'],
-    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
+    projects: ['evaluation-modele-fres-2021', 'formation-world-renew'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-entretien-meres',
     photoAlt: { fr: 'Entretien avec des mères lors d’une mission de collecte de données', en: 'Interview with mothers during a data collection mission' },
     seo: {
@@ -228,7 +228,7 @@ export const services = [
       { title: { fr: 'Évaluer', en: 'Evaluate' }, text: { fr: 'Suivi de la mise en œuvre et mesure des effets.', en: 'Implementation monitoring and measurement of effects.' } },
     ],
     sectors: ['planification', 'decentralisation', 'gouvernance', 'education'],
-    projects: ['evaluation-modele-fres-2021'], // réalisations liées (src/data/projects.mjs)
+    projects: ['evaluation-modele-fres-2021', 'formation-luxdev'], // réalisations liées (src/data/projects.mjs)
     photo: 'terrain-focus-group',
     photoAlt: { fr: 'Discussion de groupe avec des producteurs lors d’une consultation communautaire', en: 'Group discussion with farmers during a community consultation' },
     seo: {

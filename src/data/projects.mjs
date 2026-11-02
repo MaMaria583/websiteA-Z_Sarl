@@ -109,12 +109,12 @@ export const projects = [
     id: 'formation-luxdev',
     year: null,
     services: ['formation'],
-    tag: { fr: 'Formation', en: 'Training' },
-    title: { fr: 'Formation en partenariat avec LuxDev', en: 'Training in partnership with LuxDev' },
+    tag: { fr: 'Formation · LuxDev', en: 'Training · LuxDev' },
+    title: { fr: 'Formation en planification stratégique', en: 'Strategic planning training' },
     text: [
       {
-        fr: 'Session de formation en salle réalisée en partenariat avec LuxDev, l’Agence luxembourgeoise pour la coopération au développement : présentations projetées, travaux sur ordinateur et échanges entre participants.',
-        en: 'Classroom training session delivered in partnership with LuxDev, the Luxembourg Development Cooperation Agency: projected presentations, computer-based work and peer exchange.',
+        fr: 'Session de formation en planification stratégique réalisée en partenariat avec LuxDev, l’Agence luxembourgeoise pour la coopération au développement : rôle du plan stratégique dans la vie d’une organisation, travaux pratiques sur ordinateur et échanges entre participants.',
+        en: 'Strategic planning training delivered in partnership with LuxDev, the Luxembourg Development Cooperation Agency: the role of a strategic plan in the life of an organisation, hands-on computer work and peer exchange.',
       },
     ],
     partner: 'luxdev',
@@ -130,12 +130,12 @@ export const projects = [
     id: 'formation-world-renew',
     year: null,
     services: ['formation'],
-    tag: { fr: 'Formation', en: 'Training' },
-    title: { fr: 'Formation en partenariat avec World Renew', en: 'Training in partnership with World Renew' },
+    tag: { fr: 'Formation · World Renew', en: 'Training · World Renew' },
+    title: { fr: 'Formation en conception de questionnaires et collecte de données', en: 'Questionnaire design and data collection training' },
     text: [
       {
-        fr: 'Session de formation réalisée en partenariat avec World Renew, ONG internationale de secours et de développement : présentations projetées, travaux sur ordinateur et échanges en plénière.',
-        en: 'Training session delivered in partnership with World Renew, an international relief and development NGO: projected presentations, computer-based work and plenary discussion.',
+        fr: 'Session de formation réalisée en partenariat avec World Renew, ONG internationale de secours et de développement : conception de questionnaires d’enquête (identification des répondants, localisation par région, cercle et village), travaux sur ordinateur et échanges en plénière.',
+        en: 'Training session delivered in partnership with World Renew, an international relief and development NGO: survey questionnaire design (respondent identification, location by region, district and village), computer-based work and plenary discussion.',
       },
     ],
     partner: 'world-renew',
