@@ -102,14 +102,13 @@ Retour final (dossier « les point de correction retour final »), intégré :
 
 « Quelques réalisations dans le temps » (3 novembre 2026), intégré :
 
-- 17 références de 2022 à 2024 (Save the Children, AFPB, CAD-Mali, SCOOPS-K.T.P.A.N, FAWE Mali, SEXAGON) et l'étude de base de la GIZ (projet WE4R/GMV, Kayes et Nioro) dans `src/data/references.mjs` : liste filtrable de la page Réalisations, références des pages pôles, page 3 de la plaquette, chiffres clés de l'accueil.
+- 17 références de 2022 à 2024 (Save the Children, AFPB, CAD-Mali, SCOOPS-K.T.P.A.N, FAWE Mali, SEXAGON) et l'étude de base de la GIZ (projet WE4R/GMV, Kayes et Nioro, 2026) dans `src/data/references.mjs` : liste filtrable de la page Réalisations, références des pages pôles, page 3 de la plaquette, chiffres clés de l'accueil.
 - Nouveau partenaire FAWE Mali (logo officiel de fawe.org ; fawemali.org en erreur 500 le 3 novembre 2026).
 - Carte des zones d'intervention, de Kayes à Gao (11 régions et le district de Bamako), avec le texte du client, sur l'accueil, Le Bureau et Partenaires.
 - Ligne en double dans le fichier du client (formation AFPB « transformation/conservation du lait local », 2023) : reprise une seule fois.
 
 Encore en attente :
 
-- Année de l'étude de base GIZ (non précisée : le site affiche la période du projet au Mali, 2024 – 2028).
 - Accord écrit des partenaires pour l'usage de leur logo (aucune case « accord obtenu » cochée).
 - Témoignages et mot du Directeur Technique (le client les enverra plus tard).
 - Achat du domaine azsarl.com, adresse e-mail professionnelle sur ce domaine, puis mise en ligne définitive.

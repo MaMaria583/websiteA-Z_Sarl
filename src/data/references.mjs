@@ -197,13 +197,9 @@ export const references = [
     },
   },
   {
-    // Année non précisée par le client : on affiche la période du projet au Mali (décembre 2024 – mars 2028,
-    // termes de référence publiés par la GIZ). `sort` la place entre 2025 et 2026.
+    // Année précisée par le client le 03/11/2026.
     id: 'giz-etude-base-we4r',
-    year: null,
-    period: { fr: '2024 – 2028', en: '2024 – 2028' },
-    periodNote: { fr: 'Période du projet', en: 'Project period' },
-    sort: 2025.5,
+    year: 2026,
     partner: 'giz',
     kind: 'etude',
     services: ['sera', 'etudes'],
