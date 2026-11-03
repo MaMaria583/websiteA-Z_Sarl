@@ -156,7 +156,10 @@ export function zoneMap(ctx, p, { decorative = false, uid = p.id } = {}) {
   </svg>`;
 }
 
-/** Carte du Mali : siège et localités des partenaires */
+// Vue nationale (moitié sud du Mali, de Kayes à Gao), en unités de src/data/mali-map.json
+const NATIONAL_VIEW = [0, 830, 1300, 695];
+
+/** Carte du Mali : siège de Bamako et zones d'intervention, reliées par des tracés */
 export function maliMap(ctx, { headingId = 'carte-titre' } = {}) {
   const { map, places } = ctx;
   const pt = (id) => map.points[id];
@@ -168,44 +171,108 @@ export function maliMap(ctx, { headingId = 'carte-titre' } = {}) {
     const len = Math.hypot(dx, dy);
     let nx = -dy / len, ny = dx / len;
     if (ny > 0) { nx = -nx; ny = -ny; }
-    const k = len * 0.22;
+    const k = len * 0.18;
     return `<path class="arc" d="M${hq[0]} ${hq[1]}Q${(mx + nx * k).toFixed(1)} ${(my + ny * k).toFixed(1)} ${x} ${y}"/>`;
   }).join('');
+  // Position des noms autour de chaque repère (évite les chevauchements dans le sud, où les villes sont proches)
   const labelPos = {
-    bamako: { dx: -24, dy: 6, anchor: 'end' },
-    baroueli: { dx: -14, dy: -24, anchor: 'end' },
-    dioila: { dx: 0, dy: 40, anchor: 'middle' },
-    koutiala: { dx: 24, dy: 6, anchor: 'start' },
-    niono: { dx: 24, dy: 6, anchor: 'start' },
+    bamako: { dx: -24, dy: -12, anchor: 'end' },
+    kayes: { dx: 22, dy: 7, anchor: 'start' },
+    nioro: { dx: 22, dy: 7, anchor: 'start' },
+    koulikoro: { dx: 0, dy: -24, anchor: 'middle' },
+    dioila: { dx: 22, dy: 8, anchor: 'start' },
+    bougouni: { dx: -22, dy: 7, anchor: 'end' },
+    sikasso: { dx: 22, dy: 7, anchor: 'start' },
+    segou: { dx: 22, dy: -2, anchor: 'start' },
+    mopti: { dx: -22, dy: 7, anchor: 'end' },
+    bandiagara: { dx: 20, dy: 26, anchor: 'start' },
+    douentza: { dx: 22, dy: 7, anchor: 'start' },
+    gao: { dx: 22, dy: 7, anchor: 'start' },
   };
   const pins = places.map((p, i) => {
     const [x, y] = pt(p.id);
-    const lp = labelPos[p.id];
-    return `<g class="pin${p.hq ? ' pin--hq' : ''}" data-place="${p.id}"><circle class="halo" cx="${x}" cy="${y}" r="16" style="animation-delay:${i * 0.35}s"/><circle class="core" cx="${x}" cy="${y}" r="14"/><text class="pin-num" x="${x}" y="${y}">${i + 1}</text><text class="pin-label" x="${x + lp.dx}" y="${y + lp.dy}" text-anchor="${lp.anchor}">${p.name}</text></g>`;
+    const lp = labelPos[p.id] || { dx: 22, dy: 7, anchor: 'start' };
+    return `<g class="pin${p.hq ? ' pin--hq' : ''}" data-place="${p.id}"><circle class="halo" cx="${x}" cy="${y}" r="19" style="animation-delay:${(i % 6) * 0.35}s"/><circle class="core" cx="${x}" cy="${y}" r="17"/><text class="pin-num" x="${x}" y="${y}">${i + 1}</text><text class="pin-label" x="${x + lp.dx}" y="${y + lp.dy}" text-anchor="${lp.anchor}">${p.name}</text></g>`;
   }).join('');
-  const refs = [['segou', 'Ségou'], ['sikasso', 'Sikasso'], ['mopti', 'Mopti']].map(([id, name]) => {
-    const [x, y] = pt(id);
-    return `<circle class="ref-dot" cx="${x}" cy="${y}" r="4"/><text class="ref-label" x="${x + 9}" y="${y + 5}">${name}</text>`;
-  }).join('');
-  const [rx, ry, rw, rh] = map.region;
-  const title = ctx.lang === 'en' ? 'Map of south-western Mali showing the A-Z Sarl head office in Bamako and the locations of its partners' : 'Carte du sud-ouest du Mali : siège d’A-Z Sarl à Bamako et localités de ses partenaires';
+  const title = ctx.lang === 'en'
+    ? `Map of Mali showing the A-Z Sarl head office in Bamako and its areas of intervention: ${places.filter((p) => !p.hq).map((p) => p.name).join(', ')}`
+    : `Carte du Mali : siège d’A-Z Sarl à Bamako et zones d’intervention : ${places.filter((p) => !p.hq).map((p) => p.name).join(', ')}`;
   return `
 <figure class="map-figure">
-  <svg class="map-svg" viewBox="${rx} ${ry} ${rw} ${rh}" role="img" aria-labelledby="${headingId}-svg">
+  <svg class="map-svg map-svg--national" viewBox="${NATIONAL_VIEW.join(' ')}" role="img" aria-labelledby="${headingId}-svg">
     <title id="${headingId}-svg">${title}</title>
     ${mapGround(ctx, headingId)}
-    <text class="river-label" x="0" y="0" transform="translate(${(pt('segou')[0] + 92).toFixed(1)} ${(pt('segou')[1] - 22).toFixed(1)}) rotate(-28)">${ctx.lang === 'en' ? 'Niger river' : 'fleuve Niger'}</text>
-    ${refs}
+    <text class="river-label" x="0" y="0" transform="translate(${(pt('segou')[0] + 95).toFixed(1)} ${(pt('segou')[1] - 27).toFixed(1)}) rotate(-28)">${ctx.lang === 'en' ? 'Niger river' : 'fleuve Niger'}</text>
     ${arcs}
     ${pins}
-    ${mapInset(ctx, headingId)}
+    ${mapInset(ctx, headingId, { box: NATIONAL_VIEW })}
   </svg>
   <figcaption class="map-credit">${ctx.lang === 'en' ? 'Map data: Natural Earth (public domain), OpenStreetMap.' : 'Fond de carte : Natural Earth (domaine public), OpenStreetMap.'}</figcaption>
 </figure>`;
 }
 
 export function mapLegend(ctx) {
-  return `<ol class="map-legend">${ctx.places.map((p, i) => `<li data-place="${p.id}"><span class="map-legend__num">${i + 1}</span><span class="map-legend__place">${p.name}<span class="map-legend__who">${ctx.L(p.who)}</span></span></li>`).join('')}</ol>`;
+  return `<ol class="map-legend">${ctx.places.map((p, i) => `<li data-place="${p.id}"><span class="map-legend__num">${i + 1}</span><span class="map-legend__place">${p.name}${p.who ? `<span class="map-legend__who">${ctx.L(p.who)}</span>` : ''}</span></li>`).join('')}</ol>`;
+}
+
+/** Section « zones d'intervention » : en-tête, carte nationale pleine largeur, légende en colonnes */
+export function zonesSection(ctx, { eyebrow, title, text, headingId, white = true }) {
+  return `
+<section class="section${white ? ' section--white' : ''} zones" aria-labelledby="${headingId}-title" data-map>
+  <div class="container">
+    <div class="section-head section-head--split" data-reveal>
+      <div><p class="eyebrow">${eyebrow}</p><h2 class="h2" id="${headingId}-title">${title}</h2></div>
+      <p class="lead">${text}</p>
+    </div>
+    <div class="zones__map" data-reveal>${maliMap(ctx, { headingId })}</div>
+    ${mapLegend(ctx).replace('class="map-legend"', 'class="map-legend map-legend--grid"')}
+  </div>
+</section>`;
+}
+
+/** Toutes les missions : réalisations illustrées (projects) + références (references), triées de la plus récente */
+export function allMissions(ctx) {
+  const fromProjects = ctx.projects.map((p) => ({
+    id: p.id, year: Number(p.year), sort: Number(p.year), partner: p.partner || null, kind: p.kind, services: p.services,
+    title: p.title, zone: p.zone, caseHref: projectHref(ctx, p),
+  }));
+  const fromRefs = ctx.references.map((r) => ({ ...r, sort: r.sort || r.year }));
+  // Tri stable : à année égale, les réalisations illustrées d'abord
+  return [...fromProjects, ...fromRefs].sort((a, b) => b.sort - a.sort);
+}
+
+/** Chiffres clés calculés à partir des données (missions, partenaires, régions) */
+export function keyFigures(ctx) {
+  const missions = allMissions(ctx);
+  const years = missions.filter((m) => m.year).map((m) => m.year);
+  return {
+    missions: missions.length,
+    partners: ctx.partners.length,
+    clients: new Set(missions.map((m) => m.partner).filter(Boolean)).size,
+    regions: ctx.places.filter((p) => !p.hq).length,
+    since: Math.min(...years),
+  };
+}
+
+/** Ligne d'une référence (liste complète de la page Réalisations, ou version compacte des pages pôles) */
+export function referenceItem(ctx, m, { compact = false } = {}) {
+  const partner = m.partner ? ctx.partners.find((x) => x.id === m.partner) : null;
+  const kind = ctx.kinds[m.kind];
+  const when = m.year ? String(m.year) : ctx.L(m.period);
+  const logo = partner
+    ? `<span class="ref__logo" aria-hidden="true">${partner.logo ? partnerLogo(ctx, partner) : `<b>${esc(partner.acronym)}</b>`}</span>`
+    : `<span class="ref__logo ref__logo--az" aria-hidden="true"><img src="${ctx.asset('img/brand/az-mark.svg')}" alt="" width="40" height="28"></span>`;
+  const who = partner ? esc(partner.acronym) : 'A-Z Sarl';
+  return `<li class="ref${compact ? ' ref--compact' : ''}" data-ref data-kind="${kind.group}" data-partner="${m.partner || 'a-z'}" data-services="${m.services.join(' ')}" data-ref-year="${esc(when)}">
+      <span class="ref__year">${esc(when)}${m.periodNote ? `<small>${ctx.L(m.periodNote)}</small>` : ''}</span>
+      ${logo}
+      <div class="ref__body">
+        <p class="ref__meta"><span class="ref__kind ref__kind--${kind.group}">${ctx.L(kind)}</span><span class="ref__who">${who}</span></p>
+        <p class="ref__title">${ctx.L(m.title)}</p>
+        ${m.zone || m.note ? `<p class="ref__zone">${m.zone ? `${icon('pin')} ${ctx.L(m.zone)}` : ''}${m.note && !compact ? `<span class="ref__note">${ctx.L(m.note)}</span>` : ''}</p>` : ''}
+      </div>
+      ${m.caseHref ? `<a class="ref__case" href="${m.caseHref}">${ctx.lang === 'en' ? 'Case study' : 'Étude de cas'} ${icon('arrow')}</a>` : ''}
+    </li>`;
 }
 
 /** Bandeau défilant des logos partenaires */

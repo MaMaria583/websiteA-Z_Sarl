@@ -1,6 +1,6 @@
 // Page « Le Bureau »
 import { icon } from '../icons.mjs';
-import { pageHero, sectionHead, sectorFamilies, maliMap, mapLegend, contactBand } from '../components.mjs';
+import { pageHero, sectionHead, sectorFamilies, zonesSection, contactBand } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -36,8 +36,8 @@ const copy = {
     ],
     sectorsEyebrow: 'Orientations stratégiques',
     sectorsTitle: '13 domaines <span class="accent">d’expertise.</span>',
-    mapTitle: 'Ancrés à Bamako, <span class="accent">tournés vers les régions.</span>',
-    mapText: 'Notre siège se trouve à Hamdallaye ACI 2000. Nos partenaires associatifs, coopératifs et paysans sont implantés dans les régions de Koulikoro, Ségou et Sikasso.',
+    mapTitle: 'Ancrés à Bamako, <span class="accent">présents de Kayes à Gao.</span>',
+    mapText: 'Notre siège se trouve à Hamdallaye ACI 2000, à Bamako. Nos missions nous ont conduits dans les régions de Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza et Gao.',
     teamEyebrow: 'Direction',
     teamTitle: 'Votre interlocuteur <span class="accent">technique.</span>',
     teamText: 'La direction technique coordonne les équipes d’experts et garantit la qualité des livrables, de la réponse aux appels d’offres jusqu’à la restitution des résultats.',
@@ -76,8 +76,8 @@ const copy = {
     ],
     sectorsEyebrow: 'Strategic focus',
     sectorsTitle: '13 areas <span class="accent">of expertise.</span>',
-    mapTitle: 'Rooted in Bamako, <span class="accent">active in the regions.</span>',
-    mapText: 'Our head office is in Hamdallaye ACI 2000. Our community, cooperative and farmers’ partners are based in the Koulikoro, Ségou and Sikasso regions.',
+    mapTitle: 'Rooted in Bamako, <span class="accent">active from Kayes to Gao.</span>',
+    mapText: 'Our head office is in Hamdallaye ACI 2000, Bamako. Our assignments have taken us to the Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza and Gao regions.',
     teamEyebrow: 'Management',
     teamTitle: 'Your technical <span class="accent">contact.</span>',
     teamText: 'The technical management coordinates the expert teams and guarantees the quality of deliverables, from tender response to the presentation of results.',
@@ -128,17 +128,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
   </div>
 </section>
 
-<section class="section section--white" aria-labelledby="map-title" data-map>
-  <div class="container map-block">
-    <div data-reveal>
-      <p class="eyebrow">${ctx.lang === 'en' ? 'Presence' : 'Ancrage'}</p>
-      <h2 class="h2" id="map-title">${c.mapTitle}</h2>
-      <p class="lead" style="margin-top:20px">${c.mapText}</p>
-      ${mapLegend(ctx)}
-    </div>
-    <div data-reveal style="--d:.1s">${maliMap(ctx, { headingId: 'carte-bureau' })}</div>
-  </div>
-</section>
+${zonesSection(ctx, { eyebrow: ctx.lang === 'en' ? 'Areas of intervention' : 'Zones d’intervention', title: c.mapTitle, text: c.mapText, headingId: 'carte-bureau' })}
 
 <section class="section" aria-labelledby="team-title">
   <div class="container split">

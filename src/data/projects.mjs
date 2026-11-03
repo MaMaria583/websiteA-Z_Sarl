@@ -8,12 +8,15 @@
 // `photos` : identifiants de src/data/photos.json ; la première sert de visuel principal.
 // `zones` : sans photo, la réalisation est illustrée par la carte de ses zones (points de src/data/mali-map.json).
 // `missions` : volets d'une même réalisation, dans les termes du client.
+// `kind` et `zone` : type de mission et lieu, repris dans la liste des références (src/data/references.mjs).
 
 export const projects = [
   {
     id: 'camp-digital-ia-2026',
     year: '2026',
     services: ['digital', 'formation'],
+    kind: 'formation',
+    zone: { fr: 'Bamako', en: 'Bamako' },
     tag: { fr: 'Formation · Digital & IA', en: 'Training · Digital & AI' },
     title: { fr: 'Camp de vacances Digital & IA 2026', en: 'Digital & AI Holiday Camp 2026' },
     quote: { fr: 'Des vacances utiles aujourd’hui, des compétences pour toute la vie.', en: 'Useful holidays today, skills for life.' },
@@ -56,6 +59,8 @@ export const projects = [
     id: 'evaluation-modele-fres-2021',
     year: '2021',
     services: ['etudes', 'sera', 'conseil'],
+    kind: 'etude',
+    zone: { fr: 'Koumantou, Béléko et Bamako', en: 'Koumantou, Béléko and Bamako' },
     tag: { fr: 'Étude, évaluation & atelier · Énergie', en: 'Study, evaluation & workshop · Energy' },
     title: { fr: 'Évaluation du modèle économique de FRES et atelier national sur l’énergie propre', en: 'FRES business model evaluation and national clean energy workshop' },
     missions: {
@@ -104,6 +109,8 @@ export const projects = [
     id: 'etude-base-world-renew-2026',
     year: '2026',
     services: ['sera', 'etudes'],
+    kind: 'etude',
+    zone: { fr: 'Koulikoro, Sikasso et Ségou', en: 'Koulikoro, Sikasso and Ségou' },
     tag: { fr: 'Étude de base · World Renew', en: 'Baseline study · World Renew' },
     title: {
       fr: 'Étude de base sur les connaissances des communautés relatives aux objectifs du projet CRWRF et World Renew Mali, phase 7',
@@ -130,6 +137,8 @@ export const projects = [
     id: 'gpec-canam-2026',
     year: '2026',
     services: ['formation'],
+    kind: 'formation',
+    zone: { fr: 'Bamako', en: 'Bamako' },
     tag: { fr: 'Formation · Ressources humaines', en: 'Training · Human resources' },
     title: { fr: 'Formation en GPEC avec la CANAM', en: 'GPEC training with CANAM' },
     text: [
@@ -155,6 +164,8 @@ export const projects = [
     id: 'formation-luxdev',
     year: '2025',
     services: ['formation', 'conseil', 'sera'],
+    kind: 'formation',
+    zone: { fr: 'Bamako', en: 'Bamako' },
     tag: { fr: 'Formation · LuxDev', en: 'Training · LuxDev' },
     title: { fr: 'Renforcement de compétences du personnel des centres de formation professionnelle partenaires', en: 'Capacity building for staff of partner vocational training centres' },
     short: { fr: 'Renforcement de compétences des centres de formation professionnelle', en: 'Capacity building for vocational training centres' },
@@ -186,6 +197,8 @@ export const projects = [
     id: 'formation-world-renew',
     year: '2026',
     services: ['formation', 'sera', 'digital'],
+    kind: 'formation',
+    zone: { fr: 'Bamako', en: 'Bamako' },
     tag: { fr: 'Formation · World Renew', en: 'Training · World Renew' },
     title: {
       fr: 'Formation de l’équipe de World Renew et de ses partenaires sur la collecte mobile des données dans des zones d’accès limité',
@@ -208,15 +221,5 @@ export const projects = [
       { id: 'worldrenew-1', alt: { fr: 'Participants à la formation World Renew devant une présentation projetée', en: 'World Renew training participants in front of a projected presentation' } },
       { id: 'worldrenew-3', alt: { fr: 'Une participante travaille sur ordinateur pendant la formation', en: 'A participant working on a laptop during the training' } },
     ],
-  },
-];
-
-// Missions sans fiche détaillée, reprises dans le fil chronologique de la page Réalisations
-export const otherMissions = [
-  {
-    year: '2022 – 2024',
-    sort: 2024,
-    partner: 'save-the-children',
-    text: { fr: 'Missions avec Save the Children en 2022, 2023 et 2024', en: 'Assignments with Save the Children in 2022, 2023 and 2024' },
   },
 ];

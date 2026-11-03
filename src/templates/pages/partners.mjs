@@ -1,33 +1,37 @@
 // Page « Partenaires » : logos cliquables vers les sites officiels
 import { icon } from '../icons.mjs';
-import { pageHero, partnerLogo, partnerUrl, maliMap, mapLegend, contactBand, esc } from '../components.mjs';
+import { pageHero, partnerLogo, partnerUrl, zonesSection, allMissions, contactBand, esc } from '../components.mjs';
 
 const copy = {
   fr: {
     title: 'Partenaires',
-    description: 'Les partenaires d’A-Z Sarl : GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, CAD-Mali, SEXAGON et des organisations du Mali.',
+    description: 'Les partenaires d’A-Z Sarl : GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, FAWE Mali, CAD-Mali, SEXAGON et des organisations du Mali.',
     eyebrow: 'Partenaires',
     h1: 'Ils nous font <span class="accent">confiance.</span>',
     lead: 'Partenaires internationaux, institution publique, société civile et organisations paysannes : nous travaillons aux côtés d’acteurs engagés pour le développement du Mali.',
     all: 'Tous',
     status: '{n} partenaires affichés',
-    mapEyebrow: 'Implantations',
-    mapTitle: 'Nos partenaires, <span class="accent">de Bamako aux régions.</span>',
-    mapText: 'Les partenaires associatifs, coopératifs et paysans d’A-Z Sarl sont implantés dans les régions de Koulikoro, Ségou et Sikasso ; les institutions et coopérations internationales ont leur bureau à Bamako.',
+    mapEyebrow: 'Zones d’intervention',
+    mapTitle: 'Nos zones d’intervention, <span class="accent">de Kayes à Gao.</span>',
+    mapText: 'Les partenaires, institutions, ONG, projets et programmes pour lesquels nous sommes intervenus couvrent les régions de Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza et Gao, ainsi que le district de Bamako.',
+    withAz: 'Avec A-Z Sarl',
+    missions: (n) => (n > 1 ? `Voir les ${n} missions` : 'Voir la mission'),
     becomeTitle: 'Construisons <span class="accent">un partenariat utile.</span>',
     note: 'Les logos sont la propriété de leurs titulaires. Un clic ouvre le site officiel du partenaire dans un nouvel onglet.',
   },
   en: {
     title: 'Partners',
-    description: 'A-Z Sarl’s partners: GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, CAD-Mali, SEXAGON and organisations in Mali.',
+    description: 'A-Z Sarl’s partners: GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, FAWE Mali, CAD-Mali, SEXAGON and organisations in Mali.',
     eyebrow: 'Partners',
     h1: 'They <span class="accent">trust us.</span>',
     lead: 'International partners, a public institution, civil society and farmers’ organisations: we work alongside committed actors for Mali’s development.',
     all: 'All',
     status: '{n} partners shown',
-    mapEyebrow: 'Locations',
-    mapTitle: 'Our partners, <span class="accent">from Bamako to the regions.</span>',
-    mapText: 'A-Z Sarl’s community, cooperative and farmers’ partners are based in the Koulikoro, Ségou and Sikasso regions; institutions and international cooperation agencies have their offices in Bamako.',
+    mapEyebrow: 'Areas of intervention',
+    mapTitle: 'Our areas of intervention, <span class="accent">from Kayes to Gao.</span>',
+    mapText: 'The partners, institutions, NGOs, projects and programmes we have worked for cover the Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza and Gao regions, as well as the Bamako district.',
+    withAz: 'With A-Z Sarl',
+    missions: (n) => (n > 1 ? `See the ${n} assignments` : 'See the assignment'),
     becomeTitle: 'Let’s build <span class="accent">a meaningful partnership.</span>',
     note: 'Logos are the property of their respective owners. Clicking opens the partner’s official website in a new tab.',
   },
@@ -36,6 +40,7 @@ const copy = {
 export default function partnersPage(ctx) {
   const c = copy[ctx.lang];
   const count = (cat) => ctx.partners.filter((p) => p.category === cat).length;
+  const missionsOf = (id) => allMissions(ctx).filter((m) => m.partner === id).length;
   const filters = [`<button class="filter-btn" type="button" data-filter="all" aria-pressed="true">${c.all}<span>${ctx.partners.length}</span></button>`]
     .concat(ctx.categories.map((cat) => `<button class="filter-btn" type="button" data-filter="${cat.id}" aria-pressed="false">${ctx.L(cat.title)}<span>${count(cat.id)}</span></button>`)).join('');
 
@@ -56,6 +61,7 @@ export default function partnersPage(ctx) {
         <h2 class="partner-card__name">${esc(p.acronym)}</h2>
         ${ctx.L(p.name) !== p.acronym ? `<p class="partner-card__full">${esc(ctx.L(p.name))}</p>` : ''}
         <p class="partner-card__desc">${ctx.L(p.desc)}</p>
+        ${p.work ? `<div class="partner-card__work"><p class="partner-card__work-label">${c.withAz}</p><p>${ctx.L(p.work)}</p>${missionsOf(p.id) ? `<a class="partner-card__missions" href="${ctx.href('projects')}?partner=${p.id}#references">${c.missions(missionsOf(p.id))} ${icon('arrow')}</a>` : ''}</div>` : ''}
         <div class="partner-card__foot"><span class="pin">${icon('pin')} ${ctx.L(p.where)}</span>${link}</div>
       </div>
     </article>`;
@@ -73,17 +79,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
   </div>
 </section>
 
-<section class="section section--white" aria-labelledby="map-title" data-map>
-  <div class="container map-block">
-    <div data-reveal>
-      <p class="eyebrow">${c.mapEyebrow}</p>
-      <h2 class="h2" id="map-title">${c.mapTitle}</h2>
-      <p class="lead" style="margin-top:20px">${c.mapText}</p>
-      ${mapLegend(ctx)}
-    </div>
-    <div data-reveal style="--d:.1s">${maliMap(ctx, { headingId: 'carte-partenaires' })}</div>
-  </div>
-</section>
+${zonesSection(ctx, { eyebrow: c.mapEyebrow, title: c.mapTitle, text: c.mapText, headingId: 'carte-partenaires' })}
 
 ${contactBand(ctx, { title: c.becomeTitle })}
 `;

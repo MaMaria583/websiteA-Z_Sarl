@@ -27,8 +27,9 @@ Raccourcis équivalents : `npm run build` et `npm start`.
 | `src/data/site.mjs` | Coordonnées, adresse du site, réglages des formulaires, mentions légales |
 | `src/data/services.mjs` | Les 5 pôles d'expertise (textes FR / EN, offre, livrables, démarche) |
 | `src/data/sectors.mjs` | Les 13 domaines d'intervention et leurs 4 familles |
-| `src/data/partners.mjs` | Les 11 partenaires (logos, liens, descriptions) et les repères de la carte |
-| `src/data/projects.mjs` | Les réalisations (intitulés, textes, chiffres clés, photos) et les missions du fil chronologique |
+| `src/data/partners.mjs` | Les 12 partenaires (logos, liens, descriptions, missions avec A-Z) et les 12 zones d'intervention de la carte |
+| `src/data/projects.mjs` | Les réalisations illustrées (intitulés, textes, chiffres clés, photos) |
+| `src/data/references.mjs` | Les autres références (année, commanditaire, type de mission, pôles, lieu) : liste de la page Réalisations, pages pôles, plaquette |
 | `src/data/gallery.mjs` | Galeries photos et légendes |
 | `src/data/photos.json` | Dimensions des photos optimisées (généré, ne pas modifier à la main) |
 | `src/data/mali-map.json` | Tracé de la carte du Mali (Natural Earth, domaine public) |
@@ -49,14 +50,16 @@ Raccourcis équivalents : `npm run build` et `npm start`.
 Exemples courants :
 
 - **Rendre le logo de CAD-Mali cliquable** : dans `src/data/partners.mjs`, remplacer `url: null` par `url: { fr: 'http://www.cadmali.org', en: 'http://www.cadmali.org' }` (site hors service les 29/10 et 02/11/2026, à revérifier).
-- **Ajouter une réalisation** : compléter `src/data/projects.mjs` (`title` complet, `short` pour les cartes, `photos` ou, à défaut, `zones` pour l'illustrer par une carte), puis l'ajouter aux pôles concernés (`projects` dans `src/data/services.mjs`) et à la page Réalisations (`src/templates/pages/projects.mjs`).
+- **Ajouter une référence** (mission sans photos) : ajouter une entrée dans `src/data/references.mjs` (`year`, `partner`, `kind`, `services`, `title`, `zone`). Elle apparaît automatiquement dans la liste de la page Réalisations, sur les pages des pôles concernés, dans la plaquette et dans les chiffres clés (nombre de missions et de commanditaires).
+- **Ajouter une réalisation illustrée** : compléter `src/data/projects.mjs` (`title` complet, `short` pour les cartes, `kind`, `zone`, `photos` ou, à défaut, `zones` pour l'illustrer par une carte), puis l'ajouter aux pôles concernés (`projects` dans `src/data/services.mjs`) et à la page Réalisations (`src/templates/pages/projects.mjs`).
+- **Liens filtrés vers les références** : `realisations.html?partner=afpb#references` (missions d'un partenaire) ou `realisations.html?pole=sera#references` (missions d'un pôle).
 - **Ajouter le logo d'un partenaire** : déposer le fichier dans `src/assets/img/partners/` puis renseigner `logo: { file: 'nom.svg', width: …, height: … }` (pour un PNG : `raster: true`, fournir `nom.png` et `nom.webp`).
 - **Ajouter un réseau social** : compléter la liste `social` dans `src/data/site.mjs`.
 - **Compléter les mentions légales** : RCCM, NIF, capital, directeur de la publication et hébergeur dans `src/data/site.mjs` (`legal`).
 
 ## Plaquette PDF
 
-`node plaquette.mjs` régénère la plaquette A4 de 2 pages (français et anglais) à partir des mêmes données que le site, dans `src/assets/docs/`. Elle est téléchargeable depuis le pied de page et la page « Le Bureau ». Nécessite Google Chrome ou Microsoft Edge. Relancer ensuite `node build.mjs`.
+`node plaquette.mjs` régénère la plaquette A4 de 3 pages (français et anglais) à partir des mêmes données que le site, dans `src/assets/docs/` : présentation et pôles, domaines, démarche, réalisations récentes et partenaires, puis la liste complète des références et des zones d'intervention. Elle est téléchargeable depuis le pied de page et la page « Le Bureau ». Nécessite Google Chrome ou Microsoft Edge. Relancer ensuite `node build.mjs`.
 
 ## Version de test sur Vercel
 
@@ -97,8 +100,16 @@ Retour final (dossier « les point de correction retour final »), intégré :
 - Page LinkedIn publique : https://www.linkedin.com/company/az-impact/ ; son offre « A-Z Contact Center & Data Intelligence » est présentée sur la page Suivi-évaluation.
 - Nom de domaine azsarl.com validé.
 
+« Quelques réalisations dans le temps » (3 novembre 2026), intégré :
+
+- 17 références de 2022 à 2024 (Save the Children, AFPB, CAD-Mali, SCOOPS-K.T.P.A.N, FAWE Mali, SEXAGON) et l'étude de base de la GIZ (projet WE4R/GMV, Kayes et Nioro) dans `src/data/references.mjs` : liste filtrable de la page Réalisations, références des pages pôles, page 3 de la plaquette, chiffres clés de l'accueil.
+- Nouveau partenaire FAWE Mali (logo officiel de fawe.org ; fawemali.org en erreur 500 le 3 novembre 2026).
+- Carte des zones d'intervention, de Kayes à Gao (11 régions et le district de Bamako), avec le texte du client, sur l'accueil, Le Bureau et Partenaires.
+- Ligne en double dans le fichier du client (formation AFPB « transformation/conservation du lait local », 2023) : reprise une seule fois.
+
 Encore en attente :
 
+- Année de l'étude de base GIZ (non précisée : le site affiche la période du projet au Mali, 2024 – 2028).
 - Accord écrit des partenaires pour l'usage de leur logo (aucune case « accord obtenu » cochée).
 - Témoignages et mot du Directeur Technique (le client les enverra plus tard).
 - Achat du domaine azsarl.com, adresse e-mail professionnelle sur ce domaine, puis mise en ligne définitive.

@@ -152,6 +152,57 @@
     }));
   }
 
+  /* ---------- Références : filtres par type, et par partenaire (?partner=…) ou par pôle (?pole=…) ---------- */
+  const refBlock = $('[data-refs]');
+  if (refBlock) {
+    const items = $$('[data-ref]', refBlock);
+    const btns = $$('[data-ref-filter]', refBlock);
+    const notice = $('[data-ref-partner]', refBlock);
+    const live = $('[data-ref-status]', refBlock);
+    const names = notice ? JSON.parse(notice.dataset.names || '{}') : {};
+    const params = new URLSearchParams(window.location.search);
+    let kind = 'all';
+    let partner = params.get('partner');
+    let pole = partner ? null : params.get('pole');
+    if (partner && !items.some((it) => it.dataset.partner === partner)) partner = null;
+    if (pole && !items.some((it) => it.dataset.services.split(' ').includes(pole))) pole = null;
+    const match = (it, k) => (k === 'all' || it.dataset.kind === k)
+      && (!partner || it.dataset.partner === partner)
+      && (!pole || it.dataset.services.split(' ').includes(pole));
+    const apply = () => {
+      let prev = null;
+      let n = 0;
+      items.forEach((it) => {
+        const show = match(it, kind);
+        it.hidden = !show;
+        if (show) { n += 1; it.classList.toggle('ref--first', it.dataset.refYear !== prev); prev = it.dataset.refYear; }
+      });
+      btns.forEach((b) => {
+        const c = items.filter((it) => match(it, b.dataset.refFilter)).length;
+        b.querySelector('span').textContent = String(c);
+        b.hidden = c === 0 && b.dataset.refFilter !== 'all';
+      });
+      if (notice) {
+        notice.hidden = !partner && !pole;
+        $('[data-ref-partner-label]', notice).textContent = pole ? notice.dataset.labelPole : notice.dataset.labelPartner;
+        $('[data-ref-partner-name]', notice).textContent = partner ? (names[partner] || partner) : (pole ? (names[`pole:${pole}`] || pole) : '');
+      }
+      if (live) live.textContent = live.dataset.template.replace('{n}', String(n));
+    };
+    btns.forEach((b) => b.addEventListener('click', () => {
+      kind = b.dataset.refFilter;
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      apply();
+    }));
+    if (notice) $('button', notice).addEventListener('click', () => {
+      partner = null;
+      pole = null;
+      window.history.replaceState(null, '', `${window.location.pathname}#references`);
+      apply();
+    });
+    if (partner || pole) apply();
+  }
+
   /* ---------- Visionneuse photo ---------- */
   const galleryLinks = $$('[data-lightbox]');
   if (galleryLinks.length && typeof HTMLDialogElement === 'function') {

@@ -1,6 +1,6 @@
 // Page d'accueil
 import { icon } from '../icons.mjs';
-import { picture, sectionHead, serviceCard, sectorFamilies, maliMap, mapLegend, marquee, expertsCta, contactBand, projectCard } from '../components.mjs';
+import { picture, sectionHead, serviceCard, sectorFamilies, zonesSection, marquee, expertsCta, contactBand, projectCard, keyFigures } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -21,11 +21,11 @@ const copy = {
     introLead: 'A-Z Sarl offre des prestations dans les domaines du développement économique, social et culturel, en particulier le suivi-évaluation des projets, les études socio-économiques, la transformation digitale et la formation professionnelle.',
     introText: 'Pour chaque mandat, nous composons une équipe sur mesure, consultants, experts, formateurs et praticiens d’entreprise, à partir de notre large banque de CV d’experts.',
     introLink: 'Découvrir le bureau',
-    stats: [
+    stats: (k) => [
+      { value: k.missions, label: 'Missions de référence', desc: `Évaluations, études, formations et appui-conseil depuis ${k.since}.` },
+      { value: k.partners, label: 'Partenaires', desc: 'ONG internationales, coopérations, institution publique et organisations maliennes.' },
+      { value: k.regions, label: 'Régions d’intervention', desc: 'De Kayes à Gao, en plus du district de Bamako.' },
       { value: 5, label: 'Pôles d’expertise', desc: 'Du suivi-évaluation au conseil en politiques publiques.' },
-      { value: 13, label: 'Domaines d’intervention', desc: 'Santé, éducation, gouvernance, environnement, monde rural…' },
-      { icon: 'network', label: 'Banque d’experts', desc: 'Des équipes composées selon les profils de chaque mandat.' },
-      { icon: 'pin', label: 'Ancrage terrain', desc: 'Des missions et des partenaires à Bamako et en région.' },
     ],
     servicesEyebrow: 'Nos expertises',
     servicesTitle: 'Cinq pôles pour passer <span class="accent">de la donnée à l’action.</span>',
@@ -44,16 +44,17 @@ const copy = {
     sectorsEyebrow: 'Domaines d’intervention',
     sectorsTitle: '13 domaines d’intervention, <span class="accent">une même exigence.</span>',
     sectorsLead: 'Les consultants du bureau réunissent les compétences et l’expertise nécessaires dans chacun de ces domaines.',
-    mapEyebrow: 'Ancrage',
-    mapTitle: 'Basés à Bamako, <span class="accent">présents sur le terrain.</span>',
-    mapText: 'Notre siège est à Hamdallaye ACI 2000, à Bamako. Nos partenaires associatifs, coopératifs et paysans sont implantés à Barouéli, Dioïla, Koutiala et dans la zone de l’Office du Niger.',
+    mapEyebrow: 'Zones d’intervention',
+    mapTitle: 'De Kayes à Gao, <span class="accent">au plus près du terrain.</span>',
+    mapText: 'Les partenaires, institutions, ONG, projets et programmes pour lesquels nous sommes intervenus couvrent les régions de Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza et Gao, ainsi que le district de Bamako, où se trouve notre siège.',
     fieldEyebrow: 'Sur le terrain',
     fieldTitle: 'Des données collectées <span class="accent">au plus près des populations.</span>',
     fieldText: 'Entretiens individuels, discussions de groupe, enquêtes auprès des commerçants : nos équipes vont chercher l’information là où elle se trouve, pour des évaluations de projet fiables.',
     caseLink: 'Voir toutes nos réalisations',
     projectsEyebrow: 'Réalisations',
     projectsTitle: 'Des missions qui <span class="accent">parlent pour nous.</span>',
-    projectsLead: 'Évaluation, formation, numérique : quelques réalisations récentes, menées avec nos partenaires.',
+    projectsLead: (k) => `Évaluation, formation, numérique : trois réalisations récentes, parmi les ${k.missions} missions menées depuis ${k.since} avec nos partenaires.`,
+    refsLink: (k) => `Voir nos ${k.missions} références`,
     mosaic: [
       ['terrain-entretien-meres', 'Entretien avec des mères et leurs bébés'],
       ['terrain-focus-group', 'Discussion de groupe avec des producteurs'],
@@ -79,11 +80,11 @@ const copy = {
     introLead: 'A-Z Sarl provides services in economic, social and cultural development, in particular project monitoring and evaluation, socio-economic studies, digital transformation and vocational training.',
     introText: 'For each assignment we build a tailored team of consultants, experts, trainers and business practitioners, drawn from our large pool of expert CVs.',
     introLink: 'About the firm',
-    stats: [
+    stats: (k) => [
+      { value: k.missions, label: 'Reference assignments', desc: `Evaluations, studies, training and advisory support since ${k.since}.` },
+      { value: k.partners, label: 'Partners', desc: 'International NGOs, development agencies, a public institution and Malian organisations.' },
+      { value: k.regions, label: 'Regions of intervention', desc: 'From Kayes to Gao, plus the Bamako district.' },
       { value: 5, label: 'Practice areas', desc: 'From monitoring and evaluation to public policy advisory.' },
-      { value: 13, label: 'Sectors', desc: 'Health, education, governance, environment, rural development…' },
-      { icon: 'network', label: 'Expert pool', desc: 'Teams built around the profiles each assignment requires.' },
-      { icon: 'pin', label: 'Field presence', desc: 'Missions and partners in Bamako and across the regions.' },
     ],
     servicesEyebrow: 'Our expertise',
     servicesTitle: 'Five practice areas to move <span class="accent">from data to action.</span>',
@@ -102,16 +103,17 @@ const copy = {
     sectorsEyebrow: 'Sectors',
     sectorsTitle: '13 sectors, <span class="accent">one standard of rigour.</span>',
     sectorsLead: 'The firm’s consultants bring the skills and expertise required in each of these sectors.',
-    mapEyebrow: 'Presence',
-    mapTitle: 'Based in Bamako, <span class="accent">present in the field.</span>',
-    mapText: 'Our head office is in Hamdallaye ACI 2000, Bamako. Our community, cooperative and farmers’ partners are based in Barouéli, Dioïla, Koutiala and the Office du Niger area.',
+    mapEyebrow: 'Areas of intervention',
+    mapTitle: 'From Kayes to Gao, <span class="accent">close to the field.</span>',
+    mapText: 'The partners, institutions, NGOs, projects and programmes we have worked for cover the Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza and Gao regions, as well as the Bamako district, home to our head office.',
     fieldEyebrow: 'In the field',
     fieldTitle: 'Data collected <span class="accent">close to communities.</span>',
     fieldText: 'Individual interviews, focus groups, surveys with traders: our teams go where the information is, to deliver reliable project evaluations.',
     caseLink: 'See all our projects',
     projectsEyebrow: 'Projects',
     projectsTitle: 'Work that <span class="accent">speaks for itself.</span>',
-    projectsLead: 'Evaluation, training, digital: a selection of recent projects delivered with our partners.',
+    projectsLead: (k) => `Evaluation, training, digital: three recent projects among the ${k.missions} assignments delivered with our partners since ${k.since}.`,
+    refsLink: (k) => `See our ${k.missions} references`,
     mosaic: [
       ['terrain-entretien-meres', 'Interview with mothers and their babies'],
       ['terrain-focus-group', 'Group discussion with farmers'],
@@ -123,6 +125,7 @@ const copy = {
 
 export default function home(ctx) {
   const c = copy[ctx.lang];
+  const k = keyFigures(ctx);
   const tel = ctx.site.phones[0];
   const swoosh = `
       <svg class="hero-visual__swoosh" viewBox="0 0 600 612" aria-hidden="true" focusable="false">
@@ -188,7 +191,7 @@ ${marquee(ctx)}
       </div>
     </div>
     <div class="stats">
-      ${c.stats.map((s, i) => `
+      ${c.stats(k).map((s, i) => `
       <div class="stat" data-reveal style="--d:${i * 0.08}s">
         <p class="stat__value">${s.value ? `<span data-count="${s.value}">${s.value}</span>` : icon(s.icon)}</p>
         <p class="stat__label">${s.label}</p>
@@ -236,17 +239,7 @@ ${marquee(ctx)}
   </div>
 </section>
 
-<section class="section section--white" aria-labelledby="map-title" data-map>
-  <div class="container map-block">
-    <div data-reveal>
-      <p class="eyebrow">${c.mapEyebrow}</p>
-      <h2 class="h2" id="map-title">${c.mapTitle}</h2>
-      <p class="lead" style="margin-top:20px">${c.mapText}</p>
-      ${mapLegend(ctx)}
-    </div>
-    <div data-reveal style="--d:.1s">${maliMap(ctx, { headingId: 'carte-accueil' })}</div>
-  </div>
-</section>
+${zonesSection(ctx, { eyebrow: c.mapEyebrow, title: c.mapTitle, text: c.mapText, headingId: 'carte-accueil' })}
 
 <section class="section" aria-labelledby="field-title">
   <div class="container field__grid">
@@ -264,9 +257,9 @@ ${marquee(ctx)}
 
 <section class="section section--white" aria-labelledby="projects-title">
   <div class="container">
-    ${sectionHead(ctx, { eyebrow: c.projectsEyebrow, title: c.projectsTitle, lead: c.projectsLead, split: true, id: 'projects-title' })}
+    ${sectionHead(ctx, { eyebrow: c.projectsEyebrow, title: c.projectsTitle, lead: c.projectsLead(k), split: true, id: 'projects-title' })}
     <div class="proj-grid">${['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id, i) => projectCard(ctx, ctx.projects.find((p) => p.id === id), { delay: i * 0.08 })).join('')}</div>
-    <p style="margin-top:36px"><a class="link-arrow" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a></p>
+    <p class="btn-row" style="margin-top:36px"><a class="link-arrow" href="${ctx.href('projects')}#references">${c.refsLink(k)} ${icon('arrow')}</a><a class="link-arrow" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a></p>
   </div>
 </section>
 

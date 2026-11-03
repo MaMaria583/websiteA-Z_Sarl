@@ -1,17 +1,27 @@
-// Page « Réalisations » : fil chronologique, études de cas, galeries photos et visionneuse
+// Page « Réalisations » : chiffres clés, études de cas, liste filtrable des références, galeries et visionneuse
 import { icon } from '../icons.mjs';
-import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, esc } from '../components.mjs';
+import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, allMissions, keyFigures, referenceItem, esc } from '../components.mjs';
 
 const copy = {
   fr: {
     title: 'Réalisations',
-    description: 'Réalisations d’A-Z Sarl : camp Digital & IA 2026, étude de base World Renew, évaluation du modèle économique de FRES, formations CANAM, LuxDev et World Renew.',
+    description: 'Références d’A-Z Sarl depuis 2021 : évaluations et études pour Save the Children, la GIZ, World Renew et FRES, formations et appui-conseil, de Kayes à Gao.',
     eyebrow: 'Réalisations',
     h1: 'Sur le terrain, en salle <span class="accent">et aux côtés de nos partenaires.</span>',
-    lead: 'Études et évaluations, formations, projets numériques : une sélection de missions menées par A-Z Sarl, en images.',
+    lead: (k) => `Évaluations, études, formations et appui-conseil : ${k.missions} missions menées depuis ${k.since} pour ${k.clients} commanditaires, de Kayes à Gao.`,
+    figures: (k) => [[k.missions, 'missions de référence'], [k.clients, 'commanditaires'], [k.regions, 'régions et le district de Bamako']],
+    allRefs: 'Voir toutes nos références',
     toc: 'Aller à',
-    chronoEyebrow: 'Repères',
-    chronoTitle: 'Nos missions, <span class="accent">année après année.</span>',
+    tocRefs: (n) => `Toutes nos références (${n})`,
+    refsEyebrow: 'Références',
+    refsTitle: 'Toutes nos missions, <span class="accent">année après année.</span>',
+    refsLead: 'Évaluations, études, formations et appui-conseil, de la mission la plus récente à la plus ancienne.',
+    all: 'Toutes',
+    refsStatus: '{n} missions affichées',
+    refsFilter: 'Filtrer les références',
+    partnerOnly: 'Missions avec',
+    poleOnly: 'Missions du pôle',
+    showAll: 'Afficher toutes les missions',
     featured: 'À la une',
     partner: 'Partenaire',
     photos: 'photos',
@@ -27,13 +37,23 @@ const copy = {
   },
   en: {
     title: 'Projects',
-    description: 'A-Z Sarl projects: Digital & AI Camp 2026, World Renew baseline study, FRES business model evaluation, CANAM, LuxDev and World Renew training.',
+    description: 'A-Z Sarl track record since 2021: evaluations and studies for Save the Children, GIZ, World Renew and FRES, training and advisory support, from Kayes to Gao.',
     eyebrow: 'Projects',
     h1: 'In the field, in the training room <span class="accent">and alongside our partners.</span>',
-    lead: 'Studies and evaluations, training, digital projects: a selection of assignments delivered by A-Z Sarl, in pictures.',
+    lead: (k) => `Evaluations, studies, training and advisory support: ${k.missions} assignments since ${k.since} for ${k.clients} clients, from Kayes to Gao.`,
+    figures: (k) => [[k.missions, 'reference assignments'], [k.clients, 'clients'], [k.regions, 'regions plus the Bamako district']],
+    allRefs: 'See our full track record',
     toc: 'Jump to',
-    chronoEyebrow: 'Milestones',
-    chronoTitle: 'Our assignments, <span class="accent">year after year.</span>',
+    tocRefs: (n) => `Full track record (${n})`,
+    refsEyebrow: 'Track record',
+    refsTitle: 'All our assignments, <span class="accent">year after year.</span>',
+    refsLead: 'Evaluations, studies, training and advisory support, from the most recent assignment to the oldest.',
+    all: 'All',
+    refsStatus: '{n} assignments shown',
+    refsFilter: 'Filter the track record',
+    partnerOnly: 'Assignments with',
+    poleOnly: 'Assignments in',
+    showAll: 'Show all assignments',
     featured: 'Featured',
     partner: 'Partner',
     photos: 'photos',
@@ -85,24 +105,31 @@ function missions(ctx, p, c) {
   return `<p class="project__label">${c.missions}</p><ol class="missions">${ctx.L(p.missions).map((m, k) => `<li><span class="missions__num">0${k + 1}</span><span>${m}</span></li>`).join('')}</ol>`;
 }
 
-// Fil chronologique : réalisations détaillées et missions sans fiche, regroupées par année
-function chrono(ctx, c) {
-  const entries = [
-    ...ctx.projects.map((p) => ({ sort: Number(p.year), year: p.year, html: `<a href="#${p.id}"><small>${ctx.L(p.tag)}</small>${esc(projectShort(ctx, p))}</a>` })),
-    ...ctx.otherMissions.map((m) => ({ sort: m.sort, year: m.year, html: `<span><small>${esc(ctx.partners.find((x) => x.id === m.partner).acronym)}</small>${ctx.L(m.text)}</span>` })),
-  ].sort((a, b) => a.sort - b.sort);
-  const groups = [];
-  for (const e of entries) {
-    const g = groups.find((x) => x.year === e.year);
-    if (g) g.items.push(e.html); else groups.push({ year: e.year, items: [e.html] });
-  }
+// Liste complète des références, filtrable par type de mission et, depuis la page Partenaires, par partenaire
+function referencesSection(ctx, c) {
+  const items = allMissions(ctx);
+  const count = (g) => items.filter((m) => ctx.kinds[m.kind].group === g).length;
+  const filters = [`<button class="filter-btn" type="button" data-ref-filter="all" aria-pressed="true">${c.all}<span>${items.length}</span></button>`]
+    .concat(ctx.kindGroups.map((g) => `<button class="filter-btn" type="button" data-ref-filter="${g.id}" aria-pressed="false">${ctx.L(g.title)}<span>${count(g.id)}</span></button>`)).join('');
+  let prev = null;
+  const list = items.map((m) => {
+    const html = referenceItem(ctx, m);
+    const when = m.year ? String(m.year) : ctx.L(m.period);
+    const first = when !== prev;
+    prev = when;
+    return first ? html.replace('class="ref"', 'class="ref ref--first"') : html;
+  }).join('');
+  const names = Object.fromEntries(ctx.partners.map((p) => [p.id, p.acronym]).concat(ctx.services.map((s) => [`pole:${s.id}`, ctx.L(s.short)])));
   return `
-<section class="section section--white section--tight chrono" aria-labelledby="chrono-title">
+<section class="section section--white refs-section" id="references" aria-labelledby="references-title" data-refs>
   <div class="container">
-    ${sectionHead(ctx, { eyebrow: c.chronoEyebrow, title: c.chronoTitle, id: 'chrono-title' })}
-    <ol class="chrono__list" style="--steps:${groups.length}">${groups.map((g, i) => `
-      <li class="chrono__step" data-reveal style="--d:${i * 0.08}s"><span class="chrono__year">${g.year}</span><ul class="chrono__items">${g.items.map((h) => `<li>${h}</li>`).join('')}</ul></li>`).join('')}
-    </ol>
+    ${sectionHead(ctx, { eyebrow: c.refsEyebrow, title: c.refsTitle, lead: c.refsLead, split: true, id: 'references-title' })}
+    <div class="refs-tools">
+      <div class="filters" role="group" aria-label="${c.refsFilter}">${filters}</div>
+      <p class="refs-partner" data-ref-partner data-names="${esc(JSON.stringify(names))}" data-label-partner="${c.partnerOnly}" data-label-pole="${c.poleOnly}" hidden><span data-ref-partner-label>${c.partnerOnly}</span> <b data-ref-partner-name></b><button type="button" class="refs-partner__clear">${c.showAll} ${icon('close')}</button></p>
+    </div>
+    <p class="sr-only" aria-live="polite" data-ref-status data-template="${c.refsStatus}"></p>
+    <ol class="refs">${list}</ol>
   </div>
 </section>`;
 }
@@ -165,9 +192,16 @@ export default function projects(ctx) {
   const big = ['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'etude-base-world-renew-2026', 'gpec-canam-2026'].map((id) => ctx.projects.find((p) => p.id === id));
   const duo = ['formation-luxdev', 'formation-world-renew'].map((id) => ctx.projects.find((p) => p.id === id));
   const galleries = ctx.galleries;
+  const k = keyFigures(ctx);
 
-  const toc = [...big, ...duo].map((p) => `<li><a class="chip" href="#${p.id}">${esc(projectShort(ctx, p))}</a></li>`)
+  const toc = [`<li><a class="chip chip--strong" href="#references">${c.tocRefs(k.missions)}</a></li>`]
+    .concat([...big, ...duo].map((p) => `<li><a class="chip" href="#${p.id}">${esc(projectShort(ctx, p))}</a></li>`))
     .concat(galleries.map((g) => `<li><a class="chip" href="#g-${g.id}">${ctx.L(g.title)}</a></li>`)).join('');
+
+  const figures = `<div class="hero-figures">
+      <dl>${c.figures(k).map(([n, label]) => `<div><dt><span data-count="${n}">${n}</span></dt><dd>${label}</dd></div>`).join('')}</dl>
+      <a class="link-arrow" href="#references">${c.allRefs} ${icon('arrow')}</a>
+    </div>`;
 
   const gallery = (g, i) => `
 <section class="section${i % 2 ? ' section--white' : ''}" id="g-${g.id}" aria-labelledby="g-${g.id}-title">
@@ -190,13 +224,11 @@ export default function projects(ctx) {
 </section>`;
 
   const body = `
-${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ label: c.title }] })}
+${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead(k), crumbs: [{ label: c.title }], aside: figures })}
 
 <nav class="toc" aria-label="${c.toc}">
   <div class="container"><span class="toc__label">${c.toc}</span><ul class="chip-list">${toc}</ul></div>
 </nav>
-
-${chrono(ctx, c)}
 
 ${big.map((p, i) => caseStudy(ctx, p, c, i)).join('')}
 
@@ -207,7 +239,9 @@ ${big.map((p, i) => caseStudy(ctx, p, c, i)).join('')}
   </div>
 </section>
 
-${galleries.map((g, i) => gallery(g, i + 1)).join('')}
+${referencesSection(ctx, c)}
+
+${galleries.map((g, i) => gallery(g, i)).join('')}
 
 ${contactBand(ctx, { title: c.moreTitle })}
 `;

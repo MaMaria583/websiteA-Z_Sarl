@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Génère la plaquette de présentation A4 (2 pages, FR et EN) à partir des mêmes données que le site.
+// Génère la plaquette de présentation A4 (3 pages, FR et EN) à partir des mêmes données que le site.
 // Usage : node plaquette.mjs   →   src/assets/docs/plaquette-a-z-sarl-fr.pdf et -en.pdf
 // Nécessite Google Chrome ou Microsoft Edge installé (impression PDF sans interface).
 import fs from 'node:fs';
@@ -12,6 +12,7 @@ import { services } from './src/data/services.mjs';
 import { sectors, families } from './src/data/sectors.mjs';
 import { partners } from './src/data/partners.mjs';
 import { projects } from './src/data/projects.mjs';
+import { references, kinds } from './src/data/references.mjs';
 import { icon } from './src/templates/icons.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -40,6 +41,11 @@ const T = {
     contact: 'Contact',
     director: 'Directeur Technique',
     web: 'Site web',
+    refsTitle: 'Nos références',
+    refsLead: (n, since, clients) => `${n} missions menées depuis ${since} pour ${clients} commanditaires, de Kayes à Gao.`,
+    refsCols: ['Année', 'Commanditaire', 'Mission'],
+    zonesTitle: 'Zones d’intervention',
+    zonesText: 'Régions de Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza et Gao, et district de Bamako.',
   },
   en: {
     line: 'Innovation & Impact · Bamako, Mali',
@@ -60,8 +66,20 @@ const T = {
     contact: 'Contact',
     director: 'Technical Director',
     web: 'Website',
+    refsTitle: 'Our track record',
+    refsLead: (n, since, clients) => `${n} assignments since ${since} for ${clients} clients, from Kayes to Gao.`,
+    refsCols: ['Year', 'Client', 'Assignment'],
+    zonesTitle: 'Areas of intervention',
+    zonesText: 'Kayes, Nioro, Koulikoro, Dioïla, Bougouni, Sikasso, Ségou, Mopti, Bandiagara, Douentza and Gao regions, and the Bamako district.',
   },
 };
+
+function allMissions() {
+  return [
+    ...projects.map((p) => ({ year: Number(p.year), sort: Number(p.year), partner: p.partner || null, kind: p.kind, title: p.title, zone: p.zone })),
+    ...references.map((r) => ({ ...r, sort: r.sort || r.year })),
+  ].sort((a, b) => b.sort - a.sort);
+}
 
 function partnerMark(p, lang) {
   if (!p.logo) return `<span class="plate">${p.acronym}</span>`;
@@ -142,6 +160,22 @@ h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm
 .contact{margin-top:7mm;background:#0F2E47;color:rgba(255,255,255,.82);border-radius:4mm;padding:6mm 7mm;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm;font-size:8.8pt}
 .contact h3{color:#45C3CD;font-size:7.4pt;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5mm}
 .contact b{color:#fff}
+.lg-fawe-mali{height:8mm}
+.rl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;margin-bottom:3mm}
+.rl-head p{max-width:95mm;font-size:9pt;color:#3a4955}
+.rl{width:100%;border-collapse:collapse;font-size:7.15pt;line-height:1.3}
+.rl th{text-align:left;font-size:6.4pt;letter-spacing:.12em;text-transform:uppercase;color:#5f6d78;padding:0 2mm 1.6mm 0;border-bottom:.5mm solid #0F2E47}
+.rl td{padding:1.12mm 2mm 1.12mm 0;border-bottom:.25mm solid #e6dfd3;vertical-align:top}
+.rl tr.first td{border-top:.4mm solid #0F2E47}
+.rl .y{width:15mm;font-family:'Instrument Serif',serif;font-style:italic;font-size:12pt;color:#0B7C87;line-height:1}
+.rl .y small{display:block;font-family:Manrope,sans-serif;font-style:normal;font-size:5.6pt;letter-spacing:.08em;text-transform:uppercase;color:#5f6d78;margin-top:.6mm}
+.rl .p{width:30mm;font-weight:800;color:#0F2E47}
+.rl .p small{display:block;font-weight:600;color:#5f6d78;font-size:6.1pt;margin-top:.3mm}
+.rl .m{color:#0F2E47;font-weight:650}
+.rl .k{display:inline-block;margin-right:1.6mm;padding:.2mm 1.6mm;border-radius:1mm;font-size:5.8pt;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#ebf8f9;color:#0B7C87;vertical-align:.3mm}
+.rl .k-formation{background:#f8ecd6;color:#8a5a10}.rl .k-appui{background:#eceff2;color:#0F2E47}
+.zones{margin-top:3.5mm;display:flex;gap:4mm;align-items:baseline;font-size:8pt;color:#3a4955}
+.zones b{flex:none;color:#0B7C87;font-size:6.6pt;letter-spacing:.12em;text-transform:uppercase}
 </style></head><body>
 <section class="page">
   <div class="hero"><div class="glow"></div>
@@ -159,7 +193,7 @@ h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm
     <div class="poles">${services.map((s) => `<div class="pole"><span class="ic">${icon(s.icon)}</span><div><h3><span class="num">${s.num}</span>${L(s.title)}</h3><p>${L(s.summary)}</p></div></div>`).join('')}</div>
     <div class="strip"><img src="${photo('terrain-entretien-meres', 800)}"><img src="${photo('terrain-enfants', 672)}"><img src="${photo('formation-salle', 800)}"></div>
   </div>
-  <div class="foot"><span>${site.name} · ${site.address.street}, ${site.address.city}</span><span>1 / 2</span></div>
+  <div class="foot"><span>${site.name} · ${site.address.street}, ${site.address.city}</span><span>1 / 3</span></div>
 </section>
 <section class="page">
   <div class="body" style="padding-top:14mm">
@@ -177,7 +211,24 @@ h2::before{content:"";width:7mm;height:.6mm;background:#0B7C87;border-radius:1mm
       <div><h3>${t.director}</h3><b>${site.director.name}</b><br>${site.director.email}</div>
     </div>
   </div>
-  <div class="foot"><span>${L(site.tagline)}</span><span>2 / 2</span></div>
+  <div class="foot"><span>${L(site.tagline)}</span><span>2 / 3</span></div>
+</section>
+<section class="page">
+  <div class="body" style="padding-top:11mm">
+    <div class="rl-head"><h2 style="margin-bottom:0">${t.refsTitle}</h2><p>${(() => { const m = allMissions(); return t.refsLead(m.length, Math.min(...m.filter((x) => x.year).map((x) => x.year)), new Set(m.map((x) => x.partner).filter(Boolean)).size); })()}</p></div>
+    <table class="rl"><thead><tr><th>${t.refsCols[0]}</th><th>${t.refsCols[1]}</th><th>${t.refsCols[2]}</th></tr></thead><tbody>${(() => {
+      let prev = null;
+      return allMissions().map((m) => {
+        const when = m.year ? String(m.year) : L(m.period);
+        const first = when !== prev; prev = when;
+        const p = m.partner ? partners.find((x) => x.id === m.partner) : null;
+        const kind = kinds[m.kind];
+        return `<tr class="${first ? 'first' : ''}"><td class="y">${first ? when : ''}${first && m.periodNote ? `<small>${L(m.periodNote)}</small>` : ''}</td><td class="p">${p ? p.acronym : 'A-Z Sarl'}${m.zone ? `<small>${L(m.zone)}</small>` : ''}</td><td class="m"><span class="k k-${kind.group}">${L(kind)}</span>${L(m.title)}</td></tr>`;
+      }).join('');
+    })()}</tbody></table>
+    <p class="zones"><b>${t.zonesTitle}</b><span>${t.zonesText}</span></p>
+  </div>
+  <div class="foot"><span>${site.name} · ${site.address.street}, ${site.address.city}</span><span>3 / 3</span></div>
 </section>
 </body></html>`;
 }

@@ -1,6 +1,6 @@
 // Gabarit commun aux 5 pages « pôle d'expertise »
 import { icon } from '../icons.mjs';
-import { pageHero, picture, miniSteps, projectCard, contactBand } from '../components.mjs';
+import { pageHero, picture, miniSteps, projectCard, contactBand, allMissions, referenceItem } from '../components.mjs';
 
 const copy = {
   fr: {
@@ -18,6 +18,9 @@ const copy = {
     caseEyebrow: 'Réalisations',
     caseTitle: 'Ce pôle <span class="accent">en action.</span>',
     caseAll: 'Toutes nos réalisations',
+    refsEyebrow: 'Références',
+    refsTitle: 'D’autres missions <span class="accent">de ce pôle.</span>',
+    refsAll: (n) => `Voir les ${n} missions du pôle`,
     spotSteps: 'Le principe',
     spotConviction: 'Notre conviction',
     spotCta: 'Concevoir votre dispositif',
@@ -39,6 +42,9 @@ const copy = {
     caseEyebrow: 'Projects',
     caseTitle: 'This practice <span class="accent">in action.</span>',
     caseAll: 'All our projects',
+    refsEyebrow: 'Track record',
+    refsTitle: 'More assignments <span class="accent">in this practice.</span>',
+    refsAll: (n) => `See the ${n} assignments in this practice`,
     spotSteps: 'How it works',
     spotConviction: 'Our conviction',
     spotCta: 'Design your mechanism',
@@ -148,6 +154,20 @@ export default function service(ctx, page) {
   </div>
 </section>` : '';
 
+  // Références sans étude de cas rattachées à ce pôle (les réalisations illustrées sont présentées au-dessus)
+  const all = allMissions(ctx);
+  const refs = all.filter((m) => !m.caseHref && m.services.includes(s.id)).slice(0, 6);
+  const refsBlock = refs.length ? `
+<section class="section" aria-labelledby="refs-title">
+  <div class="container">
+    <div class="section-head section-head--split" data-reveal>
+      <div><p class="eyebrow">${c.refsEyebrow}</p><h2 class="h2" id="refs-title">${c.refsTitle}</h2></div>
+      <p><a class="link-arrow" href="${ctx.href('projects')}?pole=${s.id}#references">${c.refsAll(all.filter((m) => m.services.includes(s.id)).length)} ${icon('arrow')}</a></p>
+    </div>
+    <ol class="refs refs--compact" data-reveal>${refs.map((m) => referenceItem(ctx, m, { compact: true })).join('')}</ol>
+  </div>
+</section>` : '';
+
   const body = `
 ${pageHero(ctx, {
     eyebrow: `${c.pole} ${s.num} · ${ctx.L(s.tag)}`,
@@ -191,7 +211,9 @@ ${spotlight}
 
 ${caseBlock}
 
-<section class="section" aria-labelledby="apply-title">
+${refsBlock}
+
+<section class="section${refsBlock ? ' section--white' : ''}" aria-labelledby="apply-title">
   <div class="container">
     <div class="section-head section-head--split" data-reveal>
       <div><p class="eyebrow">${c.sectorsEyebrow}</p><h2 class="h2" id="apply-title">${c.sectorsTitle}</h2></div>

@@ -152,7 +152,8 @@ function jsonLd(ctx) {
     geo: { '@type': 'GeoCoordinates', latitude: site.address.geo.lat, longitude: site.address.geo.lon },
     telephone: site.phones.map((p) => p.tel),
     email: site.email,
-    areaServed: { '@type': 'Country', name: 'Mali' },
+    // Mali et zones d'intervention (src/data/partners.mjs → places)
+    areaServed: [{ '@type': 'Country', name: 'Mali' }, ...ctx.places.map((p) => ({ '@type': 'AdministrativeArea', name: p.hq ? (ctx.lang === 'en' ? 'Bamako District' : 'District de Bamako') : (ctx.lang === 'en' ? `${p.name} Region` : `Région de ${p.name}`) }))],
     knowsAbout: ctx.services.map((s) => ctx.L(s.title)),
     knowsLanguage: ['fr', 'en'],
     employee: { '@type': 'Person', name: site.director.name, jobTitle: ctx.L(site.director.role), email: site.director.email },
