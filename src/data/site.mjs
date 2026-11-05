@@ -13,11 +13,12 @@ export const site = {
 
   // Adresse publique du site, SANS barre finale (ex. 'https://www.azsarl.com').
   // Tant qu'elle est vide, les balises canoniques, hreflang, og:url et le sitemap ne sont pas générés.
-  siteUrl: '',
+  // Vide pour la version de test Vercel ; la publication Hostinger la fournit (SITE_URL, voir .github/workflows/hostinger.yml).
+  siteUrl: process.env.SITE_URL || '',
 
   // Version de test (validation par le client) : le site demande aux moteurs de recherche de ne pas
-  // l'indexer. Passer à false pour la mise en ligne définitive.
-  testMode: true,
+  // l'indexer. Pour la mise en ligne définitive sur Hostinger : SITE_TEST_MODE: 'false' dans le workflow.
+  testMode: process.env.SITE_TEST_MODE !== 'false',
 
   address: {
     street: 'Hamdallaye ACI 2000',

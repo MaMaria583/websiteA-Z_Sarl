@@ -69,6 +69,14 @@ Tant que `testMode: true` dans `src/data/site.mjs`, toutes les pages portent la 
 
 Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas versionnés (voir `.gitignore`).
 
+## Publication sur Hostinger (azsarl.com)
+
+À chaque mise à jour de `main`, l'automatisation `.github/workflows/hostinger.yml` génère le site pour `https://www.azsarl.com` (balises canoniques, `.htaccess` avec HTTPS, redirection vers www, page 404, cache) et place le résultat dans la branche **`hostinger`** du dépôt. La version de test Vercel reste inchangée.
+
+Réglage unique dans hPanel → Sites web → Gérer → Avancé → **Git** : dépôt `https://github.com/MaMaria583/websiteA-Z_Sarl.git`, branche `hostinger`, dossier vide (`public_html`), puis activer l'auto-déploiement et coller l'adresse du webhook dans GitHub (Settings → Webhooks). Dépôt privé : ajouter la clé SSH fournie par Hostinger dans GitHub (Settings → Deploy keys).
+
+Mise en ligne définitive (indexation par Google, sitemap) : dans le workflow, passer `SITE_TEST_MODE: 'true'` à `'false'`.
+
 ## Mise en ligne
 
 1. Acheter le nom de domaine **azsarl.com** (validé par le client le 2 novembre 2026, encore disponible ce jour-là) et le relier au projet Vercel (Settings → Domains).

@@ -158,6 +158,38 @@ async function build() {
   }
   fs.writeFileSync(path.join(DIST, 'robots.txt'), robots.join('\n') + '\n');
 
+  // Hébergement Apache / LiteSpeed (Hostinger) : HTTPS, domaine sans www → www, page 404, en-têtes et cache
+  if (process.env.HOSTING === 'hostinger') {
+    const host = site.siteUrl ? new URL(site.siteUrl).hostname : '';
+    const bare = host.replace(/^www\./, '');
+    const toWww = host.startsWith('www.')
+      ? [`RewriteCond %{HTTP_HOST} ^${bare.replace(/\./g, '\\.')}$ [NC]`, `RewriteRule ^ https://${host}%{REQUEST_URI} [L,R=301]`]
+      : [];
+    fs.writeFileSync(path.join(DIST, '.htaccess'), [
+      'Options -Indexes',
+      'ErrorDocument 404 /404.html',
+      'RewriteEngine On',
+      'RewriteCond %{HTTPS} off',
+      'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]',
+      ...toWww,
+      '<IfModule mod_headers.c>',
+      '  Header always set X-Content-Type-Options "nosniff"',
+      '  Header always set Referrer-Policy "strict-origin-when-cross-origin"',
+      '  Header always set X-Frame-Options "SAMEORIGIN"',
+      '  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"',
+      '</IfModule>',
+      '<IfModule mod_expires.c>',
+      '  ExpiresActive On',
+      '  ExpiresByType text/html "access plus 0 seconds"',
+      '  ExpiresDefault "access plus 7 days"',
+      '</IfModule>',
+      '<IfModule mod_deflate.c>',
+      '  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json application/manifest+json',
+      '</IfModule>',
+      '',
+    ].join('\n'));
+  }
+
   console.log(`✓ ${count} pages générées dans dist/`);
 }
 
