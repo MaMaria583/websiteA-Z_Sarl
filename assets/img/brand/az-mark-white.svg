@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 0 195 101" role="img" aria-label="A-Z Sarl">
+  <title>A-Z Sarl</title>
+  <defs>
+    <mask id="azm-w" maskUnits="userSpaceOnUse" x="-3" y="0" width="195" height="101">
+      <rect x="-3" y="0" width="195" height="101" fill="#fff"/>
+      <path d="M-2.06 88.2C39.6 84.4 87.75 53 108.6 16L115.4 20C92.25 57 40.4 87.6-1.94 89.8Z" fill="#000" stroke="#000" stroke-width="3.4" stroke-linejoin="round"/>
+      <path d="M119.2 6 105.1 13.9l13.8 8.2Z" fill="#000" stroke="#000" stroke-width="3.4" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <g fill="#FFFFFF" mask="url(#azm-w)">
+    <path fill-rule="evenodd" d="M8 98 30 32h21l26 66H57l-4.4-14H31.6L28 98Zm26.6-26h14.2L41 47Z"/>
+    <path d="M134 32h55v11l-36 44h37v11h-57V87l36-44h-35Z"/>
+  </g>
+  <g fill="#45C3CD">
+    <path d="M-2.06 88.2C39.6 84.4 87.75 53 108.6 16L115.4 20C92.25 57 40.4 87.6-1.94 89.8Z"/>
+    <path d="M119.2 6 105.1 13.9l13.8 8.2Z"/>
+    <circle cx="79" cy="39.6" r="6.4"/>
+    <path d="M101.6 70 120 57M101.6 70 119.6 81.5M101.6 70V93M101.6 70 83.5 80" fill="none" stroke="#45C3CD" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="101.6" cy="70" r="7.4"/>
+    <circle cx="120" cy="57" r="4.4"/>
+    <circle cx="119.6" cy="81.5" r="4.4"/>
+    <circle cx="101.6" cy="93" r="4.4"/>
+    <circle cx="83.5" cy="80" r="4.4"/>
+  </g>
+</svg>
