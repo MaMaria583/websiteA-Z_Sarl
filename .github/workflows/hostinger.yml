@@ -34,6 +34,8 @@ jobs:
       - name: Publier dans la branche hostinger
         run: |
           cd dist
+          # Cette branche ne contient que le site généré : Vercel ne doit pas tenter de la déployer
+          echo '{ "git": { "deploymentEnabled": false } }' > vercel.json
           git init -q -b hostinger
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
