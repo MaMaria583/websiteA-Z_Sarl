@@ -22,8 +22,8 @@ jobs:
     env:
       HOSTING: hostinger
       SITE_URL: https://www.azsarl.com
-      # Mise en ligne définitive (indexation Google, sitemap) : remplacer 'true' par 'false'
-      SITE_TEST_MODE: 'true'
+      # Site officiel ouvert aux moteurs de recherche depuis le 05/11/2026 ('true' = version de test non indexée)
+      SITE_TEST_MODE: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -75,7 +75,7 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 
 Réglage unique dans hPanel → Sites web → Gérer → Avancé → **Git** : dépôt `https://github.com/MaMaria583/websiteA-Z_Sarl.git`, branche `hostinger`, dossier vide (`public_html`), puis activer l'auto-déploiement et coller l'adresse du webhook dans GitHub (Settings → Webhooks). Dépôt privé : ajouter la clé SSH fournie par Hostinger dans GitHub (Settings → Deploy keys).
 
-Mise en ligne définitive (indexation par Google, sitemap) : dans le workflow, passer `SITE_TEST_MODE: 'true'` à `'false'`.
+Site officiel ouvert aux moteurs de recherche depuis le 5 novembre 2026 (`SITE_TEST_MODE: 'false'` dans le workflow) ; la version Vercel reste une version de test non indexée.
 
 ## Mise en ligne
 
