@@ -1,14 +1,15 @@
 # A-Z Sarl sous WordPress — guide
 
-Version WordPress du site azsarl.com : même design, mêmes pages, mêmes adresses de pages (sans `.html`).
-Site de test : **https://wp.azsarl.com** (non indexé par Google). Le site officiel www.azsarl.com reste le site
-statique tant que la bascule n'est pas faite.
+Le site **https://www.azsarl.com** est servi par WordPress depuis le 11 novembre 2026 : même design, mêmes
+pages, adresses sans `.html` (les anciennes adresses sont redirigées). L'ancien sous-domaine de test
+wp.azsarl.com redirige vers www.azsarl.com.
 
 ## 1. Se connecter
 
-- hPanel → Sites web → **wp.azsarl.com** → bouton **Admin WordPress** (connexion sans mot de passe),
-- ou https://wp.azsarl.com/wp-admin/ : identifiant `modena-admin`, puis « Mot de passe oublié ? » pour choisir
+- **https://www.azsarl.com/wp/wp-admin/** : identifiant `modena-admin`, puis « Mot de passe oublié ? » pour choisir
   votre mot de passe (le lien arrive sur l'adresse e-mail Modena du compte).
+- hPanel → WordPress : l'installation y figure encore sous le nom wp.azsarl.com ; le bouton d'accès à
+  l'administration peut donc ouvrir l'ancienne adresse, qui redirige vers la bonne.
 
 Pour le client : Comptes → Ajouter, rôle **Éditeur**. Un éditeur gère les contenus ci-dessous sans pouvoir
 toucher au thème ni aux extensions.
@@ -52,15 +53,19 @@ par le téléversé ». Les contenus saisis dans l'administration ne sont pas to
 
 Une page créée librement dans WordPress (Pages → Ajouter) s'affiche avec l'en-tête et le pied de page du site.
 
-## 4. Bascule sur www.azsarl.com (après validation)
+## 4. Installation sur le serveur
 
-1. Sauvegarder `public_html` (site statique actuel) depuis le gestionnaire de fichiers de hPanel.
-2. hPanel → WordPress → wp.azsarl.com → déplacer / copier l'installation vers azsarl.com (ou réinstaller
-   WordPress sur azsarl.com, y téléverser le thème, puis recopier les contenus modifiés entre-temps).
-3. Vérifier Réglages → Général : adresse `https://www.azsarl.com`. Le thème rend alors le site indexable
-   automatiquement (toute autre adresse reste en `noindex`).
-4. Les anciennes adresses (`/a-propos.html`, `/en/about.html`…) sont redirigées vers les nouvelles par le thème.
-5. Purger le cache de Hostinger, puis déclarer `https://www.azsarl.com/wp-sitemap.xml` dans Google Search Console.
+- WordPress est installé dans `public_html/wp` (Réglages → Général : adresse WordPress `https://www.azsarl.com/wp`,
+  adresse du site `https://www.azsarl.com`). Ne pas modifier ces deux adresses.
+- `public_html/index.php` charge WordPress ; `public_html/.htaccess` envoie toutes les adresses vers WordPress (HTTPS,
+  redirection vers www, en-têtes de sécurité, cache).
+- Les fichiers de l'ancien site statique (`*.html`, `en/`, `assets/`, `site-azsarl.zip`) sont encore dans
+  `public_html` mais ne sont plus servis (WordPress répond à leur place). Ils peuvent être supprimés depuis le
+  gestionnaire de fichiers de hPanel, en gardant `index.php`, `.htaccess` et le dossier `wp`.
+- Revenir au site statique en cas de besoin : remettre le `.htaccess` du site statique (`HOSTING=hostinger node build.mjs`)
+  et supprimer `public_html/index.php`.
+- Plan du site pour Google Search Console : `https://www.azsarl.com/wp-sitemap.xml` (l'ancien `/sitemap.xml` y redirige).
+- Après une modification importante : hPanel → Performance → vider le cache (le CDN de Hostinger est actif).
 
 ## 5. Entretien
 

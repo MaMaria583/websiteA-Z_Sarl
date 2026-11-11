@@ -123,6 +123,16 @@ add_action('wp_enqueue_scripts', function () {
 
 // ---------- Redirections ----------
 
+// Une seule adresse publique : toute autre adresse qui mène à ces fichiers (ancien sous-domaine de test
+// wp.azsarl.com…) est redirigée vers la même page sur l'adresse du site (Réglages → Général).
+add_action('template_redirect', function () {
+    $home = wp_parse_url(home_url(), PHP_URL_HOST);
+    $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if ($host === '' || $host === $home || is_preview() || is_customize_preview()) return;
+    wp_redirect(set_url_scheme('https://' . $home . ($_SERVER['REQUEST_URI'] ?? '/'), 'https'), 301);
+    exit;
+}, 1);
+
 add_action('template_redirect', function () {
     if (!is_404()) return;
     $path = (string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);

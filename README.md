@@ -68,7 +68,7 @@ Exemples courants :
 | `dist-wp/` | Thème généré (non versionné) |
 | `GUIDE-WORDPRESS.md` | Guide d'utilisation et procédure de bascule |
 
-Site de test : https://wp.azsarl.com (sous-domaine Hostinger, dossier `public_html/wp`, non indexé). Dans les gabarits, `ctx.wp` distingue le rendu WordPress du rendu statique ; `node build.mjs` continue de produire le site statique.
+En ligne sur https://www.azsarl.com depuis le 11/11/2026 (WordPress dans `public_html/wp`, chargé par `public_html/index.php` ; l'ancien sous-domaine de test wp.azsarl.com redirige vers www). Détails et retour arrière : GUIDE-WORDPRESS.md. Dans les gabarits, `ctx.wp` distingue le rendu WordPress du rendu statique ; `node build.mjs` continue de produire le site statique.
 
 ## Plaquette PDF
 
