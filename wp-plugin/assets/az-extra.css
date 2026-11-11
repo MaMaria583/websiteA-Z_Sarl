@@ -1,0 +1,8 @@
+/* Compléments propres aux blocs de l'extension (le reste des réglages est dans Astra et les blocs) */
+.az-icone { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--teal-50); color: var(--teal-700); }
+.az-icone .icon { width: 26px; height: 26px; }
+.site-footer .social a { color: #fff; border-color: rgb(255 255 255 / 0.28); }
+.site-footer .social a:hover { background: #fff; color: var(--navy-800); }
+/* Fin des titres en italique : police Instrument Serif, couleur d'accent (Gras / Italique de l'éditeur) */
+:where(h1, h2, h3, .wp-block-heading) em { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-style: italic; letter-spacing: -0.01em; color: var(--ast-global-color-8); }
+.has-ast-global-color-0-background-color :where(h1, h2, h3) em, .has-ast-global-color-1-background-color :where(h1, h2, h3) em { color: #45c3cd; }

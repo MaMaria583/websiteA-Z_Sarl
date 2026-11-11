@@ -34,3 +34,7 @@ les point de correction retour final/
 
 # Thème WordPress généré par `node build-wp.mjs`
 dist-wp/
+
+# Extension et pages de la version Astra (générées)
+dist-plugin/
+dist-pages/
