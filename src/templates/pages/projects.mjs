@@ -1,6 +1,6 @@
 // Page « Réalisations » : chiffres clés, études de cas, liste filtrable des références, galeries et visionneuse
 import { icon } from '../icons.mjs';
-import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, allMissions, keyFigures, referenceItem, esc } from '../components.mjs';
+import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, allMissions, keyFigures, referenceItem, esc, tx } from '../components.mjs';
 
 export const copy = {
   fr: {
@@ -206,7 +206,7 @@ export default function projects(ctx) {
   const gallery = (g, i) => `
 <section class="section${i % 2 ? ' section--white' : ''}" id="g-${g.id}" aria-labelledby="g-${g.id}-title">
   <div class="container">
-    ${sectionHead(ctx, { eyebrow: g.id === 'terrain' ? (ctx.lang === 'en' ? 'Field missions' : 'Missions de terrain') : (ctx.lang === 'en' ? 'Training' : 'Formations'), title: ctx.L(g.title), lead: c.galleryNote, id: `g-${g.id}-title` })}
+    ${sectionHead(ctx, { eyebrow: tx(ctx, g.id === 'terrain' ? 'projects.galerieTerrain' : 'projects.galerieFormations'), title: ctx.L(g.title), lead: c.galleryNote, id: `g-${g.id}-title` })}
     <div class="gallery${g.items.length % 3 === 0 ? ' gallery--3' : ''}">
       ${g.items.map((it, k) => {
         const alt = ctx.L(it.alt);

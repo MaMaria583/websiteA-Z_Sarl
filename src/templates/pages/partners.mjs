@@ -1,6 +1,6 @@
 // Page « Partenaires » : logos cliquables vers les sites officiels
 import { icon } from '../icons.mjs';
-import { pageHero, partnerLogo, partnerUrl, zonesSection, allMissions, contactBand, esc } from '../components.mjs';
+import { pageHero, partnerLogo, partnerUrl, zonesSection, allMissions, contactBand, esc, tx } from '../components.mjs';
 
 export const copy = {
   fr: {
@@ -72,7 +72,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
 
 <section class="section" aria-label="${c.title}">
   <div class="container">
-    <div class="filters" role="group" aria-label="${ctx.lang === 'en' ? 'Filter partners' : 'Filtrer les partenaires'}">${ctx.wp ? ctx.wp('partnerFilters') : filters}</div>
+    <div class="filters" role="group" aria-label="${tx(ctx, 'partners.filtresLibelle')}">${ctx.wp ? ctx.wp('partnerFilters') : filters}</div>
     <p class="sr-only" aria-live="polite" data-filter-status data-template="${c.status}"></p>
     <div class="partner-grid">${ctx.wp ? ctx.wp('partnerCards') : cards}</div>
     <p class="muted" style="margin-top:28px;font-size:.88rem">${c.note}</p>

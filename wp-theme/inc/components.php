@@ -46,14 +46,14 @@ function az_json_ld() {
         '@context' => 'https://schema.org',
         '@type' => 'ProfessionalService',
         'name' => az_data('name'),
-        'description' => az_L(az_data('tagline')),
-        'slogan' => az_L(az_data('tagline')),
+        'description' => az_plain(az_L(az_data('tagline'))),
+        'slogan' => az_plain(az_L(az_data('tagline'))),
         'address' => ['@type' => 'PostalAddress', 'streetAddress' => az_opt('street'), 'addressLocality' => az_opt('city'), 'addressCountry' => 'ML'],
         'geo' => ['@type' => 'GeoCoordinates', 'latitude' => $geo['lat'], 'longitude' => $geo['lon']],
         'telephone' => array_column(az_phones(), 'tel'),
         'email' => az_opt('email'),
         'areaServed' => $areas,
-        'knowsAbout' => array_map(function ($s) { return az_L($s['title']); }, az_data('services')),
+        'knowsAbout' => array_map(function ($s) { return az_plain(az_L($s['title'])); }, az_data('services')),
         'knowsLanguage' => ['fr', 'en'],
         'employee' => ['@type' => 'Person', 'name' => az_opt('director_name'), 'jobTitle' => az_opt('director_role'), 'email' => az_opt('director_email')],
         'url' => home_url('/'),
@@ -69,7 +69,23 @@ function az_json_ld() {
 
 /** Une photo est soit une photo fournie avec le thème ({ id }), soit un fichier de la médiathèque ({ att }). */
 function az_photo_att($ph) {
-    return is_array($ph) && !empty($ph['att']) ? (int) $ph['att'] : 0;
+    if (is_array($ph) && !empty($ph['att'])) return (int) $ph['att'];
+    // Photo du thème remplacée dans l'administration (menu « Photos du site »)
+    $name = is_array($ph) ? ($ph['id'] ?? '') : (string) $ph;
+    $over = get_option('az_photos', []);
+    return ($name !== '' && is_array($over) && !empty($over[$name]) && wp_attachment_is_image((int) $over[$name])) ? (int) $over[$name] : 0;
+}
+
+/** Photo des gabarits (repère [[az:c:picture:…]]) : photo du thème, ou celle choisie dans « Photos du site ». */
+function az_c_picture($a) {
+    return az_picture(['id' => $a['name'] ?? ''], [
+        'alt' => $a['alt'] ?? '', 'sizes' => $a['sizes'] ?? '100vw', 'cls' => $a['cls'] ?? '', 'loading' => $a['loading'] ?? 'lazy',
+        'priority' => !empty($a['priority']), 'style' => $a['style'] ?? '',
+    ]);
+}
+
+function az_c_largest($a) {
+    return esc_url(az_largest(['id' => $a['name'] ?? '']));
 }
 
 /** Image responsive : WebP + JPEG pour les photos du thème, tailles WordPress pour la médiathèque. */
@@ -82,7 +98,10 @@ function az_picture($ph, $o = []) {
         $img = wp_get_attachment_image_src($att, 'large');
         if (!$img) return '';
         $srcset = wp_get_attachment_image_srcset($att, 'large');
-        return '<picture><img src="' . esc_url($img[0]) . '"' . ($srcset ? ' srcset="' . esc_attr($srcset) . '" sizes="' . $o['sizes'] . '"' : '') . ' width="' . (int) $img[1] . '" height="' . (int) $img[2] . '"' . $tail . '</picture>';
+        // Dimensions absentes des métadonnées (image importée sans miniatures) : lues dans le fichier
+        if ((int) $img[1] <= 1 && ($file = get_attached_file($att)) && ($size = @getimagesize($file))) $img = [$img[0], $size[0], $size[1]];
+        $dims = (int) $img[1] > 1 ? ' width="' . (int) $img[1] . '" height="' . (int) $img[2] . '"' : '';
+        return '<picture><img src="' . esc_url($img[0]) . '"' . ($srcset ? ' srcset="' . esc_attr($srcset) . '" sizes="' . $o['sizes'] . '"' : '') . $dims . $tail . '</picture>';
     }
 
     $name = is_array($ph) ? ($ph['id'] ?? '') : $ph;
@@ -237,7 +256,7 @@ function az_reference_item($m, $compact = false) {
         <p class="ref__title">' . az_L($m['title']) . '</p>
         ' . $zone_html . '
       </div>
-      ' . (!empty($m['caseHref']) ? '<a class="ref__case" href="' . esc_url($m['caseHref']) . '">' . (az_lang() === 'en' ? 'Case study' : 'Étude de cas') . ' ' . az_icon('arrow') . '</a>' : '') . '
+      ' . (!empty($m['caseHref']) ? '<a class="ref__case" href="' . esc_url($m['caseHref']) . '">' . az_text('commun.etudeDeCas') . ' ' . az_icon('arrow') . '</a>' : '') . '
     </li>';
 }
 
@@ -318,7 +337,7 @@ function az_project_card($p, $delay = 0) {
   <div class="proj-card__body">
     <span class="proj-card__tag">' . az_L($p['tag'] ?? '') . '</span>
     <h3 class="proj-card__title">' . az_project_short($p) . '</h3>
-    <span class="link-arrow">' . (az_lang() === 'en' ? 'See the project' : 'Voir la réalisation') . ' ' . az_icon('arrow') . '</span>
+    <span class="link-arrow">' . az_text('commun.voirRealisation') . ' ' . az_icon('arrow') . '</span>
   </div>
 </a>';
 }
@@ -507,7 +526,7 @@ function az_c_marquee($args) {
     return '
 <section class="trust" aria-labelledby="trust-title">
   <div class="container trust__inner">
-    <h2 class="trust__label" id="trust-title">' . (az_lang() === 'en' ? 'They trust us' : 'Ils nous font confiance') . '</h2>
+    <h2 class="trust__label" id="trust-title">' . az_text('commun.bandeauLogos') . '</h2>
     <div class="marquee">
       <div class="marquee__track">
         <ul class="marquee__group">' . $items(false) . '</ul>

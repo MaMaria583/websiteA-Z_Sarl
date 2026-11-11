@@ -1,5 +1,5 @@
 // Mentions légales et politique de confidentialité
-import { pageHero } from '../components.mjs';
+import { pageHero, tx } from '../components.mjs';
 
 export default function legal(ctx) {
   const fr = ctx.lang === 'fr';
@@ -7,7 +7,7 @@ export default function legal(ctx) {
   // Ligne affichée seulement si l'information est renseignée dans src/data/site.mjs
   const opt = (label, val) => (val ? `<br>${label} : ${val}` : '');
   const optEn = (label, val) => (val ? `<br>${label}: ${val}` : '');
-  const title = fr ? 'Mentions légales & confidentialité' : 'Legal notice & privacy';
+  const title = tx(ctx, 'legal.titre');
 
   const content = fr ? `
 <h2>Éditeur du site</h2>
@@ -74,14 +74,14 @@ ${site.legal.host ? `<h2>Hosting</h2>
 `;
 
   const body = `
-${pageHero(ctx, { eyebrow: fr ? 'Informations légales' : 'Legal information', title, crumbs: [{ label: title }] })}
+${pageHero(ctx, { eyebrow: tx(ctx, 'legal.surtitre'), title, crumbs: [{ label: title }] })}
 <section class="section">
-  <div class="container"><div class="prose">${content}</div></div>
+  <div class="container"><div class="prose">${ctx.wp && !ctx.legalRaw ? '[[az:t:legal.contenu]]' : content}</div></div>
 </section>
 `;
   return {
     title,
-    description: fr ? 'Mentions légales et politique de confidentialité du site d’A-Z Sarl, bureau d’études et de conseil à Bamako.' : 'Legal notice and privacy policy of the A-Z Sarl website, consulting firm in Bamako, Mali.',
+    description: tx(ctx, 'legal.description'),
     body,
   };
 }

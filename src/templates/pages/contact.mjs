@@ -1,8 +1,8 @@
 // Page « Contact »
 import { icon } from '../icons.mjs';
-import { pageHero, esc, socialLinks } from '../components.mjs';
+import { pageHero, esc, socialLinks, tx } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Contact',
     description: 'Contactez A-Z Sarl, Hamdallaye ACI 2000, Bamako : +223 79 27 73 60, prestations.az@gmail.com. Demande de proposition, formation, partenariat.',
@@ -121,7 +121,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
 <section class="section section--tight" aria-label="${c.mapTitle}" style="padding-top:0">
   <div class="container">
     <div class="map-embed">
-      <iframe title="${ctx.lang === 'en' ? 'Map: Hamdallaye ACI 2000, Bamako' : 'Plan : Hamdallaye ACI 2000, Bamako'}" src="${osm}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe title="${tx(ctx, 'contact.planTitre')}" src="${osm}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="map-embed__card">
         <strong>${site.name}</strong>
         <span>${c.mapTitle}</span>

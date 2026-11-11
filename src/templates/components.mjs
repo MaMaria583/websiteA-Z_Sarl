@@ -1,11 +1,59 @@
 // Composants réutilisés par les pages.
 import { icon } from './icons.mjs';
 
+/**
+ * Textes écrits directement dans les gabarits (bandeaux communs, pages Merci et 404, mentions légales…).
+ * Dans le thème WordPress, ils deviennent modifiables (menu « Textes des pages ») : tx() rend alors un repère.
+ */
+export const common = {
+  'commun.carteFleuve': { fr: "fleuve Niger", en: "Niger river" },
+  'commun.carteCredit': { fr: "Fond de carte : Natural Earth (domaine public), OpenStreetMap.", en: "Map data: Natural Earth (public domain), OpenStreetMap." },
+  'commun.etudeDeCas': { fr: "Étude de cas", en: "Case study" },
+  'commun.bandeauLogos': { fr: "Ils nous font confiance", en: "They trust us" },
+  'commun.expertsSurtitre': { fr: "Banque d’experts", en: "Expert pool" },
+  'commun.expertsTitre': { fr: "Consultants, experts, formateurs : <span class=\"accent\">rejoignez notre réseau.</span>", en: "Consultants, experts, trainers: <span class=\"accent\">join our network.</span>" },
+  'commun.expertsTexte': { fr: "A-Z Sarl compose ses équipes mandat par mandat à partir d’une large banque de CV. Déposez le vôtre : nous vous contactons dès qu’une mission correspond à votre profil.", en: "A-Z Sarl builds its teams assignment by assignment from a large pool of CVs. Submit yours and we will contact you when a mission matches your profile." },
+  'commun.expertsBouton': { fr: "Déposer mon CV", en: "Submit my CV" },
+  'commun.contactSurtitre': { fr: "Parlons de votre projet", en: "Let’s talk about your project" },
+  'commun.contactTitre': { fr: "Des termes de référence, un appel d’offres, un besoin de formation ? <span class=\"accent\">Écrivons la suite ensemble.</span>", en: "Terms of reference, a tender, a training need? <span class=\"accent\">Let’s write what comes next together.</span>" },
+  'commun.contactBouton': { fr: "Nous écrire", en: "Write to us" },
+  'commun.voirRealisation': { fr: "Voir la réalisation", en: "See the project" },
+  'about.zonesSurtitre': { fr: "Zones d’intervention", en: "Areas of intervention" },
+  'contact.planTitre': { fr: "Plan : Hamdallaye ACI 2000, Bamako", en: "Map: Hamdallaye ACI 2000, Bamako" },
+  'join.formulaireSouci': { fr: "Un souci avec le formulaire ? Envoyez votre CV à", en: "Problem with the form? Email your CV to" },
+  'partners.filtresLibelle': { fr: "Filtrer les partenaires", en: "Filter partners" },
+  'projects.galerieTerrain': { fr: "Missions de terrain", en: "Field missions" },
+  'projects.galerieFormations': { fr: "Formations", en: "Training" },
+  'service.autresPoles': { fr: "Autres pôles", en: "Other practice areas" },
+  'merci.surtitre': { fr: "Message envoyé", en: "Message sent" },
+  'merci.titre': { fr: "Merci, <span class=\"accent\">bien reçu.</span>", en: "Thank you, <span class=\"accent\">message received.</span>" },
+  'merci.texte': { fr: "Votre message a bien été transmis à l’équipe d’A-Z Sarl. Nous revenons vers vous dans les meilleurs délais.", en: "Your message has been sent to the A-Z Sarl team. We will get back to you as soon as possible." },
+  'merci.boutonAccueil': { fr: "Retour à l’accueil", en: "Back to home" },
+  'merci.boutonExpertises': { fr: "Voir nos expertises", en: "See our expertise" },
+  'merci.nomPage': { fr: "Merci", en: "Thank you" },
+  'merci.description': { fr: "Confirmation d’envoi du formulaire.", en: "Form submission confirmation." },
+  'page404.surtitre': { fr: "Erreur 404 · Page not found", en: "Erreur 404 · Page not found" },
+  'page404.titre': { fr: "Cette page <span class=\"accent\">n’existe pas.</span>", en: "Cette page <span class=\"accent\">n’existe pas.</span>" },
+  'page404.texte': { fr: "La page demandée a peut-être été déplacée. Revenez à l’accueil ou consultez nos expertises.<br><span lang=\"en\">The page you requested may have moved. Go back to the home page or explore our expertise.</span>", en: "La page demandée a peut-être été déplacée. Revenez à l’accueil ou consultez nos expertises.<br><span lang=\"en\">The page you requested may have moved. Go back to the home page or explore our expertise.</span>" },
+  'page404.boutonAccueil': { fr: "Accueil", en: "Accueil" },
+  'page404.boutonAnglais': { fr: "English home", en: "English home" },
+  'legal.surtitre': { fr: "Informations légales", en: "Legal information" },
+  'legal.titre': { fr: "Mentions légales & confidentialité", en: "Legal notice & privacy" },
+  'legal.description': { fr: "Mentions légales et politique de confidentialité du site d’A-Z Sarl, bureau d’études et de conseil à Bamako.", en: "Legal notice and privacy policy of the A-Z Sarl website, consulting firm in Bamako, Mali." },
+};
+export const tx = (ctx, key) => {
+  const v = common[key];
+  if (!v) throw new Error(`Texte inconnu : ${key}`);
+  return ctx.wp ? `[[az:t:${key}]]` : (v[ctx.lang] ?? v.fr);
+};
+
 export const esc = (s = '') => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** Image responsive (WebP + JPEG) à partir du manifeste src/data/photos.json */
 export function picture(ctx, name, { alt = '', sizes = '100vw', cls = '', loading = 'lazy', priority = false, style = '' } = {}) {
+  // Thème WordPress : photo remplaçable depuis l'administration (menu « Photos du site »)
+  if (ctx.wp) return ctx.wp('picture', { name, alt, sizes, cls, loading, priority, style });
   const m = ctx.photos[name];
   if (!m) throw new Error(`Photo inconnue : ${name}`);
   const src = (w, ext) => ctx.asset(`img/photos/${name}-${w}.${ext}`);
@@ -15,7 +63,7 @@ export function picture(ctx, name, { alt = '', sizes = '100vw', cls = '', loadin
 }
 
 /** Plus grande version d'une photo (pour la visionneuse) */
-export const largest = (ctx, name) => ctx.asset(`img/photos/${name}-${ctx.photos[name].widths.at(-1)}.jpg`);
+export const largest = (ctx, name) => (ctx.wp ? ctx.wp('largest', { name }) : ctx.asset(`img/photos/${name}-${ctx.photos[name].widths.at(-1)}.jpg`));
 
 /** Logo d'un partenaire, ou plaque typographique s'il n'y a pas de logo */
 export function partnerLogo(ctx, p, { loading = 'lazy' } = {}) {
@@ -202,12 +250,12 @@ export function maliMap(ctx, { headingId = 'carte-titre' } = {}) {
   <svg class="map-svg map-svg--national" viewBox="${NATIONAL_VIEW.join(' ')}" role="img" aria-labelledby="${headingId}-svg">
     <title id="${headingId}-svg">${title}</title>
     ${mapGround(ctx, headingId)}
-    <text class="river-label" x="0" y="0" transform="translate(${(pt('segou')[0] + 95).toFixed(1)} ${(pt('segou')[1] - 27).toFixed(1)}) rotate(-28)">${ctx.lang === 'en' ? 'Niger river' : 'fleuve Niger'}</text>
+    <text class="river-label" x="0" y="0" transform="translate(${(pt('segou')[0] + 95).toFixed(1)} ${(pt('segou')[1] - 27).toFixed(1)}) rotate(-28)">${tx(ctx, 'commun.carteFleuve')}</text>
     ${arcs}
     ${pins}
     ${mapInset(ctx, headingId, { box: NATIONAL_VIEW })}
   </svg>
-  <figcaption class="map-credit">${ctx.lang === 'en' ? 'Map data: Natural Earth (public domain), OpenStreetMap.' : 'Fond de carte : Natural Earth (domaine public), OpenStreetMap.'}</figcaption>
+  <figcaption class="map-credit">${tx(ctx, 'commun.carteCredit')}</figcaption>
 </figure>`;
 }
 
@@ -273,7 +321,7 @@ export function referenceItem(ctx, m, { compact = false } = {}) {
         <p class="ref__title">${ctx.L(m.title)}</p>
         ${m.zone || m.note ? `<p class="ref__zone">${m.zone ? `${icon('pin')} ${ctx.L(m.zone)}` : ''}${m.note && !compact ? `<span class="ref__note">${ctx.L(m.note)}</span>` : ''}</p>` : ''}
       </div>
-      ${m.caseHref ? `<a class="ref__case" href="${m.caseHref}">${ctx.lang === 'en' ? 'Case study' : 'Étude de cas'} ${icon('arrow')}</a>` : ''}
+      ${m.caseHref ? `<a class="ref__case" href="${m.caseHref}">${tx(ctx, 'commun.etudeDeCas')} ${icon('arrow')}</a>` : ''}
     </li>`;
 }
 
@@ -292,7 +340,7 @@ export function marquee(ctx) {
   return `
 <section class="trust" aria-labelledby="trust-title">
   <div class="container trust__inner">
-    <h2 class="trust__label" id="trust-title">${ctx.lang === 'en' ? 'They trust us' : 'Ils nous font confiance'}</h2>
+    <h2 class="trust__label" id="trust-title">${tx(ctx, 'commun.bandeauLogos')}</h2>
     <div class="marquee">
       <div class="marquee__track">
         <ul class="marquee__group">${items(false)}</ul>
@@ -315,12 +363,12 @@ export function expertsCta(ctx) {
     <div class="experts-cta on-dark" data-reveal>
       ${svg}
       <div>
-        <p class="eyebrow">${fr ? 'Banque d’experts' : 'Expert pool'}</p>
-        <h2 class="h2">${fr ? 'Consultants, experts, formateurs : <span class="accent">rejoignez notre réseau.</span>' : 'Consultants, experts, trainers: <span class="accent">join our network.</span>'}</h2>
-        <p class="lead">${fr ? 'A-Z Sarl compose ses équipes mandat par mandat à partir d’une large banque de CV. Déposez le vôtre : nous vous contactons dès qu’une mission correspond à votre profil.' : 'A-Z Sarl builds its teams assignment by assignment from a large pool of CVs. Submit yours and we will contact you when a mission matches your profile.'}</p>
+        <p class="eyebrow">${tx(ctx, 'commun.expertsSurtitre')}</p>
+        <h2 class="h2">${tx(ctx, 'commun.expertsTitre')}</h2>
+        <p class="lead">${tx(ctx, 'commun.expertsTexte')}</p>
       </div>
       <div class="btn-row">
-        <a class="btn btn--accent" href="${ctx.href('join')}">${fr ? 'Déposer mon CV' : 'Submit my CV'} ${icon('arrow', 'icon--arrow')}</a>
+        <a class="btn btn--accent" href="${ctx.href('join')}">${tx(ctx, 'commun.expertsBouton')} ${icon('arrow', 'icon--arrow')}</a>
       </div>
     </div>
   </div>
@@ -336,10 +384,10 @@ export function contactBand(ctx, { title } = {}) {
 <section class="section section--sand contact-band pattern" aria-labelledby="contact-band-title">
   <div class="container contact-band__inner">
     <div data-reveal>
-      <p class="eyebrow">${fr ? 'Parlons de votre projet' : 'Let’s talk about your project'}</p>
-      <h2 class="h2" id="contact-band-title">${title || (fr ? 'Des termes de référence, un appel d’offres, un besoin de formation ? <span class="accent">Écrivons la suite ensemble.</span>' : 'Terms of reference, a tender, a training need? <span class="accent">Let’s write what comes next together.</span>')}</h2>
+      <p class="eyebrow">${tx(ctx, 'commun.contactSurtitre')}</p>
+      <h2 class="h2" id="contact-band-title">${title || tx(ctx, 'commun.contactTitre')}</h2>
       <div class="btn-row" style="margin-top:32px">
-        <a class="btn" href="${ctx.href('contact')}">${fr ? 'Nous écrire' : 'Write to us'} ${icon('arrow', 'icon--arrow')}</a>
+        <a class="btn" href="${ctx.href('contact')}">${tx(ctx, 'commun.contactBouton')} ${icon('arrow', 'icon--arrow')}</a>
         <a class="btn btn--whatsapp" href="${wa}" target="_blank" rel="noopener noreferrer">${icon('whatsapp')} WhatsApp</a>
       </div>
     </div>
@@ -366,7 +414,7 @@ export function projectCard(ctx, p, { sizes = '(min-width: 1100px) 400px, (min-w
   <div class="proj-card__body">
     <span class="proj-card__tag">${ctx.L(p.tag)}</span>
     <h3 class="proj-card__title">${projectShort(ctx, p)}</h3>
-    <span class="link-arrow">${ctx.lang === 'en' ? 'See the project' : 'Voir la réalisation'} ${icon('arrow')}</span>
+    <span class="link-arrow">${tx(ctx, 'commun.voirRealisation')} ${icon('arrow')}</span>
   </div>
 </a>`;
 }

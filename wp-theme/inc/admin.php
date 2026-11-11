@@ -51,7 +51,7 @@ function az_fields($type) {
     $kinds = [];
     foreach (az_data('kinds') as $id => $k) $kinds[$id] = $k['fr'];
     $poles = [];
-    foreach (az_data('services') as $s) $poles[$s['id']] = $s['short']['fr'];
+    foreach (az_data('services') as $s) $poles[$s['id']] = az_plain(az_L($s['short'], 'fr'));
     $cats = [];
     foreach (az_data('categories') as $c) $cats[$c['id']] = $c['title']['fr'];
     $zones = [];
@@ -138,6 +138,7 @@ function az_option_fields() {
 function az_clean($value, $multiline = false) {
     $allowed = [
         'span' => ['class' => true], 'strong' => [], 'b' => [], 'em' => [], 'i' => [], 'small' => [], 'sup' => [], 'br' => [],
+        'h2' => ['id' => true], 'h3' => [], 'p' => [], 'ul' => [], 'ol' => [], 'li' => [],
         'a' => ['href' => true, 'target' => true, 'rel' => true],
     ];
     // « & » reste tel quel (comme dans les contenus d'origine), pour se relire normalement dans les formulaires
@@ -348,7 +349,7 @@ function az_render_field($f, $value, $name) {
 
 add_action('admin_enqueue_scripts', function ($hook) {
     $screen = get_current_screen();
-    $is_az = $screen && (strpos((string) $screen->post_type, 'az_') === 0 || strpos((string) $screen->id, 'az-coordonnees') !== false);
+    $is_az = $screen && (strpos((string) $screen->post_type, 'az_') === 0 || (strpos((string) $screen->id, 'az-coordonnees') !== false || strpos((string) $screen->id, 'az-textes') !== false));
     if (!$is_az) return;
     wp_enqueue_style('az-admin', AZ_URI . '/admin/admin.css', [], filemtime(AZ_DIR . '/admin/admin.css'));
     if (in_array($hook, ['post.php', 'post-new.php'], true)) {
@@ -513,9 +514,11 @@ add_action('edit_form_after_title', function ($post) {
     if (!az_is_theme_page($post)) return;
     $link = function ($type, $label) { return '<a class="button" href="' . esc_url(admin_url('edit.php?post_type=az_' . $type)) . '">' . $label . '</a>'; };
     echo '<div class="notice notice-info inline" style="margin:16px 0;padding:16px 20px">'
-        . '<p style="font-size:15px;margin:0 0 8px"><strong>Cette page est une page du site A-Z Sarl : son design et ses textes sont fournis par le thème.</strong></p>'
-        . '<p style="margin:0 0 14px">Il n’y a rien à modifier ici. Pour voir la page : <a href="' . esc_url(get_permalink($post)) . '" target="_blank">' . esc_html(get_permalink($post)) . '</a>. Pour modifier les contenus :</p>'
-        . '<p style="margin:0;display:flex;gap:8px;flex-wrap:wrap">' . $link('project', 'Réalisations') . $link('reference', 'Références') . $link('partner', 'Partenaires')
+        . '<p style="font-size:15px;margin:0 0 8px"><strong>Cette page est une page du site A-Z Sarl : sa mise en page est fournie par le thème.</strong></p>'
+        . '<p style="margin:0 0 14px">Pour voir la page : <a href="' . esc_url(get_permalink($post)) . '" target="_blank">' . esc_html(get_permalink($post)) . '</a>. Pour modifier ses textes et les contenus :</p>'
+        . '<p style="margin:0;display:flex;gap:8px;flex-wrap:wrap">'
+        . (($g = az_text_group_of_page(get_post_meta($post->ID, '_az_page', true))) ? '<a class="button button-primary" href="' . esc_url(admin_url('admin.php?page=az-textes&groupe=' . rawurlencode($g))) . '">Modifier les textes de cette page</a>' : '')
+        . $link('project', 'Réalisations') . $link('reference', 'Références') . $link('partner', 'Partenaires')
         . '<a class="button" href="' . esc_url(admin_url('admin.php?page=az-coordonnees')) . '">Coordonnées</a></p>'
         . '<p style="margin:14px 0 0;color:#646970">Ne pas changer l’adresse (slug) de cette page ni la supprimer.</p></div>';
 });

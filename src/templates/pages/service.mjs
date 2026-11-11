@@ -1,6 +1,6 @@
 // Gabarit commun aux 5 pages « pôle d'expertise »
 import { icon } from '../icons.mjs';
-import { pageHero, picture, miniSteps, projectCard, contactBand, allMissions, referenceItem } from '../components.mjs';
+import { pageHero, picture, miniSteps, projectCard, contactBand, allMissions, referenceItem, tx } from '../components.mjs';
 
 export const copy = {
   fr: {
@@ -171,7 +171,8 @@ export default function service(ctx, page) {
   const body = `
 ${pageHero(ctx, {
     eyebrow: `${c.pole} ${s.num} · ${ctx.L(s.tag)}`,
-    title: accentTitle(title, ctx.lang),
+    // heroTitle : titre déjà mis en forme, modifiable dans WordPress (build-wp.mjs)
+    title: s.heroTitle ? ctx.L(s.heroTitle) : accentTitle(title, ctx.lang),
     lead: ctx.L(s.lead),
     crumbs: [{ label: ctx.t.nav.expertises, href: ctx.href('expertises') }, { label: ctx.L(s.short) }],
     aside: `<span class="badge-big" aria-hidden="true">${icon(s.icon)}</span>`,
@@ -222,7 +223,7 @@ ${refsBlock}
     <ul class="families" style="list-style:none">${sectorItems.map((x, k) => `
       <li class="family" data-reveal style="--d:${k * 0.06}s"><div class="sector" style="padding:0"><span class="sector__icon">${icon(x.icon)}</span><span><b>${ctx.L(x.title)}</b>${ctx.L(x.detail)}</span></div></li>`).join('')}
     </ul>
-    <nav class="pager" style="margin-top:56px" aria-label="${ctx.lang === 'en' ? 'Other practice areas' : 'Autres pôles'}">
+    <nav class="pager" style="margin-top:56px" aria-label="${tx(ctx, 'service.autresPoles')}">
       <a href="${ctx.href(`service:${prev.id}`)}"><small>← ${ctx.t.prev}</small><strong>${ctx.L(prev.title)}</strong></a>
       <a href="${ctx.href(`service:${next.id}`)}"><small>${ctx.t.next} →</small><strong>${ctx.L(next.title)}</strong></a>
     </nav>

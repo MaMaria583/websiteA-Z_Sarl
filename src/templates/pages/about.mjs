@@ -1,8 +1,8 @@
 // Page « Le Bureau »
 import { icon } from '../icons.mjs';
-import { pageHero, sectionHead, sectorFamilies, zonesSection, contactBand } from '../components.mjs';
+import { pageHero, sectionHead, sectorFamilies, zonesSection, contactBand, tx } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Le Bureau',
     description: 'A-Z Sarl, bureau d’études et de conseil basé à Hamdallaye ACI 2000, Bamako : mission, modèle d’intervention, domaines d’expertise et direction technique.',
@@ -128,7 +128,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
   </div>
 </section>
 
-${zonesSection(ctx, { eyebrow: ctx.lang === 'en' ? 'Areas of intervention' : 'Zones d’intervention', title: c.mapTitle, text: c.mapText, headingId: 'carte-bureau' })}
+${zonesSection(ctx, { eyebrow: tx(ctx, 'about.zonesSurtitre'), title: c.mapTitle, text: c.mapText, headingId: 'carte-bureau' })}
 
 <section class="section" aria-labelledby="team-title">
   <div class="container split">

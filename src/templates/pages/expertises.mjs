@@ -2,7 +2,7 @@
 import { icon } from '../icons.mjs';
 import { pageHero, sectionHead, sectorFamilies, contactBand } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Nos expertises',
     description: 'Les 5 pôles d’A-Z Sarl : suivi-évaluation (SERA/MEAL), études socio-économiques, transformation digitale, formation et conseil en politiques publiques.',

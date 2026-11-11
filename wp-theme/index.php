@@ -30,4 +30,4 @@ if ($cur['id']) {
 }
 
 get_footer();
-echo az_typography(ob_get_clean(), $cur['lang']);
+echo az_typography(az_tokens(ob_get_clean()), $cur['lang']);

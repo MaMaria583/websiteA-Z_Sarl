@@ -19,6 +19,8 @@ toucher au thème ni aux extensions.
 | **Références** | Missions sans étude de cas (année, commanditaire, type, lieu) | Liste « Toutes nos missions », pages pôles, chiffres clés |
 | **Partenaires** | Logo, présentation, site web, « Avec A-Z Sarl » | Page Partenaires, bandeau de logos de l'accueil, références |
 | **Coordonnées** | Téléphones, WhatsApp, e-mails, adresse, direction, réseaux sociaux | Toutes les pages |
+| **Textes des pages** | Tous les textes de chaque page, en français et en anglais : titres, paragraphes, listes, boutons, menus et pied de page, bandeaux communs, pôles d'expertise, domaines, mentions légales, pages Merci et 404, légendes des galeries, carte | Toutes les pages |
+| **Photos du site** | Remplacement des photos fournies avec le site par des images de la médiathèque (et retour à l'original) | Accueil, Le Bureau, pôles, galeries, réalisations |
 
 Principes :
 
@@ -32,23 +34,26 @@ Principes :
 - Photos : JPEG de 1 600 px de large environ, moins de 500 Ko. La première est le visuel principal.
 - Logo de partenaire : PNG ou WebP sur fond transparent.
 
-## 3. Ce qui reste dans le thème
+## 3. Textes et photos des pages
 
-La mise en page et les textes de fond (accueil, Le Bureau, pôles d'expertise, Banque d'experts, Contact, mentions
-légales), la carte des zones d'intervention, les deux galeries photo du bas de la page Réalisations et la plaquette
-PDF. Dans Pages, les 28 pages du site existent (FR à la racine, EN sous « EN — Home ») : ne pas les supprimer ni
-changer leur adresse ; leur contenu vient du thème.
+- **Textes des pages** : un onglet par page (Accueil, Le Bureau, chaque pôle, Réalisations…) et des onglets communs
+  (menus et pied de page, bandeaux présents sur toutes les pages, galeries, carte). Chaque ligne a sa version
+  française et anglaise. Un texte modifié est signalé en jaune ; « rétablir l'original » le remet tel qu'à la livraison.
+  Depuis une page de la liste Pages, le bouton « Modifier les textes de cette page » ouvre directement le bon onglet.
+- Mise en forme : `<span class="accent">…</span>` met la fin d'un titre en couleur et en italique ; `<strong>`, `<br>`,
+  et dans les mentions légales `<h2>`, `<p>`, `<ul><li>`.
+- Repères remplacés automatiquement : `{missions}`, `{commanditaires}`, `{partenaires}`, `{regions}`, `{depuis}` (chiffres
+  clés) et, dans les mentions légales, `{rue}`, `{ville}`, `{pays}`, `{email}`, `{telephones}`, `{hebergeur}` (menu Coordonnées).
+- **Photos du site** : « Remplacer » ouvre la médiathèque ; « Rétablir » revient à la photo d'origine. La description
+  (texte alternatif) d'une photo se modifie dans « Textes des pages ».
+- Restent fixes : la mise en page, les couleurs et polices, le logo, la carte du Mali elle-même et la plaquette PDF.
+  Les 28 pages du site existent dans Pages (FR à la racine, EN sous « EN — Home ») : ne pas les supprimer ni changer
+  leur adresse.
+- Après un enregistrement, si l'ancienne version s'affiche encore : hPanel → Performance → Vider le cache.
 
-Pour les modifier (côté agence) : éditer `src/` comme avant, puis
-
-```bash
-node build-wp.mjs
-```
-
-et téléverser `livrables/az-sarl-theme.zip` dans Apparence → Thèmes → Ajouter → Téléverser → « Remplacer l'actif
-par le téléversé ». Les contenus saisis dans l'administration ne sont pas touchés par une mise à jour du thème.
-
-Une page créée librement dans WordPress (Pages → Ajouter) s'affiche avec l'en-tête et le pied de page du site.
+Pour faire évoluer la mise en page (côté agence) : modifier `src/`, lancer `node build-wp.mjs` et téléverser
+`livrables/az-sarl-theme.zip` (Apparence → Thèmes → Ajouter → Téléverser → « Remplacer l'actif par le téléversé »).
+Les textes, photos et contenus saisis dans l'administration sont conservés.
 
 ## 4. Installation sur le serveur
 

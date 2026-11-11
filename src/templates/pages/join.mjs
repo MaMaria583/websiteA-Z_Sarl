@@ -1,8 +1,8 @@
 // Page « Banque d'experts » : dépôt de CV
 import { icon } from '../icons.mjs';
-import { pageHero, sectionHead, esc } from '../components.mjs';
+import { pageHero, sectionHead, esc, tx } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Banque d’experts',
     description: 'Consultants, experts, formateurs et praticiens d’entreprise : déposez votre CV dans la banque d’experts d’A-Z Sarl pour être mobilisé sur nos mandats au Mali.',
@@ -151,7 +151,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
       <h2 class="h2" id="form-title">${c.formTitle}</h2>
       <h3 class="h4" style="margin-top:32px">${c.whyTitle}</h3>
       <ul class="why">${c.why.map((w) => `<li>${icon('check')}<span>${w}</span></li>`).join('')}</ul>
-      <p class="muted" style="margin-top:28px;font-size:.92rem">${ctx.lang === 'en' ? 'Problem with the form? Email your CV to' : 'Un souci avec le formulaire ? Envoyez votre CV à'} <a href="mailto:${ctx.site.email}">${ctx.site.email}</a>.</p>
+      <p class="muted" style="margin-top:28px;font-size:.92rem">${tx(ctx, 'join.formulaireSouci')} <a href="mailto:${ctx.site.email}">${ctx.site.email}</a>.</p>
     </div>
     <div data-reveal style="--d:.1s">${form}</div>
   </div>

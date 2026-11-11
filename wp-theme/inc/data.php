@@ -96,7 +96,7 @@ function az_social() {
 }
 
 function az_whatsapp_url() {
-    return 'https://wa.me/' . az_opt('whatsapp') . '?text=' . rawurlencode(az_t('whatsappMsg'));
+    return 'https://wa.me/' . az_opt('whatsapp') . '?text=' . rawurlencode(az_plain(az_t('whatsappMsg')));
 }
 
 // ---------- Contenus gérés dans l'administration ----------

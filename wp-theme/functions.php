@@ -7,6 +7,8 @@
  * inc/render.php      affichage des pages (repères [[az:…]]), typographie française
  * inc/components.php  composants dynamiques (références, réalisations, partenaires, coordonnées)
  * inc/admin.php       types de contenus, formulaires de saisie, page « Coordonnées »
+ * inc/texts.php       menu « Textes des pages » (textes des pages, en français et en anglais)
+ * inc/photos.php      menu « Photos du site » (remplacement des photos fournies avec le thème)
  * inc/import.php      import des contenus de départ à l'activation du thème
  */
 
@@ -20,4 +22,6 @@ require AZ_DIR . '/inc/setup.php';
 require AZ_DIR . '/inc/render.php';
 require AZ_DIR . '/inc/components.php';
 require AZ_DIR . '/inc/admin.php';
+require AZ_DIR . '/inc/texts.php';
+require AZ_DIR . '/inc/photos.php';
 require AZ_DIR . '/inc/import.php';

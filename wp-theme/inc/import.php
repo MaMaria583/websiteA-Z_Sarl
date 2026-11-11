@@ -25,7 +25,7 @@ function az_install() {
     flush_rewrite_rules();
 
     update_option('blogname', az_data('name'));
-    update_option('blogdescription', az_data('tagline')['fr']);
+    update_option('blogdescription', az_plain(az_L(az_data('tagline'), 'fr')));
     update_option('az_installed', wp_get_theme()->get('Version'));
 }
 

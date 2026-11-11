@@ -2,7 +2,7 @@
 import { icon } from '../icons.mjs';
 import { picture, sectionHead, serviceCard, sectorFamilies, zonesSection, marquee, expertsCta, contactBand, projectCard, keyFigures } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Bureau d’études et de conseil à Bamako, Mali',
     description: 'A-Z Sarl, bureau d’études et de conseil à Bamako : suivi-évaluation (SERA/MEAL), études socio-économiques, transformation digitale, formation et conseil.',

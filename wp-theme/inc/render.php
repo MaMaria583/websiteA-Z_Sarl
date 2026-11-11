@@ -19,6 +19,16 @@ function az_render_page($id, $lang) {
  *   [[az:c:nom:arguments]]     composant dynamique (inc/components.php)
  */
 function az_tokens($html) {
+    // Textes modifiables placés dans une balise (attribut alt, aria-label, content…) : texte brut échappé
+    $html = preg_replace_callback('/<[^<>]*[[az:t:[^]]+]][^<>]*>/', function ($tag) {
+        return preg_replace_callback('/[[az:t:([^]]+)]]/', function ($m) {
+            return esc_attr(wp_strip_all_tags(az_text($m[1])));
+        }, $tag[0]);
+    }, $html);
+    // Textes modifiables encodés dans une adresse (message WhatsApp prérempli…)
+    $html = preg_replace_callback('/%5B%5Baz%3At%3A([\w.%-]+?)%5D%5D/', function ($m) {
+        return rawurlencode(wp_strip_all_tags(az_text(rawurldecode($m[1]))));
+    }, $html);
     return preg_replace_callback('/\[\[az:(\w+):([^\]]*)\]\]/', function ($m) {
         $v = $m[2];
         switch ($m[1]) {
@@ -29,6 +39,8 @@ function az_tokens($html) {
                 return esc_url(az_url($parts[0], $parts[1] ?? null));
             case 'opt':
                 return esc_html(az_opt($v));
+            case 't':
+                return az_text($v);
             case 'fig':
                 return (string) (az_figures()[$v] ?? '');
             case 'c':
@@ -39,6 +51,32 @@ function az_tokens($html) {
         }
         return '';
     }, $html);
+}
+
+/**
+ * Texte modifiable (menu « Textes des pages ») : version enregistrée dans l'administration, sinon texte d'origine.
+ * Les repères {missions}, {commanditaires}, {partenaires}, {regions} et {depuis} reçoivent les chiffres clés.
+ */
+function az_text($key, $lang = null) {
+    static $saved = null;
+    if ($saved === null) { $saved = get_option('az_texts', []); if (!is_array($saved)) $saved = []; }
+    $lang = $lang ?: az_lang();
+    $def = az_json('texts')['texts'][$key] ?? null;
+    $value = $saved[$key][$lang] ?? ($def[$lang] ?? '');
+    if (strpos($value, '{') === false) return $value;
+    $k = az_figures();
+    return strtr($value, [
+        '{missions}' => $k['missions'], '{commanditaires}' => $k['clients'], '{partenaires}' => $k['partners'], '{regions}' => $k['regions'], '{depuis}' => $k['since'],
+        // Coordonnées (menu « Coordonnées »), utilisées notamment dans les mentions légales
+        '{rue}' => esc_html(az_opt('street')), '{ville}' => esc_html(az_opt('city')), '{pays}' => esc_html(az_opt('country')),
+        '{email}' => esc_html(az_opt('email')), '{telephones}' => esc_html(implode(' / ', array_column(az_phones(), 'display'))),
+        '{hebergeur}' => esc_html(az_opt('legal_host')),
+    ]);
+}
+
+/** Texte brut d'une valeur qui peut contenir des repères (libellés de l'administration). */
+function az_plain($s) {
+    return wp_strip_all_tags(az_tokens((string) $s));
 }
 
 /**

@@ -19,6 +19,7 @@ import { projects } from './src/data/projects.mjs';
 import { references, kinds, kindGroups } from './src/data/references.mjs';
 import { languages, routes, ui } from './src/i18n.mjs';
 import { paths as iconPaths, filled as iconFilled } from './src/templates/icons.mjs';
+import { common } from './src/templates/components.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');
@@ -84,9 +85,61 @@ function makeCtx(page, lang) {
   };
 }
 
-async function renderPage(page, lang) {
+// ---------- Textes modifiables (menu « Textes des pages ») ----------
+// Chaque texte des gabarits (objets copy des pages) et des données (pôles, domaines) est remplacé par un repère
+// [[az:t:clé]] ; le texte d'origine part dans data/texts.json et le thème affiche la version de l'administration.
+const texts = {};
+const SKIP = new Set(['locale', 'id', 'slug', 'icon', 'photo', 'projects', 'sectors', 'num', 'family', 'file', 'href', 'url']);
+const FIG = { missions: '{missions}', partners: '{partenaires}', clients: '{commanditaires}', regions: '{regions}', since: '{depuis}' };
+const textToken = (key) => `[[az:t:${key}]]`;
+function register(key, lang, value, group) {
+  texts[key] = texts[key] || { group, fr: '', en: '' };
+  texts[key][lang] = value;
+}
+// Gabarit d'une page : copy[lang] (chaînes, tableaux, objets, fonctions (k) => … qui reçoivent les chiffres clés)
+function tokenizeCopy(node, path, lang, group) {
+  if (typeof node === 'string') {
+    // Noms de photos et d'icônes : identifiants, pas des textes
+    if (photos[node] || iconPaths[node] || iconFilled[node]) return node;
+    register(path, lang, node, group);
+    return textToken(path);
+  }
+  if (typeof node === 'function') {
+    if (!/^\(?k\)?\s*=>/.test(node.toString())) return node; // libellés à nombre (n) : gérés par le thème
+    const value = tokenizeCopy(node(FIG), path, lang, group);
+    return () => value;
+  }
+  if (Array.isArray(node)) return node.map((x, i) => tokenizeCopy(x, `${path}.${i + 1}`, lang, group));
+  if (node && typeof node === 'object') {
+    for (const k of Object.keys(node)) if (!SKIP.has(k)) node[k] = tokenizeCopy(node[k], `${path}.${k}`, lang, group);
+    return node;
+  }
+  return node;
+}
+// Données bilingues ({ fr, en }) : pôles et domaines
+const isPair = (o) => o && typeof o === 'object' && !Array.isArray(o) && Object.keys(o).length && Object.keys(o).every((k) => k === 'fr' || k === 'en');
+function tokenizeData(node, path, group) {
+  if (isPair(node)) {
+    if (Array.isArray(node.fr) || Array.isArray(node.en)) {
+      const n = Math.max((node.fr || []).length, (node.en || []).length);
+      const keys = Array.from({ length: n }, (_, i) => `${path}.${i + 1}`);
+      keys.forEach((k, i) => { register(k, 'fr', (node.fr || [])[i] ?? '', group); register(k, 'en', (node.en || [])[i] ?? (node.fr || [])[i] ?? '', group); });
+      return { fr: keys.map(textToken), en: keys.map(textToken) };
+    }
+    register(path, 'fr', node.fr ?? '', group); register(path, 'en', node.en ?? node.fr ?? '', group);
+    return textToken(path);
+  }
+  if (Array.isArray(node)) return node.map((x, i) => tokenizeData(x, `${path}.${i + 1}`, group));
+  if (node && typeof node === 'object') {
+    for (const k of Object.keys(node)) if (!SKIP.has(k)) node[k] = tokenizeData(node[k], `${path}.${k}`, group);
+    return node;
+  }
+  return node;
+}
+
+async function renderPage(page, lang, extra = {}) {
   const mod = await import(pathToFileURL(path.join(SRC, 'templates', 'pages', `${page.module}.mjs`)).href);
-  return mod.default(makeCtx(page, lang), page);
+  return mod.default({ ...makeCtx(page, lang), ...extra }, page);
 }
 
 function copyDir(from, to) {
@@ -121,7 +174,57 @@ async function build() {
   copyDir(path.join(SRC, 'assets'), path.join(OUT, 'assets'));
   fs.copyFileSync(path.join(SRC, 'assets', 'img', 'brand', 'og-image.jpg'), path.join(OUT, 'screenshot.jpg'));
 
-  // 2. Corps des pages, par langue
+  // 2. Textes modifiables : repères à la place des textes des gabarits et des données
+  const pageCopy = async (m) => (await import(pathToFileURL(path.join(SRC, `templates/pages/${m}.mjs`)).href)).copy;
+  const textGroups = [['home', 'Accueil'], ['about', 'Le Bureau'], ['expertises', 'Expertises'], ['service', 'Pages pôles : titres communs'],
+    ['projects', 'Réalisations'], ['partners', 'Partenaires'], ['join', 'Banque d’experts'], ['contact', 'Contact']];
+  const groupLabels = {};
+  for (const [m, label] of textGroups) {
+    const copy = await pageCopy(m);
+    groupLabels[m] = label;
+    for (const lang of languages) copy[lang] = tokenizeCopy(copy[lang], m, lang, m);
+  }
+  // Titre d'en-tête des pages pôles : fin en couleur après le dernier « et » / « and » (comme accentTitle du gabarit)
+  const accent = (t, lang) => { const sep = lang === 'en' ? ' and ' : ' et '; const i = t.lastIndexOf(sep); return i > 0 ? `${t.slice(0, i)} <span class="accent">${t.slice(i + 1)}</span>` : t; };
+  // Libellés repris par les composants PHP : lus après le remplacement, donc modifiables eux aussi
+  const phpStrings = {
+    projects: strings(await pageCopy('projects'), ['tocRefs', 'refsEyebrow', 'refsTitle', 'refsLead', 'all', 'refsStatus', 'refsFilter', 'partnerOnly', 'poleOnly', 'showAll', 'featured', 'partner', 'photos', 'photo', 'enlarge', 'modules', 'missions']),
+    partners: strings(await pageCopy('partners'), ['all', 'withAz', 'missions']),
+    service: strings(await pageCopy('service'), ['caseEyebrow', 'caseTitle', 'caseAll', 'refsEyebrow', 'refsTitle', 'refsAll']),
+  };
+  for (const sv of services) sv.heroTitle = { fr: accent(sv.title.fr, 'fr'), en: accent(sv.title.en, 'en') };
+  for (const sv of services) { groupLabels[`pole:${sv.id}`] = `Pôle : ${sv.short.fr}`; tokenizeData(sv, `pole.${sv.id}`, `pole:${sv.id}`); }
+  groupLabels.domaines = 'Domaines d’intervention';
+  for (const fa of families) tokenizeData(fa, `domaines.famille.${fa.id}`, 'domaines');
+  for (const se of sectors) tokenizeData(se, `domaines.${se.id}`, 'domaines');
+
+  // Textes écrits dans les gabarits (bandeaux communs, Merci, 404, mentions légales) : dictionnaire common
+  for (const [key, v] of Object.entries(common)) { const g = key.split('.')[0]; register(key, 'fr', v.fr, g); register(key, 'en', v.en, g); }
+  // Mentions légales : contenu en un seul bloc ; coordonnées remplacées par des repères lisibles
+  const legalPlaceholders = (html) => html
+    .split('[[az:opt:street]]').join('{rue}').split('[[az:opt:city]]').join('{ville}').split('[[az:opt:country]]').join('{pays}')
+    .split('[[az:opt:email]]').join('{email}').split('[[az:opt:legal_host]]').join('{hebergeur}')
+    .replace(/\[\[az:c:phonesInline:[^\]]*\]\]/g, '{telephones}');
+  for (const lang of languages) {
+    const body = (await renderPage({ id: 'legal', module: 'legal', section: 'legal' }, lang, { legalRaw: true })).body;
+    const m = body.match(/<div class="prose">([\s\S]*)<\/div><\/div>/);
+    if (!m) throw new Error('Mentions légales : contenu introuvable');
+    register('legal.contenu', lang, legalPlaceholders(m[1]).trim(), 'legal');
+  }
+  // Interface (menus, pied de page, boutons), signature et slogan
+  for (const lang of languages) ui[lang] = tokenizeCopy(ui[lang], 'interface', lang, 'interface');
+  const brand = tokenizeData({ slogan: site.tagline, signature: site.brandLine }, 'interface', 'interface');
+  site.tagline = wpSite.tagline = brand.slogan;
+  site.brandLine = wpSite.brandLine = brand.signature;
+  // Galeries photo (titres, légendes) et carte des zones (partenaires et missions par zone)
+  tokenizeData(galleries, 'galeries', 'galeries');
+  for (const p of places) if (p.who) p.who = tokenizeData(p.who, `carte.${p.id}`, 'carte');
+  Object.assign(groupLabels, {
+    legal: 'Mentions légales', merci: 'Page « Merci »', page404: 'Page 404', commun: 'Éléments communs (toutes les pages)',
+    interface: 'Menus, pied de page et boutons', galeries: 'Galeries photo (Réalisations)', carte: 'Carte des zones d’intervention',
+  });
+
+  // 3. Corps des pages, par langue
   const meta = [];
   let count = 0;
   for (const page of pages) {
@@ -142,12 +245,9 @@ async function build() {
   const notFound = await renderPage({ id: 'home', module: 'notfound', section: '', noindex: true }, 'fr');
   fs.writeFileSync(path.join(OUT, 'pages', 'fr', 'notfound.html'), notFound.body);
 
-  // 3. Données fixes du thème (libellés, pôles, carte, icônes)
+  // 4. Données fixes du thème (libellés, pôles, carte, icônes)
   const data = path.join(OUT, 'data');
   fs.mkdirSync(data, { recursive: true });
-  const projectsCopy = (await import(pathToFileURL(path.join(SRC, 'templates/pages/projects.mjs')).href)).copy;
-  const partnersCopy = (await import(pathToFileURL(path.join(SRC, 'templates/pages/partners.mjs')).href)).copy;
-  const serviceCopy = (await import(pathToFileURL(path.join(SRC, 'templates/pages/service.mjs')).href)).copy;
   fs.writeFileSync(path.join(data, 'site.json'), JSON.stringify({
     name: site.name,
     brandLine: site.brandLine,
@@ -162,13 +262,10 @@ async function build() {
     categories,
     galleries: galleries.map((g) => ({ id: g.id, title: g.title })),
     icons: { paths: iconPaths, filled: iconFilled },
-    strings: {
-      projects: strings(projectsCopy, ['tocRefs', 'refsEyebrow', 'refsTitle', 'refsLead', 'all', 'refsStatus', 'refsFilter', 'partnerOnly', 'poleOnly', 'showAll', 'featured', 'partner', 'photos', 'photo', 'enlarge', 'modules', 'missions']),
-      partners: strings(partnersCopy, ['all', 'withAz', 'missions']),
-      service: strings(serviceCopy, ['caseEyebrow', 'caseTitle', 'caseAll', 'refsEyebrow', 'refsTitle', 'refsAll']),
-    },
+    strings: phpStrings,
   }));
   fs.writeFileSync(path.join(data, 'photos.json'), JSON.stringify(photos));
+  fs.writeFileSync(path.join(data, 'texts.json'), JSON.stringify({ groups: groupLabels, texts }));
   fs.writeFileSync(path.join(data, 'mali-map.json'), JSON.stringify(map));
 
   // 4. Contenus de départ, importés dans WordPress à l'activation du thème (puis gérés dans l'administration)
