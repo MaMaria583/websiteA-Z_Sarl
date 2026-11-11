@@ -13,7 +13,7 @@ export default function legal(ctx) {
 <h2>Éditeur du site</h2>
 <p><strong>${site.name}</strong>, société à responsabilité limitée (SARL).<br>
 Siège social : ${site.address.street}, ${site.address.city}, ${site.address.country}.<br>
-Téléphone : ${site.phones.map((p) => p.display).join(' / ')} · E-mail : <a href="mailto:${site.email}">${site.email}</a>${opt('RCCM', site.legal.rccm)}${opt('NIF', site.legal.nif)}${opt('Capital social', site.legal.capital)}${opt('Directeur de la publication', site.legal.publisher)}</p>
+Téléphone : ${ctx.wp ? ctx.wp('phonesInline') : site.phones.map((p) => p.display).join(' / ')} · E-mail : <a href="mailto:${site.email}">${site.email}</a>${opt('RCCM', site.legal.rccm)}${opt('NIF', site.legal.nif)}${opt('Capital social', site.legal.capital)}${opt('Directeur de la publication', site.legal.publisher)}</p>
 
 ${site.legal.host ? `<h2>Hébergement</h2>
 <p>${site.legal.host}</p>` : ''}
@@ -44,7 +44,7 @@ ${site.legal.host ? `<h2>Hébergement</h2>
 <h2>Publisher</h2>
 <p><strong>${site.name}</strong>, limited liability company (SARL) under Malian law.<br>
 Head office: ${site.address.street}, ${site.address.city}, ${site.address.country}.<br>
-Phone: ${site.phones.map((p) => p.display).join(' / ')} · Email: <a href="mailto:${site.email}">${site.email}</a>${optEn('Trade register (RCCM)', site.legal.rccm)}${optEn('Tax ID (NIF)', site.legal.nif)}${optEn('Share capital', site.legal.capital)}${optEn('Publication director', site.legal.publisher)}</p>
+Phone: ${ctx.wp ? ctx.wp('phonesInline') : site.phones.map((p) => p.display).join(' / ')} · Email: <a href="mailto:${site.email}">${site.email}</a>${optEn('Trade register (RCCM)', site.legal.rccm)}${optEn('Tax ID (NIF)', site.legal.nif)}${optEn('Share capital', site.legal.capital)}${optEn('Publication director', site.legal.publisher)}</p>
 
 ${site.legal.host ? `<h2>Hosting</h2>
 <p>${site.legal.host}</p>` : ''}

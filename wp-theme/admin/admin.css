@@ -1,0 +1,23 @@
+/* Formulaires de l'administration A-Z Sarl */
+.az-intro { margin: 4px 0 0; color: #50575e; }
+.az-form th { width: 210px; }
+.az-req { color: #d63638; }
+.az-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 1100px; }
+.az-pair label { display: block; }
+.az-pair input[type=text], .az-pair textarea { width: 100%; }
+.az-lang { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #646970; }
+.az-sub { margin: 12px 0 6px; font-weight: 600; }
+.az-checks label { display: inline-block; margin: 0 18px 6px 0; }
+.az-remove { color: #b32d2e; }
+.az-logo { display: flex; align-items: center; gap: 12px; }
+.az-logo__preview { display: grid; place-items: center; width: 160px; height: 90px; padding: 8px; border: 1px solid #c3c4c7; border-radius: 4px; background: #fff; }
+.az-logo__preview img { max-width: 100%; max-height: 100%; }
+.az-photos__list { margin: 0 0 12px; max-width: 1100px; }
+.az-photo { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; padding: 8px 12px; border: 1px solid #c3c4c7; border-radius: 4px; background: #fff; }
+.az-photo img { width: 84px; height: 60px; object-fit: cover; border-radius: 3px; background: #f0f0f1; }
+.az-photo__handle { cursor: move; color: #8c8f94; }
+.az-photo__fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
+.az-photo__fields input { width: 100%; }
+@media (max-width: 960px) {
+  .az-pair, .az-photo__fields { grid-template-columns: 1fr; }
+}

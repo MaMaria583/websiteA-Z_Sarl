@@ -2,7 +2,7 @@
 import { icon } from '../icons.mjs';
 import { pageHero, picture, largest, partnerLogo, partnerUrl, sectionHead, contactBand, zoneMap, projectShort, allMissions, keyFigures, referenceItem, esc } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Réalisations',
     description: 'Références d’A-Z Sarl depuis 2021 : évaluations et études pour Save the Children, la GIZ, World Renew et FRES, formations et appui-conseil, de Kayes à Gao.',
@@ -194,7 +194,7 @@ export default function projects(ctx) {
   const galleries = ctx.galleries;
   const k = keyFigures(ctx);
 
-  const toc = [`<li><a class="chip chip--strong" href="#references">${c.tocRefs(k.missions)}</a></li>`]
+  const toc = ctx.wp ? ctx.wp('projectsToc') : [`<li><a class="chip chip--strong" href="#references">${c.tocRefs(k.missions)}</a></li>`]
     .concat([...big, ...duo].map((p) => `<li><a class="chip" href="#${p.id}">${esc(projectShort(ctx, p))}</a></li>`))
     .concat(galleries.map((g) => `<li><a class="chip" href="#g-${g.id}">${ctx.L(g.title)}</a></li>`)).join('');
 
@@ -230,16 +230,16 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead(k), crumbs: [{ l
   <div class="container"><span class="toc__label">${c.toc}</span><ul class="chip-list">${toc}</ul></div>
 </nav>
 
-${big.map((p, i) => caseStudy(ctx, p, c, i)).join('')}
+${ctx.wp ? ctx.wp('caseStudies') : big.map((p, i) => caseStudy(ctx, p, c, i)).join('')}
 
 <section class="section" aria-labelledby="duo-title">
   <div class="container">
     ${sectionHead(ctx, { eyebrow: c.duoEyebrow, title: c.duoTitle, id: 'duo-title' })}
-    <div class="duo">${duo.map((p) => duoCard(ctx, p, c)).join('')}</div>
+    <div class="duo">${ctx.wp ? ctx.wp('duoCards') : duo.map((p) => duoCard(ctx, p, c)).join('')}</div>
   </div>
 </section>
 
-${referencesSection(ctx, c)}
+${ctx.wp ? ctx.wp('references') : referencesSection(ctx, c)}
 
 ${galleries.map((g, i) => gallery(g, i)).join('')}
 

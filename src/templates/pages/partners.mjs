@@ -2,7 +2,7 @@
 import { icon } from '../icons.mjs';
 import { pageHero, partnerLogo, partnerUrl, zonesSection, allMissions, contactBand, esc } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     title: 'Partenaires',
     description: 'Les partenaires d’A-Z Sarl : GIZ, LuxDev, World Renew, Save the Children, FRES, CANAM, FAWE Mali, CAD-Mali, SEXAGON et des organisations du Mali.',
@@ -72,9 +72,9 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
 
 <section class="section" aria-label="${c.title}">
   <div class="container">
-    <div class="filters" role="group" aria-label="${ctx.lang === 'en' ? 'Filter partners' : 'Filtrer les partenaires'}">${filters}</div>
+    <div class="filters" role="group" aria-label="${ctx.lang === 'en' ? 'Filter partners' : 'Filtrer les partenaires'}">${ctx.wp ? ctx.wp('partnerFilters') : filters}</div>
     <p class="sr-only" aria-live="polite" data-filter-status data-template="${c.status}"></p>
-    <div class="partner-grid">${cards}</div>
+    <div class="partner-grid">${ctx.wp ? ctx.wp('partnerCards') : cards}</div>
     <p class="muted" style="margin-top:28px;font-size:.88rem">${c.note}</p>
   </div>
 </section>

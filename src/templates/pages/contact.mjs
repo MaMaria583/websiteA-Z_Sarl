@@ -76,7 +76,7 @@ ${pageHero(ctx, { eyebrow: c.eyebrow, title: c.h1, lead: c.lead, crumbs: [{ labe
   <div class="container contact-grid">
     <div class="info-cards" data-reveal>
       <div class="info-card"><span class="info-card__icon">${icon('pin')}</span><div><h2>${c.office}</h2><p>${site.address.street}<br>${site.address.city}, ${site.address.country}</p></div></div>
-      <div class="info-card"><span class="info-card__icon">${icon('phone')}</span><div><h2>${c.phones}</h2>${site.phones.map((p) => `<a href="tel:${p.tel}" style="display:block">${p.display}</a>`).join('')}</div></div>
+      <div class="info-card"><span class="info-card__icon">${icon('phone')}</span><div><h2>${c.phones}</h2>${ctx.wp ? ctx.wp('phonesBlock') : site.phones.map((p) => `<a href="tel:${p.tel}" style="display:block">${p.display}</a>`).join('')}</div></div>
       <div class="info-card"><span class="info-card__icon">${icon('mail')}</span><div><h2>${c.mail}</h2><a href="mailto:${site.email}">${site.email}</a></div></div>
       <div class="info-card"><span class="info-card__icon">${icon('user')}</span><div><h2>${c.director}</h2><p>${site.director.name}<br><span class="muted">${ctx.L(site.director.role)}</span></p><a href="mailto:${site.director.email}">${site.director.email}</a></div></div>
       ${site.social.length ? `<div class="info-card"><span class="info-card__icon">${icon('globe')}</span><div><h2>${c.social}</h2>${socialLinks(ctx)}</div></div>` : ''}

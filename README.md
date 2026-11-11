@@ -57,6 +57,19 @@ Exemples courants :
 - **Ajouter un réseau social** : compléter la liste `social` dans `src/data/site.mjs`.
 - **Compléter les mentions légales** : RCCM, NIF, capital, directeur de la publication et hébergeur dans `src/data/site.mjs` (`legal`).
 
+## Version WordPress (thème sur mesure)
+
+`node build-wp.mjs` génère le thème WordPress « A-Z Sarl » dans `dist-wp/az-sarl/` et l'archive `livrables/az-sarl-theme.zip`. Les gabarits de `src/templates` produisent le corps des pages, à l'identique du site statique ; ce qui se gère dans l'administration (réalisations, références, partenaires, coordonnées) est remplacé par des repères `[[az:…]]` que le thème remplit à l'affichage.
+
+| Dossier / fichier | Rôle |
+| --- | --- |
+| `build-wp.mjs` | Générateur du thème (pages, données, contenus de départ, archive) |
+| `wp-theme/` | Partie PHP écrite à la main : en-tête, pied de page, composants dynamiques (`inc/components.php`), administration (`inc/admin.php`), import à l'activation (`inc/import.php`) |
+| `dist-wp/` | Thème généré (non versionné) |
+| `GUIDE-WORDPRESS.md` | Guide d'utilisation et procédure de bascule |
+
+Site de test : https://wp.azsarl.com (sous-domaine Hostinger, dossier `public_html/wp`, non indexé). Dans les gabarits, `ctx.wp` distingue le rendu WordPress du rendu statique ; `node build.mjs` continue de produire le site statique.
+
 ## Plaquette PDF
 
 `node plaquette.mjs` régénère la plaquette A4 de 3 pages (français et anglais) à partir des mêmes données que le site, dans `src/assets/docs/` : présentation et pôles, domaines, démarche, réalisations récentes et partenaires, puis la liste complète des références et des zones d'intervention. Elle est téléchargeable depuis le pied de page et la page « Le Bureau ». Nécessite Google Chrome ou Microsoft Edge. Relancer ensuite `node build.mjs`.

@@ -243,6 +243,8 @@ export function allMissions(ctx) {
 
 /** Chiffres clés calculés à partir des données (missions, partenaires, régions) */
 export function keyFigures(ctx) {
+  // Thème WordPress : chiffres calculés par le thème à partir des contenus de l'administration
+  if (ctx.wp) return Object.fromEntries(['missions', 'partners', 'clients', 'regions', 'since'].map((k) => [k, `[[az:fig:${k}]]`]));
   const missions = allMissions(ctx);
   const years = missions.filter((m) => m.year).map((m) => m.year);
   return {
@@ -277,6 +279,7 @@ export function referenceItem(ctx, m, { compact = false } = {}) {
 
 /** Bandeau défilant des logos partenaires */
 export function marquee(ctx) {
+  if (ctx.wp) return ctx.wp('marquee');
   const items = (hidden) => ctx.partners.map((p) => {
     const url = partnerUrl(ctx, p);
     const inner = partnerLogo(ctx, p);
@@ -341,7 +344,7 @@ export function contactBand(ctx, { title } = {}) {
       </div>
     </div>
     <div class="contact-band__links" data-reveal style="--d:.1s">
-      ${site.phones.map((p) => `<a class="contact-line" href="tel:${p.tel}"><span class="contact-line__icon">${icon('phone')}</span><span><small>${ctx.t.phone}</small>${p.display}</span></a>`).join('')}
+      ${ctx.wp ? ctx.wp('contactLines') : site.phones.map((p) => `<a class="contact-line" href="tel:${p.tel}"><span class="contact-line__icon">${icon('phone')}</span><span><small>${ctx.t.phone}</small>${p.display}</span></a>`).join('')}
       <a class="contact-line" href="mailto:${site.email}"><span class="contact-line__icon">${icon('mail')}</span><span><small>${ctx.t.email}</small>${site.email}</span></a>
     </div>
   </div>
@@ -370,6 +373,7 @@ export function projectCard(ctx, p, { sizes = '(min-width: 1100px) 400px, (min-w
 
 /** Liens vers les réseaux sociaux du bureau */
 export function socialLinks(ctx, cls = '') {
+  if (ctx.wp) return ctx.wp('social', { cls });
   if (!ctx.site.social.length) return '';
   return `<ul class="social ${cls}">${ctx.site.social.map((s) => `<li><a href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${esc(`${s.name} ${ctx.site.name} ${ctx.t.newTab}`)}" title="${s.name}">${icon(s.icon)}</a></li>`).join('')}</ul>`;
 }

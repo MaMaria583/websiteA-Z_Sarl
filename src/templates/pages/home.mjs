@@ -258,7 +258,7 @@ ${zonesSection(ctx, { eyebrow: c.mapEyebrow, title: c.mapTitle, text: c.mapText,
 <section class="section section--white" aria-labelledby="projects-title">
   <div class="container">
     ${sectionHead(ctx, { eyebrow: c.projectsEyebrow, title: c.projectsTitle, lead: c.projectsLead(k), split: true, id: 'projects-title' })}
-    <div class="proj-grid">${['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id, i) => projectCard(ctx, ctx.projects.find((p) => p.id === id), { delay: i * 0.08 })).join('')}</div>
+    <div class="proj-grid">${ctx.wp ? ctx.wp('homeProjects') : ['camp-digital-ia-2026', 'evaluation-modele-fres-2021', 'gpec-canam-2026'].map((id, i) => projectCard(ctx, ctx.projects.find((p) => p.id === id), { delay: i * 0.08 })).join('')}</div>
     <p class="btn-row" style="margin-top:36px"><a class="link-arrow" href="${ctx.href('projects')}#references">${c.refsLink(k)} ${icon('arrow')}</a><a class="link-arrow" href="${ctx.href('projects')}">${c.caseLink} ${icon('arrow')}</a></p>
   </div>
 </section>

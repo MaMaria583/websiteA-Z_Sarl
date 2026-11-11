@@ -2,7 +2,7 @@
 import { icon } from '../icons.mjs';
 import { pageHero, picture, miniSteps, projectCard, contactBand, allMissions, referenceItem } from '../components.mjs';
 
-const copy = {
+export const copy = {
   fr: {
     pole: 'Pôle',
     offerEyebrow: 'Notre offre',
@@ -143,7 +143,7 @@ export default function service(ctx, page) {
 </section>` : '';
 
   const related = (s.projects || []).map((id) => ctx.projects.find((p) => p.id === id)).filter(Boolean);
-  const caseBlock = related.length ? `
+  const caseBlock = ctx.wp ? ctx.wp('serviceCases', { service: s.id }) : related.length ? `
 <section class="section section--white" aria-labelledby="case-title">
   <div class="container">
     <div class="section-head section-head--split" data-reveal>
@@ -157,7 +157,7 @@ export default function service(ctx, page) {
   // Références sans étude de cas rattachées à ce pôle (les réalisations illustrées sont présentées au-dessus)
   const all = allMissions(ctx);
   const refs = all.filter((m) => !m.caseHref && m.services.includes(s.id)).slice(0, 6);
-  const refsBlock = refs.length ? `
+  const refsBlock = ctx.wp ? ctx.wp('serviceRefs', { service: s.id }) : refs.length ? `
 <section class="section" aria-labelledby="refs-title">
   <div class="container">
     <div class="section-head section-head--split" data-reveal>
