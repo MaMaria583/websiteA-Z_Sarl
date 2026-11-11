@@ -68,7 +68,7 @@ Exemples courants :
 | `dist-wp/` | Thème généré (non versionné) |
 | `GUIDE-WORDPRESS.md` | Guide d'utilisation et procédure de bascule |
 
-En ligne sur https://www.azsarl.com depuis le 11/11/2026 (WordPress dans `public_html/wp`, chargé par `public_html/index.php` ; l'ancien sous-domaine de test wp.azsarl.com redirige vers www). Détails et retour arrière : GUIDE-WORDPRESS.md. Dans les gabarits, `ctx.wp` distingue le rendu WordPress du rendu statique ; `node build.mjs` continue de produire le site statique.
+En ligne sur https://www.azsarl.com depuis le 11/11/2026 (WordPress installé dans `public_html`, administration https://www.azsarl.com/wp-admin/ ; ancien site statique sauvegardé hors de `public_html`). Détails : GUIDE-WORDPRESS.md.
 
 ## Plaquette PDF
 
@@ -86,7 +86,7 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 
 Depuis le 11 novembre 2026, www.azsarl.com est servi par **WordPress** (voir « Version WordPress » et GUIDE-WORDPRESS.md). L'ancienne publication automatique du site statique (workflow `.github/workflows/hostinger.yml`, branche `hostinger`) a été retirée le même jour : relier un jour hPanel → Git à la branche `hostinger` écraserait WordPress. La branche `hostinger` est conservée sur GitHub comme archive du dernier site statique ; ne pas la connecter à Hostinger.
 
-Pour revenir exceptionnellement au site statique : `HOSTING=hostinger SITE_URL=https://www.azsarl.com SITE_TEST_MODE=false node build.mjs`, puis suivre « Revenir au site statique » dans GUIDE-WORDPRESS.md. La version Vercel reste une version de test non indexée.
+Pour revenir exceptionnellement au site statique : `HOSTING=hostinger SITE_URL=https://www.azsarl.com SITE_TEST_MODE=false node build.mjs`, puis le remettre à la place de WordPress dans `public_html` (une sauvegarde du dernier site statique est dans `domains/azsarl.com/ancien-site-statique-2026-11-11`). La version Vercel reste une version de test non indexée.
 
 ## Mise en ligne
 

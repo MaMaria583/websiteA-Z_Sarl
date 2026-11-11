@@ -2,14 +2,13 @@
 
 Le site **https://www.azsarl.com** est servi par WordPress depuis le 11 novembre 2026 : même design, mêmes
 pages, adresses sans `.html` (les anciennes adresses sont redirigées). L'ancien sous-domaine de test
-wp.azsarl.com redirige vers www.azsarl.com.
+wp.azsarl.com a été supprimé.
 
 ## 1. Se connecter
 
-- **https://www.azsarl.com/wp/wp-admin/** : identifiant `modena-admin`, puis « Mot de passe oublié ? » pour choisir
+- **https://www.azsarl.com/wp-admin/** : identifiant `modena-admin`, puis « Mot de passe oublié ? » pour choisir
   votre mot de passe (le lien arrive sur l'adresse e-mail Modena du compte).
-- hPanel → WordPress : l'installation y figure encore sous le nom wp.azsarl.com ; le bouton d'accès à
-  l'administration peut donc ouvrir l'ancienne adresse, qui redirige vers la bonne.
+- ou hPanel → Sites web → azsarl.com → bouton WordPress.
 
 Pour le client : Comptes → Ajouter, rôle **Éditeur**. Un éditeur gère les contenus ci-dessous sans pouvoir
 toucher au thème ni aux extensions.
@@ -55,15 +54,13 @@ Une page créée librement dans WordPress (Pages → Ajouter) s'affiche avec l'e
 
 ## 4. Installation sur le serveur
 
-- WordPress est installé dans `public_html/wp` (Réglages → Général : adresse WordPress `https://www.azsarl.com/wp`,
-  adresse du site `https://www.azsarl.com`). Ne pas modifier ces deux adresses.
-- `public_html/index.php` charge WordPress ; `public_html/.htaccess` envoie toutes les adresses vers WordPress (HTTPS,
-  redirection vers www, en-têtes de sécurité, cache).
-- Les fichiers de l'ancien site statique (`*.html`, `en/`, `assets/`, `site-azsarl.zip`) sont encore dans
-  `public_html` mais ne sont plus servis (WordPress répond à leur place). Ils peuvent être supprimés depuis le
-  gestionnaire de fichiers de hPanel, en gardant `index.php`, `.htaccess` et le dossier `wp`.
-- Revenir au site statique en cas de besoin : remettre le `.htaccess` du site statique (`HOSTING=hostinger node build.mjs`)
-  et supprimer `public_html/index.php`.
+- WordPress est installé directement dans `public_html` (Réglages → Général : les deux adresses valent
+  `https://www.azsarl.com` ; ne pas les modifier).
+- `public_html/.htaccess` : HTTPS, redirection vers www, redirection des anciennes adresses d'administration
+  (`/wp/wp-admin`), règles WordPress, en-têtes de sécurité et cache.
+- L'ancien site statique est sauvegardé hors de la partie publique, dans
+  `domains/azsarl.com/ancien-site-statique-2026-11-11` (gestionnaire de fichiers de hPanel). Il peut être supprimé
+  une fois le site WordPress validé dans la durée.
 - Plan du site pour Google Search Console : `https://www.azsarl.com/wp-sitemap.xml` (l'ancien `/sitemap.xml` y redirige).
 - Après une modification importante : hPanel → Performance → vider le cache (le CDN de Hostinger est actif).
 
