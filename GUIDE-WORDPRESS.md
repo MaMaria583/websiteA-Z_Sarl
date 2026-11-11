@@ -1,13 +1,11 @@
 # A-Z Sarl sous WordPress — guide
 
-Le site **https://www.azsarl.com** est servi par WordPress depuis le 11 novembre 2026 : même design, mêmes
-pages, adresses sans `.html` (les anciennes adresses sont redirigées). L'ancien sous-domaine de test
-wp.azsarl.com a été supprimé.
+Le site **https://azsarl.com** est servi par WordPress depuis le 11 novembre 2026 : même design, mêmes
+pages, adresses sans `.html` (les anciennes adresses sont redirigées).
 
 ## 1. Se connecter
 
-- **https://www.azsarl.com/wp-admin/** : identifiant `modena-admin`, puis « Mot de passe oublié ? » pour choisir
-  votre mot de passe (le lien arrive sur l'adresse e-mail Modena du compte).
+- **https://azsarl.com/wp-admin/** avec le compte administrateur créé dans hPanel (identifiant `AZ`),
 - ou hPanel → Sites web → azsarl.com → bouton WordPress.
 
 Pour le client : Comptes → Ajouter, rôle **Éditeur**. Un éditeur gère les contenus ci-dessous sans pouvoir
@@ -54,15 +52,13 @@ Une page créée librement dans WordPress (Pages → Ajouter) s'affiche avec l'e
 
 ## 4. Installation sur le serveur
 
-- WordPress est installé directement dans `public_html` (Réglages → Général : les deux adresses valent
-  `https://www.azsarl.com` ; ne pas les modifier).
-- `public_html/.htaccess` : HTTPS, redirection vers www, redirection des anciennes adresses d'administration
-  (`/wp/wp-admin`), règles WordPress, en-têtes de sécurité et cache.
-- L'ancien site statique est sauvegardé hors de la partie publique, dans
-  `domains/azsarl.com/ancien-site-statique-2026-11-11` (gestionnaire de fichiers de hPanel). Il peut être supprimé
-  une fois le site WordPress validé dans la durée.
-- Plan du site pour Google Search Console : `https://www.azsarl.com/wp-sitemap.xml` (l'ancien `/sitemap.xml` y redirige).
-- Après une modification importante : hPanel → Performance → vider le cache (le CDN de Hostinger est actif).
+- Site WordPress « azsarl.com » créé dans hPanel le 11 novembre 2026 (adresse `https://azsarl.com`, www redirige
+  vers cette adresse), avec le thème A-Z Sarl activé : pages et contenus importés automatiquement à l'activation.
+- L'ancienne installation de test existe encore sous l'adresse provisoire de Hostinger
+  `lawngreen-goshawk-737773.hostingersite.com` (avec sa propre base de données). Elle ne sert plus ; la supprimer depuis
+  hPanel quand le nouveau site est validé (vérifier alors que la base supprimée n'est pas celle d'azsarl.com).
+- Plan du site pour Google Search Console : `https://azsarl.com/wp-sitemap.xml`.
+- Après une modification importante : hPanel → Performance → vider le cache.
 
 ## 5. Entretien
 

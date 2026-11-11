@@ -68,7 +68,7 @@ Exemples courants :
 | `dist-wp/` | Thème généré (non versionné) |
 | `GUIDE-WORDPRESS.md` | Guide d'utilisation et procédure de bascule |
 
-En ligne sur https://www.azsarl.com depuis le 11/11/2026 (WordPress installé dans `public_html`, administration https://www.azsarl.com/wp-admin/ ; ancien site statique sauvegardé hors de `public_html`). Détails : GUIDE-WORDPRESS.md.
+En ligne sur https://azsarl.com depuis le 11/11/2026 (site WordPress « azsarl.com » de hPanel, administration https://azsarl.com/wp-admin/). Détails : GUIDE-WORDPRESS.md.
 
 ## Plaquette PDF
 
