@@ -71,11 +71,9 @@ Le dossier `dist/`, les fichiers Word du client et `sources-client/` ne sont pas
 
 ## Publication sur Hostinger (azsarl.com)
 
-À chaque mise à jour de `main`, l'automatisation `.github/workflows/hostinger.yml` génère le site pour `https://www.azsarl.com` (balises canoniques, `.htaccess` avec HTTPS, redirection vers www, page 404, cache) et place le résultat dans la branche **`hostinger`** du dépôt. La version de test Vercel reste inchangée.
+Depuis le 11 novembre 2026, www.azsarl.com est servi par **WordPress** (voir « Version WordPress » et GUIDE-WORDPRESS.md). L'ancienne publication automatique du site statique (workflow `.github/workflows/hostinger.yml`, branche `hostinger`) a été retirée le même jour : relier un jour hPanel → Git à la branche `hostinger` écraserait WordPress. La branche `hostinger` est conservée sur GitHub comme archive du dernier site statique ; ne pas la connecter à Hostinger.
 
-Réglage unique dans hPanel → Sites web → Gérer → Avancé → **Git** : dépôt `https://github.com/MaMaria583/websiteA-Z_Sarl.git`, branche `hostinger`, dossier vide (`public_html`), puis activer l'auto-déploiement et coller l'adresse du webhook dans GitHub (Settings → Webhooks). Dépôt privé : ajouter la clé SSH fournie par Hostinger dans GitHub (Settings → Deploy keys).
-
-Site officiel ouvert aux moteurs de recherche depuis le 5 novembre 2026 (`SITE_TEST_MODE: 'false'` dans le workflow) ; la version Vercel reste une version de test non indexée.
+Pour revenir exceptionnellement au site statique : `HOSTING=hostinger SITE_URL=https://www.azsarl.com SITE_TEST_MODE=false node build.mjs`, puis suivre « Revenir au site statique » dans GUIDE-WORDPRESS.md. La version Vercel reste une version de test non indexée.
 
 ## Mise en ligne
 
