@@ -490,3 +490,43 @@ function az_render_options() {
     submit_button('Enregistrer les coordonnées');
     echo '</form></div>';
 }
+
+// ---------- Pages du site : pas d'éditeur de blocs, un écran d'explication à la place ----------
+// Le contenu de ces pages vient du thème : l'éditeur ne montrerait qu'un texte technique et laisserait croire
+// que la page est vide.
+
+function az_is_theme_page($post) {
+    $post = get_post($post);
+    return $post && $post->post_type === 'page' && get_post_meta($post->ID, '_az_page', true);
+}
+
+add_filter('use_block_editor_for_post', function ($use, $post) {
+    return az_is_theme_page($post) ? false : $use;
+}, 10, 2);
+
+add_action('load-post.php', function () {
+    $id = isset($_GET['post']) ? (int) $_GET['post'] : 0;
+    if ($id && az_is_theme_page($id)) remove_post_type_support('page', 'editor');
+});
+
+add_action('edit_form_after_title', function ($post) {
+    if (!az_is_theme_page($post)) return;
+    $link = function ($type, $label) { return '<a class="button" href="' . esc_url(admin_url('edit.php?post_type=az_' . $type)) . '">' . $label . '</a>'; };
+    echo '<div class="notice notice-info inline" style="margin:16px 0;padding:16px 20px">'
+        . '<p style="font-size:15px;margin:0 0 8px"><strong>Cette page est une page du site A-Z Sarl : son design et ses textes sont fournis par le thème.</strong></p>'
+        . '<p style="margin:0 0 14px">Il n’y a rien à modifier ici. Pour voir la page : <a href="' . esc_url(get_permalink($post)) . '" target="_blank">' . esc_html(get_permalink($post)) . '</a>. Pour modifier les contenus :</p>'
+        . '<p style="margin:0;display:flex;gap:8px;flex-wrap:wrap">' . $link('project', 'Réalisations') . $link('reference', 'Références') . $link('partner', 'Partenaires')
+        . '<a class="button" href="' . esc_url(admin_url('admin.php?page=az-coordonnees')) . '">Coordonnées</a></p>'
+        . '<p style="margin:14px 0 0;color:#646970">Ne pas changer l’adresse (slug) de cette page ni la supprimer.</p></div>';
+});
+
+// Liste des pages : repère « Page du site (thème) »
+add_filter('display_post_states', function ($states, $post) {
+    if (az_is_theme_page($post)) $states['az'] = 'Page du site (thème)';
+    return $states;
+}, 10, 2);
+
+// Barre d'administration sur le site : pas de lien « Modifier la page » vers un écran vide
+add_action('admin_bar_menu', function ($bar) {
+    if (!is_admin() && is_page() && az_is_theme_page(get_queried_object_id())) $bar->remove_node('edit');
+}, 999);
